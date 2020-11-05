@@ -1,0 +1,5 @@
+"0","print(paste0('Fitting model to ',dim(focal)[1], ' samples of ', uniques(focal$species), ' species'))"
+"1","[1]"
+"1"," ""Fitting model to 282 samples of 124 species"""
+"1","
+"

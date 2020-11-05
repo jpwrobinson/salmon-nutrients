@@ -1,0 +1,1729 @@
+"0","## convert focal.fit to list"
+"0","focal.list<-as.list(focal.fit)"
+"0","# focal.list$Dmat<-Dmat"
+"0","focal.list$Dmat_sp<-Dmat_sp"
+"0","focal.list$N_dat<-nrow(focal.fit)"
+"0","focal.list$N_spp<-uniques(focal.fit$species)"
+"0",""
+"0","# fit model"
+"0","nt_m<-ulam("
+"0","        alist("
+"0","          logvalue ~ dnorm(mu, sigma),"
+"0","          # value ~ dgamma2(mu, scale),"
+"0","          # value ~ dlnorm(mu, sigma),"
+"0","          ## "
+"0","          mu <- a +"
+"0","              # continuous    "
+"0","                B4_TL*TL +"
+"0","                B5_PEL*pelagic +"
+"0","                B6_LMX*Lmax +"
+"0","                B8_K*K +"
+"0","                B9_AM*tm +"
+"0","                B13_RIV*river_iron +"
+"0","                B14_SOIL*soil_quality +"
+"0",""
+"0","              # hierarchical"
+"0","                # B_ID[paper_id]*sigma_id +"
+"0","                # B0_ORD[Order]*sigma_ord +"
+"0","                # B15_FAM[family]*sigma_fam +"
+"0","                B1_HAB[Habitat] +"
+"0","                B2_TR[EnvTemp] +"
+"0","                B7_BOD[BodyShapeI] +"
+"0","          			B10_FOS[form_clean] +"
+"0","                B12_SEA[source]*sigma_source +"
+"0","                X_sp[species], #phylogeny"
+"0","          "
+"0","          ## priors"
+"0","        # transpars> vector[N_spp]: X_sp <<- L_SIGMA * z,"
+"0","        # vector[N_spp]: z ~ normal( 0 , 1 ),"
+"0","        # transpars> matrix[N_spp,N_spp]: L_SIGMA <<- cholesky_decompose( SIGMA ),"
+"0","        # transpars> matrix[N_spp,N_spp]: SIGMA <- cov_GPL2( Dmat_sp , etasq , rhosq , 0.01 ),"
+"0","        "
+"0","        vector[N_spp]:X_sp ~ multi_normal(0, SIGMA),"
+"0","        matrix[N_spp, N_spp]: SIGMA <- cov_GPL1(Dmat_sp , etasq, rhosq, 0.01),# random"
+"0","        "
+"0","          a ~ dnorm(0, 100),"
+"0","          B_ID[paper_id] ~ dnorm(0, 1),"
+"0","          B0_ORD[Order] ~ dnorm(0, 1),"
+"0","          B1_HAB[Habitat] ~ dnorm(0, sigma_hab),"
+"0","          B2_TR[EnvTemp] ~ dnorm(0, sigma_temp),"
+"0","          B4_TL ~ dnorm(0, 1000),"
+"0","          B5_PEL ~ dnorm(0, 1000),"
+"0","    		  B6_LMX ~ dnorm(0, 1000),"
+"0","    		  B7_BOD[BodyShapeI] ~ dnorm(0, sigma_bod),"
+"0","    		  B8_K ~ dnorm(0, 1000),"
+"0","    		  B9_AM ~ dnorm(0, 1000),"
+"0","    		  B10_FOS[form_clean] ~ dnorm(0, sigma_form),"
+"0","    		  B12_SEA[source]~ dnorm(0, 1),"
+"0","    		  B13_RIV ~ dnorm(0, 1000),"
+"0","    		  B14_SOIL ~ dnorm(0, 1000),"
+"0","    		  B15_FAM[family] ~ dnorm(0, 1),"
+"0","    		  "
+"0","            c("
+"0","            sigma_ord, sigma_fam,"
+"0","            sigma_hab, sigma_temp, sigma_bod, sigma_form, sigma_source,"
+"0","            sigma) ~ dexp(2),"
+"0","            etasq ~ half_normal(1, 0.25),"
+"0","            rhosq ~ half_normal(3, 0.25)"
+"0","        ),"
+"0","        data=focal.list, iter=5000, warmup=1500, chains=3, cores = 4, control=list(adapt_delta=0.99), log_lik = TRUE)"
+"1","starting worker pid=93660 on localhost:11577 at 13:21:07.364
+"
+"1","starting worker pid=93674 on localhost:11577 at 13:21:07.530
+"
+"1","starting worker pid=93688 on localhost:11577 at 13:21:07.696
+"
+"1","
+SAMPLING FOR MODEL 'c10bc4fd53612dcc92d21acd6ba08608' NOW (CHAIN 1).
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0854777.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0252592.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.336966.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.217674.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0488475.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.85956.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0818269.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0333022.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.314323.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0176691.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.111898.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0709637.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.163677.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0232962.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1: "
+"1","  Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0306464.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+"
+"1","Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.173649.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0276498.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.214312.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0744012.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0209467.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0321769.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.1509.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.698159.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0824313.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.192037.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.326674.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.190625.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.19029.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0275584.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0368696.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.199016.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0176303.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0265051.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0690045.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.384089.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.17649.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain "
+"1","1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.069255.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain "
+"1","1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0363979.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0211492.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.25419.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.170298.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0331109.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.151867.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0809123.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0357773.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.353082.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.174686.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0643539.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0375243.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.588764.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.443996.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.587318.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0577041.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0578289.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0173969.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.035307.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0351229.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0472092.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain "
+"1","1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0978424.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0716956.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.259343.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.150369.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0243667.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.294902.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.125044.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.410762.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.869057.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.478267.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.083935.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0478507.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.234734.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0228693.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.127554.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.294634.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0279941.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.152187.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.205804.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0564771.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0343599.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+"
+"1","Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.100381.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0762694.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0395925.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+"
+"1","Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.169154.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0306449.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.382767.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1: "
+"1","  Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0231985.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.137371.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value."
+"1","
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0289414.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1"
+"1",": Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.260384.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0447314.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+"
+"1","Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.188811.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:"
+"1","
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0373982.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain "
+"1","1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0439452.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.526102.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1"
+"1",": Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0549862.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value."
+"1","
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.22607.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:"
+"1","
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.021864.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0215544.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.343369.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 1: Rejecting initial value:
+Chain "
+"1","1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0482744.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 1: 
+Chain 1: Initialization between (-2, 2) failed after 100 attempts. 
+Chain 1:  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+"
+"1","[1]"
+"1"," ""Error in sampler$call_sampler(args_list[[i]]) : Initialization failed.""
+"
+"2","error occurred during calling the sampler; sampling not done
+"
+"1","
+SAMPLING FOR MODEL 'c10bc4fd53612dcc92d21acd6ba08608' NOW (CHAIN 3).
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: "
+"1","Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.118924.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.045974.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.636652.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0362203.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0526431.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0708655.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0387558.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0690814.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.293234.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.120222.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0211219.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.701191.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0443966.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","
+SAMPLING FOR MODEL 'c10bc4fd53612dcc92d21acd6ba08608' NOW (CHAIN 2).
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.049138.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.349375.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0261011.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.293131.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0994449.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0310692.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.228425.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.137128.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0499106.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0874038.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.200577.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3"
+"1",":   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.58052.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.367781.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0478496.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0794553.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.30026.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+"
+"1","Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0231528.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.123724.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+"
+"1","Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0370564.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+"
+"1","Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.626479.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: "
+"1","Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0267329.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.741014.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0463856.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.141483.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0265414.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.346183.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.134418.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.289462.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.101034.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0223226.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.16001.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0173674.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0308743.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.291559.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0417329.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0232153.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0193208.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.138756.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.182947.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0418771.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0597156.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.26054.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: "
+"1","Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0774328.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0216623.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0995837.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0344575.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0242159.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.045777.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0727373.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0190042.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.150304.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0749715.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0469055.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0203441.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.124834.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0169359.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0432763.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: "
+"1","Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0171991.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2"
+"1",": Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0179758.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.725437.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0783124.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0999059.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0181377.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.441.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0744868.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0255226.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0480066.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value."
+"1","
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0619721.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.16327.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0171933.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0572295.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.373965.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0188235.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0769426.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0279295.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.18485.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2"
+"1",":   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.126907.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0669012.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0707494.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.72025.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.64575.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0465215.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.177471.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.526035.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0543611.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.304781.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.152122.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0231013.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0352967.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0591801.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.112316.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0196879.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0162538.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0236088.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+"
+"1","
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0296767.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.127469.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.15693.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.243242.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0404881.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3"
+"1",":   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0686111.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.162886.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:"
+"1","
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.102825.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0646641.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:"
+"1","
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.029028.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value."
+"1","
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0741655.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.080108.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0249231.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: "
+"1","Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0202197.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value."
+"1","
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.285964.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.170681.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0372552.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.401569.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.180872.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.10199.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0740058.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+"
+"1","Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.127927.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: "
+"1","Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0700451.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:"
+"1","
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.170135.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2"
+"1",": Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.153856.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:"
+"1","
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.372673.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value."
+"1","
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.101446.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.253083.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.242575.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.42278.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive de"
+"1","finite.  last conditional variance is 0.0421504.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0224028.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2: "
+"1","  Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.54501.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0225857.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.070296.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0303375.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.544781.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0647245.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.202454.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.262465.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0589372.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.172063.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.246666.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.164827.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0549094.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional varian"
+"1","ce is 0.0566465.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: "
+"1","Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0773643.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3"
+"1",": Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0530384.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.401133.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0563668.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.166622.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0368851.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.204431.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional varianc"
+"1","e is 0.0439356.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0235663.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional varia"
+"1","nce is 0.0450605.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0198448.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0769861.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 3: 
+Chain 3: Initialization between (-2, 2) failed after 100 attempts. 
+Chain 3:  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0644879.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0417364.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","[1]"
+"1"," ""Error in sampler$call_sampler(args_list[[i]]) : Initialization failed.""
+"
+"2","error occurred during calling the sampler; sampling not done
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0196866.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0919328.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.204306.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain "
+"1","2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0373549.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0340256.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0218183.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.733776.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 1.85785.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.112037.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value."
+"1","
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0609143.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+"
+"1","Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.118799.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0768445.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.129121.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.148116.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.16237.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0748871.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0308573.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.055123.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.564307.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.145812.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2"
+"1",":   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.134975.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.106638.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0362032.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain "
+"1","2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.709435.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value."
+"1","
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.729714.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0596911.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.13378.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+"
+"1","Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0239107.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: "
+"1","Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.402427.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.034175.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:
+Chain 2"
+"1",":   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.306439.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: "
+"1","Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.050448.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+"
+"1","Chain 2: Rejecting initial value:"
+"1","
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive definite.  last conditional variance is 0.0231445.  (in 'modeld495b41dd36_c10bc4fd53612dcc92d21acd6ba08608' at line 101)
+
+Chain 2: 
+Chain 2: Initialization between (-2, 2) failed after 100 attempts. 
+Chain 2:  Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+"
+"1","[1]"
+"1"," ""Error in sampler$call_sampler(args_list[[i]]) : Initialization failed.""
+"
+"2","error occurred during calling the sampler; sampling not done
+"
+"2","some chains had errors; consider specifying chains = 1 to debug"
+"2","here are whatever error messages were returned
+"
+"1","[[1]]
+"
+"1","Stan model '"
+"1",""
+"1","c10bc4fd53612dcc92d21acd6ba08608"
+"1",""
+"1","' does not contain samples.
+"
+"1","
+"
+"1","[[2]]
+"
+"1","Stan model '"
+"1",""
+"1","c10bc4fd53612dcc92d21acd6ba08608"
+"1",""
+"1","' does not contain samples.
+"
+"1","
+"
+"1","[[3]]
+"
+"1","Stan model '"
+"1",""
+"1","c10bc4fd53612dcc92d21acd6ba08608"
+"1",""
+"1","' does not contain samples.
+"
+"1","
+"
+"1","Stan model '"
+"1",""
+"1","c10bc4fd53612dcc92d21acd6ba08608"
+"1",""
+"1","' does not contain samples.
+"
+"2","Error in validObject(.Object) : 
+  invalid class “ulam” object: invalid object for slot ""coef"" in class ""ulam"": got class ""NULL"", should be or extend class ""numeric""
+"

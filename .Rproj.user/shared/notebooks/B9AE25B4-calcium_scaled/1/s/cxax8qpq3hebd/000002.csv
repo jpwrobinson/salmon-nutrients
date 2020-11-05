@@ -1,0 +1,63 @@
+"0","```r
+
+focal<-tl %>% filter(nutrient == 'Calcium') %>%
+		select(nutrient, value, id_number, paper_id, species, family,Order, 
+					EnvTemp, demers_pelag, TL, Lmax, K, tm, BodyShapeI,
+					source, form_clean, Habitat, pelagic, country_sampled,
+					river_iron, soil_quality) %>%
+    mutate(Lmax = log(Lmax), K = log(K), tm = log(tm))
+
+apply(focal %>% select(demers_pelag:Habitat), 2, function(x){sum(is.na(x))})
+```"
+"1","demers_pelag           TL         Lmax            K           tm   BodyShapeI       source   form_clean      Habitat 
+           0            0            0            0            0            0            0            0            0 
+"
+"0","```r
+skim(focal)
+```"
+"1","── Data Summary ────────────────────────
+                           Values
+Name                       focal 
+Number of rows             293   
+Number of columns          21    
+_______________________          
+Column type frequency:           
+  character                5     
+  factor                   8     
+  numeric                  8     
+________________________         
+Group variables            None  
+
+── Variable type: character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate   min   max empty n_unique whitespace
+1 paper_id              0             1     5    16     0       41          0
+2 species               0             1     9    28     0      137          0
+3 EnvTemp               0             1     5    11     0        4          0
+4 BodyShapeI            0             1     9    19     0        3          0
+5 Habitat               0             1     8    10     0        3          0
+
+── Variable type: factor ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable   n_missing complete_rate ordered n_unique top_counts                         
+1 nutrient                0             1 FALSE          1 Cal: 293, Iro: 0, Ome: 0, Pro: 0   
+2 id_number               0             1 FALSE        293 A_1: 1, A_1: 1, A_1: 1, A_1: 1     
+3 family                  0             1 FALSE         36 Cyp: 116, Sal: 21, Cha: 16, Clu: 14
+4 Order                   0             1 FALSE         12 Cyp: 118, Per: 70, Sil: 40, Sal: 21
+5 demers_pelag            0             1 FALSE          4 ben: 164, dem: 94, pel: 19, pel: 16
+6 source                  0             1 FALSE          3 WoS: 103, Fio: 98, FAO: 92         
+7 form_clean              0             1 FALSE          3 who: 152, mus: 137, not: 4, who: 0 
+8 country_sampled         0             1 FALSE         21 Ban: 118, Ind: 41, Gre: 22, Pol: 20
+
+── Variable type: numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate    mean      sd       p0    p25     p50     p75    p100 hist 
+1 value                 0             1 429.    759.     0.00930 27.2   134.    610     8250    ▇▁▁▁▁
+2 TL                    0             1   3.20    0.628  2        2.8     3.25    3.66     4.5  ▃▅▇▃▃
+3 Lmax                  0             1   3.87    0.968  1.61     3.00    3.92    4.61     6.21 ▂▇▇▇▁
+4 K                     0             1  -0.989   0.728 -2.66    -1.47   -1.11   -0.404    1.44 ▂▇▅▂▁
+5 tm                    0             1   0.652   0.543 -0.626    0.268   0.612   1.01     2.03 ▂▅▇▆▁
+6 pelagic               0             1   0.119   0.325  0        0       0       0        1    ▇▁▁▁▁
+7 river_iron            0             1   2.54    4.72   0.2      0.2     0.2     1.39    12.8  ▇▁▁▁▂
+8 soil_quality          0             1   1.57    0.374  1.06     1.40    1.40    1.80     2.63 ▃▇▂▁▂
+"
+"0","```r
+hist(focal$value)
+```"

@@ -1,0 +1,15 @@
+"0","```r
+
+focal.scaled$logvalue<-log(focal.scaled$value)
+focal.scaled$source<-as.factor(focal.scaled$source)
+focal.scaled$paper_id<-as.factor(focal.scaled$paper_id)
+focal.scaled$family<-as.factor(focal.scaled$family)
+focal.scaled$Order<-as.factor(focal.scaled$Order)
+focal.scaled$form_clean<-as.factor(focal.scaled$form_clean)
+focal.scaled$EnvTemp<-as.factor(focal.scaled$EnvTemp)
+focal.scaled$demers_pelag<-as.factor(focal.scaled$demers_pelag)
+focal.scaled$BodyShapeI<-as.factor(focal.scaled$BodyShapeI)
+focal.scaled$Habitat<-as.factor(focal.scaled$Habitat)
+
+par(mfrow=c(1,2))
+```"

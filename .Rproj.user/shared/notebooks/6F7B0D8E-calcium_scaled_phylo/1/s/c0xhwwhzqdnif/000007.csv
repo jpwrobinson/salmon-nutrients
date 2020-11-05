@@ -1,0 +1,4 @@
+"0","```r
+
+focal.fit<-focal %>% select(logvalue, trophic_level, Lmax, K, tm, benthic_pelagic_dummy, site, species)
+```"

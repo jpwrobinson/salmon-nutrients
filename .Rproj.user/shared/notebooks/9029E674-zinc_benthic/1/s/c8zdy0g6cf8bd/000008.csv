@@ -1,0 +1,2 @@
+"0","    "
+"0","focal.fit<-focal %>% ungroup() %>% select(value_corr, PC1, Location, Year)"

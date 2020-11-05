@@ -1,0 +1,3 @@
+"0","d<-divergent(nt_m)"
+"2","Error in class(fit) %in% c(""map2stan"", ""ulam"") : object 'nt_m' not found
+"

@@ -1,0 +1,7 @@
+"0","library(here)"
+"0","library(funk)"
+"0","library(rethinking)"
+"0","library(tidyverse); theme_set(theme_sleek())"
+"0",""
+"0","load(file = here('results/uvc_preds/UVC_nutrient_benthic_formodels.Rdata'))"
+"0","focal.nut='Ca.mg.ha'"

@@ -1,0 +1,7 @@
+"0",""
+"0","print('Priors are:')"
+"1","[1]"
+"1"," ""Priors are:"""
+"1","
+"
+"0","print(posts %>% filter(nut == 'omega3') %>% select(nut,covariate, post, sd)) %>% mutate(post = round(post,3), sd = round(sd,3))"

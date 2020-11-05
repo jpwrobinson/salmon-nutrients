@@ -1,0 +1,3 @@
+"0","## bind and save as Rdata	"
+"0","output<-list(nt_m, focal)"
+"0","save(output, file = here(paste0('results/final/uvc_',	 focal.nut, '_05-17', '.Rdata')))"

@@ -1,0 +1,13 @@
+"0","```r
+## save model output
+# save posterior preds
+post<-as.data.frame(extract.samples(nt_m)) %>% gather(param, dist) %>% 
+		filter(param %in% c('a', 'B3', 'B4', 'B5', 'B6', 'B7')) %>% mutate(nutrient = nut)
+
+## bind and save as Rdata	
+output<-list(nt_m, post, focal)
+
+
+save(output, file = paste0('results/final/',
+	 nut, '_scaled', '.Rdata'))
+```"

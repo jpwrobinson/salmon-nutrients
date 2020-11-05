@@ -1,0 +1,6 @@
+"0","## check influential samples - Pareto distribution shape parameter k. Ideally < 0.5, can be up to 0.7 (Vehtari et al. 2017)"
+"0","waic <- WAIC( nt_m, n=0, pointwise=TRUE)"
+"0","loo <- LOO( nt_m, n=0, pointwise=TRUE)"
+"2","Some Pareto k values are very high (>1). Set pointwise=TRUE to inspect individual points.
+"
+"0","focal[loo$k>0.5,]"

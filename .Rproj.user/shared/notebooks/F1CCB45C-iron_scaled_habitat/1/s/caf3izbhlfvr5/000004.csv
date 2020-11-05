@@ -1,0 +1,171 @@
+"0","# fit model"
+"0","nt_m<-ulam("
+"0","        alist("
+"0","          value ~ dgamma2(mu, scale),"
+"0","          # trait fixed effects"
+"0","          log(mu) <- "
+"0","                B3*trophic_level + B4*Lmax + "
+"0","                B5*K + B6*tm + B7*benthic_pelagic_dummy +"
+"0","                a + a_sp[species] + (B8 + B8_sp[species])*habitat_dummy  + # fixed"
+"0","          			X1[site]*sigma_site,	# random site effect"
+"0","          "
+"0","          # adaptive priors - non-centered"
+"0","         c(a_sp, B8_sp)[species] ~ multi_normal(0, Rho, sigma_species),"
+"0",""
+"0","          "
+"0","          ## fixed effect priors"
+"0","           a ~ dnorm(0, 100),"
+"0","          B3 ~ dnorm(-0.101, 0.125),"
+"0","          B4 ~ dnorm(0.025, 0.125),"
+"0","          B5 ~ dnorm(0.034, 0.229),"
+"0","          B6 ~ dnorm(0.076, 0.114),"
+"0","          B7 ~ dnorm(-0.018, 0.138),"
+"0","     		  B8 ~ dnorm(0, 1),"
+"0","    		  "
+"0","    		  X1[site] ~ dnorm(0, 1),"
+"0","          c(sigma_site, sigma_species) ~ dexp(1),"
+"0","          scale ~ dexp(1),"
+"0","           Rho ~ lkj_corr(3)"
+"0","        ),"
+"0","        data=focal.fit, iter=5000, warmup=1500, chains=3, cores = 6, log_lik = TRUE, control=list(adapt_delta=0.99))"
+"1","starting worker pid=21444 on localhost:11577 at 09:41:12.820
+"
+"1","starting worker pid=21458 on localhost:11577 at 09:41:12.990
+"
+"1","starting worker pid=21472 on localhost:11577 at 09:41:13.156
+"
+"1","
+SAMPLING FOR MODEL '97067be6d669b16653c0b7e862d18a68' NOW (CHAIN 1).
+"
+"1","Chain 1: 
+"
+"1","Chain 1: Gradient evaluation took 0.000197 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.97 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+"
+"1","Chain 1: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","
+SAMPLING FOR MODEL '97067be6d669b16653c0b7e862d18a68' NOW (CHAIN "
+"1","2).
+"
+"1","Chain 2: 
+"
+"1","Chain 2: Gradient evaluation took 0.000191 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 1.91 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+"
+"1","Chain 2: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","
+SAMPLING FOR MODEL '97067be6d669b16653c0b7e862d18a68' NOW (CHAIN 3).
+"
+"1","Chain 3: 
+Chain 3: Gradient evaluation took 0.000192 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 1.92 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+"
+"1","Chain 3: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","Chain 2: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 1: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 3: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 2: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 3: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 3: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 3: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 1: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 3: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 2: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 2: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 1: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 3: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 3: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 1: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 3: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 1: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 3: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 1: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 2: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 3: 
+Chain 3:  Elapsed Time: 19.1844 seconds (Warm-up)
+Chain 3:                18.8958 seconds (Sampling)
+Chain 3:                38.0802 seconds (Total)
+Chain 3: 
+"
+"1","Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 1: 
+Chain 1:  Elapsed Time: 17.5787 seconds (Warm-up)
+Chain 1:                24.6926 seconds (Sampling)
+Chain 1:                42.2713 seconds (Total)
+Chain 1: 
+"
+"1","Chain 2: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 2: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 2: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 2: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 2: 
+Chain 2"
+"1",":  Elapsed Time: 22.9909 seconds (Warm-up)
+Chain 2:                93.0918 seconds (Sampling)
+Chain 2:                116.083 seconds (Total)
+Chain 2: 
+"
+"2","There were 1 divergent transitions after warmup. See
+http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+to find out why this is a problem and how to eliminate them."
+"2","There were 455 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded"
+"2","There were 1 chains where the estimated Bayesian Fraction of Missing Information was low. See
+http://mc-stan.org/misc/warnings.html#bfmi-low"
+"2","Examine the pairs() plot to diagnose sampling problems
+"
+"0","# load(paste0('results/final/',	 nut, '_scaled_habitat_NC', '.Rdata'))"
+"0","# nt_m<-output[[1]]"

@@ -1,0 +1,72 @@
+"0","library(here)"
+"2","here() starts at /Users/robins64/Documents/git_repos/sey-nutrition
+"
+"0","library(funk)"
+"0","library(knitr)"
+"0","library(rethinking)"
+"2","Loading required package: rstan
+"
+"2","Loading required package: StanHeaders
+"
+"2","Loading required package: ggplot2
+"
+"2","rstan (Version 2.21.2, GitRev: 2e1f913d3ca3)
+"
+"2","For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+"
+"2","Loading required package: parallel
+"
+"2","rethinking (Version 2.13)
+"
+"2","
+Attaching package: ‘rethinking’
+
+"
+"2","The following object is masked from ‘package:funk’:
+
+    se
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    rstudent
+
+"
+"0","library(tidyverse); theme_set(theme_sleek())"
+"2","Registered S3 methods overwritten by 'dbplyr':
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+"
+"2","[30m── [1mAttaching packages[22m ─────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──[39m
+"
+"2","[30m[32m✓[30m [34mtibble [30m 3.0.1     [32m✓[30m [34mdplyr  [30m 1.0.0
+[32m✓[30m [34mtidyr  [30m 1.1.0     [32m✓[30m [34mstringr[30m 1.4.0
+[32m✓[30m [34mreadr  [30m 1.3.1     [32m✓[30m [34mforcats[30m 0.5.0
+[32m✓[30m [34mpurrr  [30m 0.3.4     [39m
+"
+"2","[30m── [1mConflicts[22m ────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31mx[30m [34mtidyr[30m::[32mextract()[30m masks [34mrstan[30m::extract()
+[31mx[30m [34mdplyr[30m::[32mfilter()[30m  masks [34mstats[30m::filter()
+[31mx[30m [34mdplyr[30m::[32mlag()[30m     masks [34mstats[30m::lag()
+[31mx[30m [34mpurrr[30m::[32mmap()[30m     masks [34mrethinking[30m::map()[39m
+"
+"0","library(tidybayes)"
+"0",""
+"0","## load all data frames"
+"0","source('scripts/cleaning/master_data_load.R')"
+"2","`summarise()` regrouping output by 'Location', 'Year', 'Species.group' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year', 'Species' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'year', 'location', 'quarter', 'month', 'speciesgr', 'DATE', 'dmi', 'benso', 'species' (override with `.groups` argument)
+"
+"0","load(file = 'data/aaron_global_posteriors_update.Rdata')"
+"0","nut='Se'"

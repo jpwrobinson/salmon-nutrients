@@ -1,0 +1,9 @@
+"0","```r
+
+focal$logvalue<-log(focal$value)
+focal$benthic_pelagic_dummy<-focal$benthic.pelagic.dummy
+focal$site<-as.factor(focal$site)
+focal$species<-as.factor(focal$species)
+
+par(mfrow=c(1,2))
+```"

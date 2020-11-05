@@ -1,0 +1,4 @@
+"0","```r
+hist(focal.scaled$value, main = nut, xlab=paste(nut))
+hist(focal.scaled$logvalue, main = nut, xlab=paste('log', nut))
+```"

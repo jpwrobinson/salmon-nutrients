@@ -1,0 +1,7 @@
+"0","post<-extract.samples(nt_m)"
+"0","mu <-post$a"
+"0","ggplot(data.frame(x=exp(mu))) + "
+"0","            geom_density(aes(x), fill='grey') + "
+"0","            labs(x='mu', title='Mean iron posterior') +       "
+"0","            geom_vline(xintercept=median(exp(mu)), col='red')"
+"0",""

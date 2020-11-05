@@ -1,0 +1,68 @@
+"0","```r
+pred<-data.frame(species = (unique(focal.fit$species)),
+						  source = (focal.fit$source)[1],
+						  paper_id = (focal.fit$paper_id)[1],
+              river_iron = 0, soil_quality = 0,
+						  form_clean = (focal.fit$form_clean)[2])
+
+pred$TL <-focal.fit$TL[match(pred$species, focal.fit$species)]
+pred$Lmax <-focal.fit$Lmax[match(pred$species, focal.fit$species)]
+pred$K <-focal.fit$K[match(pred$species, focal.fit$species)]
+pred$tm <-focal.fit$tm[match(pred$species, focal.fit$species)]
+pred$pelagic <-focal.fit$pelagic[match(pred$species,focal.fit$species)]
+pred$Habitat <-factor(focal.fit$Habitat[match(pred$species,focal.fit$species)])
+pred$EnvTemp <-factor(focal.fit$EnvTemp[match(pred$species,focal.fit$species)])
+pred$BodyShapeI <-factor(focal.fit$BodyShapeI[match(pred$species,focal.fit$species)])
+pred$Order <-factor(focal.fit$Order[match(pred$species, focal.fit$species)])
+pred$family <-factor(focal.fit$family[match(pred$species, focal.fit$species)])
+
+# ## fix levels for predictions
+# 	pred$Habitat<-factor(pred$Habitat, levels=levels(factor(focal.fit$Habitat)))
+# 	pred$EnvTemp<-factor(pred$EnvTemp, levels=levels(factor(focal.fit$EnvTemp)))
+# 	pred$BodyShapeI<-factor(pred$BodyShapeI, levels=levels(factor(focal.fit$BodyShapeI)))
+# 	pred$Order<-factor(pred$Order, levels=levels(factor(focal.fit$Order)))
+# 	pred$family<-factor(pred$family, levels=levels(factor(focal.fit$family)))
+# 	pred<-droplevels(pred)
+	
+# replace varying intercept samples with zeros (tissue type AND dataset source)
+a_source_zeros <- matrix(0,1000,uniques(focal$source))
+a_form_zeros <- matrix(0,1000,uniques(focal$form_clean))
+meds<-exp(link(nt_m, data=pred, n=1000, replace=list(B12_SEA=a_source_zeros, B10_FOS = a_form_zeros)))
+head(apply(meds, 2, median))
+```"
+"1","[1] 0.6178716 0.8717536 0.9374354 1.4604062 1.3128988 1.0976501
+"
+"0","```r
+pred$mu<-apply(meds, 2, median)
+pred$lower95 <- apply( meds , 2 , HPDI , prob=0.95 )[1,]
+pred$upper95 <- apply( meds , 2 , HPDI , prob=0.95 )[2,]
+pred$lower50 <- apply( meds , 2 , HPDI , prob=0.50 )[1,]
+pred$upper50 <- apply( meds , 2 , HPDI , prob=0.50 )[2,]
+mast<-pred
+# 
+# 	## estimate average nutrient concentration irrespective of species
+# 	base<-expand.grid(
+# 						  # species = unique(nt_m$species)[2],
+# 						  site = 'M1', 
+# 						  family='Acanthuridae',
+# 						  trophic_level = 0, 
+# 						  Lmax = 0, 
+# 						  K = 0, 
+# 						  tm = 0, 
+# 						  pelagic = 0)
+# 	# replace varying intercept samples with zeros (SITE AND FAMILY)
+# 	meds<-link(nt_m, data=base, n=1000, replace=list(X1=a_site_zeros, X2=a_family_zeros))
+# 
+# 	base$mu<-apply(meds, 2, median)
+# 	base$lower95 <- apply( meds , 2 , HPDI , prob=0.95 )[1,]
+# 	base$upper95 <- apply( meds , 2 , HPDI , prob=0.95 )[2,]
+# 	base$nutrient<-nut
+# 	
+	## transform mu
+    # mast$mu<-exp(mast$mu)
+    # mast$lower95<-exp(mast$lower95); mast$upper95<-exp(mast$upper95)
+    # mast$lower50<-exp(mast$lower50); mast$upper50<-exp(mast$upper50)
+    # base$mu<-exp(base$mu)
+    # base$lower95<-exp(base$lower95); base$upper95<-exp(base$upper95)
+
+```"

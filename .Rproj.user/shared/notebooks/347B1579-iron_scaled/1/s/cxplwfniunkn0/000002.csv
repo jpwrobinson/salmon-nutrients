@@ -1,0 +1,4 @@
+"0","# mod<-stan_model('scripts/stan_code/iron_org.stan')"
+"0","# foc<-output[[3]] %>% mutate(site = as.numeric(site), family=as.numeric(family))"
+"0","# foc$benthic.pelagic.dummy<-NULL"
+"0","# m11.4_stan <- stan( file= 'scripts/stan_code/iron_org.stan', data=foc, chains=4 )"

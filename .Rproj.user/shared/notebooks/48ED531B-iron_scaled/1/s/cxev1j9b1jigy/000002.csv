@@ -1,0 +1,13 @@
+"0","```r
+# sample y from posterior
+y_post<-sim(nt_m)
+focal.scaled$y_post<-apply(y_post, 2, mean)
+focal.scaled$species_short<-tl$species_short[match(focal.scaled$species, tl$species)]
+
+ggplot(focal.scaled, aes(y_post, value, col=Order, label=species_short)) + 
+        geom_point() + 
+        geom_text() +
+        geom_abline(intercept=0, slope=1) +
+        lims(y=c(min(focal.scaled$value), max(focal.scaled$value)),x=c(min(focal.scaled$value), max(focal.scaled$value))) +
+        labs(x = 'Posterior mean', y = 'Observed', subtitle = nut)
+```"

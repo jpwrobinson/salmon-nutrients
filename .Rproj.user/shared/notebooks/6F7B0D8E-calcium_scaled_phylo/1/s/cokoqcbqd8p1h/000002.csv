@@ -1,0 +1,18 @@
+"0","```r
+## read phylogeny
+phy<-read.csv('data/clean/mean_phy_dist.csv', row.names=1)
+colnames(phy)<-str_replace_all(colnames(phy), '_', '\\ ')
+rownames(phy)<-str_replace_all(rownames(phy), '_', '\\ ')
+sp<-colnames(phy)
+
+## filter to stir species
+sp2<-c(as.character(unique(focal$species)))
+# 
+# 
+phy<-phy[colnames(phy) %in% sp2]
+phy<-phy[rownames(phy) %in% sp2,]
+phy<-as.matrix(phy)
+
+Dmat <- phy[ as.character(focal$species) , as.character(focal$species) ] / max(phy)
+Dmat_sp <- phy[ sp2 , sp2 ] / max(phy)
+```"

@@ -1,0 +1,48 @@
+"0","```r
+## plot species posterior predictions
+
+tl<-tl %>% filter(nutrient == 'Calcium')
+
+## drop outliers
+# outlier.lims<-tl %>% group_by(nutrient) %>% summarise(out = 2*sd(value) + mean(value))
+# tl$lim<-outlier.lims$out[match(tl$nutrient, outlier.lims$nutrient)]
+# tl<-tl %>% filter(value <= lim)
+# # drop 5 fish with values < 0.02
+# tl<-tl %>% filter(value > 0.02)
+
+# short labels
+mast$species_short<-droplevels(tl$species_short[match(mast$species, tl$species)])
+mast$species<-factor(mast$species, levels=mast$species[order(mast$mu)])
+
+g1<-ggplot(mast) +
+	# geom_rect(data = base, aes(ymin = lower95, ymax = upper95, xmin = -Inf, xmax=Inf), fill='red', alpha=0.2) +
+	# geom_hline(data = base, aes(yintercept=mu), col='red') +
+	geom_pointrange(
+		aes(y = mu, x = species, ymin = lower95, ymax = upper95)) +
+	geom_point(aes(y = mu, x = species, col=Order), size=2) +
+	labs(y = 'mg per 100g', x ='') +
+	coord_flip() + 
+  scale_x_discrete(labels=mast$species_short) +
+	# guides(colour=FALSE) + 
+	theme(axis.text.y=element_text(size=8, colour='black'),
+		legend.position = 'top',
+		legend.title = element_blank(),
+			axis.text.x=element_text(size=10, colour='black'),
+				axis.line = element_line(colour = \"black\"), 
+				strip.text = element_text(face=\"bold\", colour='black', size=10)) 
+
+g2<-g1 + geom_jitter(data = tl, aes(species, value), alpha=0.25, width=0.15, size=0.75)
+
+g1
+pdf(file = paste0('figures/models/', nut, '_species_posteriors.pdf'), height=12, width=4)
+```"
+"0","```r
+g1
+g2
+```"
+"0","```r
+dev.off()
+```"
+"1","quartz_off_screen 
+                3 
+"

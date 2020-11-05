@@ -1,0 +1,18 @@
+"0","```r
+## prepare data and y histogram
+
+## standardize exp. covariates, mean = 0
+focal.scaled<-scaler(focal, 
+				ID = c('nutrient','value', 'source', 'form_clean', 
+				       'species', 'family','Order','Habitat', 'country_sampled', 'id_number','paper_id', 'form_clean', 'EnvTemp', 'demers_pelag', 'pelagic')) 
+
+## check cor between preds
+pairs2(focal.scaled[,unlist(lapply(focal.scaled, is.numeric)) ], lower.panel=panel.cor, upper.panel=panel.smooth2)
+
+print('Priors are:')
+```"
+"1","[1] \"Priors are:\"
+"
+"0","```r
+print(posts %>% filter(nut == nut) %>% select(nut,covariate, post, sd)) %>% mutate(post = round(post,3), sd = round(sd,3))
+```"

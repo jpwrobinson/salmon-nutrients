@@ -1,0 +1,202 @@
+"0","# fit model"
+"0",""
+"0","nt_m<-ulam("
+"0","        alist("
+"0","          value ~ dgamma2(mu, scale),"
+"0","          ## intercept is species level effects"
+"0","          log(mu) <- a + B3*trophic_level + B4*Lmax + "
+"0","          			B5*K + B6*tm + B7*benthic_pelagic_dummy +  # fixed"
+"0","          			X1[site]*sigma_site + X2[family]*sigma_fam, 	# random"
+"0","          "
+"0","          ## priors"
+"0","          X1[site] ~ dnorm(0, 1),"
+"0","          X2[family] ~ dnorm(0, 1),"
+"0","          a ~ dnorm(-1.875, 0.645),"
+"0","          B3 ~ dnorm(-0.101, 0.125),"
+"0","          B4 ~ dnorm(0.025, 0.125),"
+"0","          B5 ~ dnorm(0.034, 0.229),"
+"0","          B6 ~ dnorm(0.076, 0.114),"
+"0","          B7 ~ dnorm(-0.018, 0.138),"
+"0","          scale ~ dexp(2),"
+"0","          c(sigma_site, sigma_fam) ~ dexp(2)"
+"0","        ),"
+"0","        data=focal.fit, iter=5000, warmup=1500, chains=3, cores = 4, log_lik=TRUE, control=list(adapt_delta=0.99), messages=FALSE)"
+"1","starting worker pid=21051 on localhost:11577 at 09:32:38.269
+"
+"1","starting worker pid=21065 on localhost:11577 at 09:32:38.437
+"
+"1","starting worker pid=21079 on localhost:11577 at 09:32:38.601
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"2","Warning in readChar(file, size, TRUE) :"
+"2","
+ "
+"2"," truncating string with embedded nuls
+"
+"1","
+SAMPLING FOR MODEL 'b8a6125ce6ab41f2dbf86ec086e82db5' NOW (CHAIN 1).
+"
+"1","Chain 1: 
+Chain 1: Gradient evaluation took 0.000113 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.13 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+"
+"1","Chain 1: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","
+SAMPLING FOR MODEL 'b8a6125ce6ab41f2dbf86ec086e82db5' NOW (CHAIN 2).
+"
+"1","Chain 2: 
+Chain 2: Gradient evaluation took 0.000144 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 1.44 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+"
+"1","Chain 2: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","
+SAMPLING FOR MODEL 'b8a6125ce6ab41f2dbf86ec086e82db5' NOW (CHAIN 3).
+"
+"1","Chain 3: 
+Chain 3: Gradient evaluation took 0.000141 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 1.41 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+"
+"1","Chain 3: Iteration:    1 / 5000 [  0%]  (Warmup)
+"
+"1","Chain 1: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 3: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 2: Iteration:  500 / 5000 [ 10%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 3: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 2: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 1: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 3: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 3: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 2: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+"
+"1","Chain 2: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+"
+"1","Chain 1: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 3: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 2: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+"
+"1","Chain 1: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 3: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 2: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+"
+"1","Chain 1: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 2: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 3: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+"
+"1","Chain 1: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 2: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 3: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+"
+"1","Chain 1: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 2: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 3: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+"
+"1","Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+"
+"1","Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 1: 
+Chain 1:  Elapsed Time: 5.90827 seconds (Warm-up)
+Chain 1:                10.5286 seconds (Sampling)
+Chain 1:                16.4368 seconds (Total)
+Chain 1: 
+"
+"1","Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 2: 
+Chain "
+"1","2:  Elapsed Time: 5.83017 seconds (Warm-up)
+Chain 2:                11.1325 seconds (Sampling)
+Chain 2:                16.9626 seconds (Total)
+Chain 2: 
+"
+"1","Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
+"
+"1","Chain 3: 
+Chain 3:  Elapsed Time: 5.66881 seconds (Warm-up)
+Chain 3:                11.328 seconds (Sampling)
+Chain 3:                16.9968 seconds (Total)
+Chain 3: 
+"
+"0","# load(paste0('results/final/',	 nut, '_scaled', '.Rdata'))"
+"0","# nt_m<-output[[1]]"

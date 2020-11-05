@@ -1,0 +1,50 @@
+"0","post<-extract.samples(nt_m, pars=c( 'B8'))"
+"2","Warning messages:
+"
+"2","1: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","2: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","3: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","4: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","5: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","6: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","7: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","8: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"2","9: "
+"2","In readChar(file, size, TRUE) :"
+"2"," truncating string with embedded nuls
+"
+"0","# mu.coral <- post$B8[,1]"
+"0","mu.ma <- post$B8"
+"0","# hab<-data.frame(x = c(mu.coral, mu.ma), habitat = c(rep('Coral', 10500), rep('Macroalgae', 10500)))"
+"0","ggplot() + "
+"0","            geom_density(aes(((mu.ma))), fill='grey', alpha=0.5) + "
+"0","          "
+"0","            labs(x='mu', title='Mean calcium posterior') +       "
+"0","            theme(legend.position = c(0.2, 0.5)) +"
+"0","            # geom_vline(xintercept=median((mu.coral)), col='black') +"
+"0","            geom_vline(xintercept=median((mu.ma)), col='black')"
+"0",""

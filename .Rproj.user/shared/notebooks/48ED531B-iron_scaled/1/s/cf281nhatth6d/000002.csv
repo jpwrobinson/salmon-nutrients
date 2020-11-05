@@ -1,0 +1,10 @@
+"0","```r
+pacman::p_load(here, funk, knitr, rethinking, tidyverse, tidybayes, skimr)
+theme_set(theme_sleek())
+## load all data frames
+load(file='data/clean/IHH_freshwater_traits.Rdata')
+load(file = 'data/aaron_global_posteriors.Rdata')
+nut='Iron'
+
+tl<-tl %>% filter(nutrient == 'Iron')
+```"

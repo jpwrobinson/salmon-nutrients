@@ -1,0 +1,40 @@
+"0","```r
+## plot species posterior predictions
+
+  stir<-stir %>% filter(nutrient ==nut)
+
+## drop outliers
+outlier.lims<-stir %>% group_by(nutrient) %>% summarise(out = 2*sd(value) + mean(value))
+stir$lim<-outlier.lims$out[match(stir$nutrient, outlier.lims$nutrient)]
+stir<-stir %>% filter(value <= lim)
+
+
+## sort mast by FG
+mast$FG<-stir$FG.fine[match(mast$species, stir$species)]
+mast$species <-factor(mast$species, levels = rev(unique(mast$species[order(mast$FG)])))
+
+cols<-data.frame(col=c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#a65628'),
+    FG=c('Herbivore Scraper', 'Piscivore', 'Herbivore Browser','Herbivore Grazer', 'Invertivore & Piscivore', 'Invertivore'))
+cols.named<-cols$col
+names(cols.named)<-cols$FG
+
+ggplot(mast ) + 
+	geom_rect(data = base, aes(ymin = lower95, ymax = upper95, xmin = -Inf, xmax=Inf), fill='red', alpha=0.2) +
+	geom_hline(data = base, aes(yintercept=mu), col='red') +
+	geom_pointrange(
+		aes(y = mu, x = species, ymin = lower95, ymax = upper95)) +
+	geom_point(aes(y = mu, x = species, col=FG), size=2) +
+	geom_jitter(data = stir, aes(species, value), alpha=0.25, width=0.15, size=0.75) +
+	labs(y = 'Mineral concentration (mg per 100g)', x ='') +
+	scale_colour_manual(values = cols.named) +
+	facet_wrap(~nutrient, nrow=1, scales='free_x') + 
+	coord_flip() + 
+	# guides(colour=FALSE) + 
+	theme(axis.text.y=element_text(size=10, colour='black'),
+		legend.position = 'top',
+		legend.title = element_blank(),
+			axis.text.x=element_text(size=10, colour='black'),
+				axis.line = element_line(colour = \"black\"), 
+				strip.text = element_text(face=\"bold\", colour='black', size=10))
+
+```"

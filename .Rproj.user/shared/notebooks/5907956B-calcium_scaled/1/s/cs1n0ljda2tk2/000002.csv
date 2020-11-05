@@ -1,0 +1,8 @@
+"0","## prepare data and y histogram"
+"0",""
+"0","## standardize exp. covariates, mean = 0"
+"0","focal<-scaler(focal, "
+"0","				ID = c('nutrient','value', 'fish_id', 'units', 'species', 'family', 'site'), cats=TRUE) "
+"0",""
+"0","## check cor between preds"
+"0","pairs2(focal[,unlist(lapply(focal, is.numeric)) ], lower.panel=panel.cor, upper.panel=panel.smooth2)"

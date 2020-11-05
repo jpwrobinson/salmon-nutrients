@@ -1,0 +1,7 @@
+"0","```r
+traceplot(nt_m, pars=c('a','B4_TL', 'B5_PEL', 'B6_LMX', 'B8_K', 'B9_AM', 'B13_RIV', 'B14_SOIL'))
+```"
+"1","[1] 5000
+[1] 1
+[1] 5000
+"

@@ -1,0 +1,5 @@
+"0","hist(loo$k, main = print(paste('Pareto k:', dim(focal[loo$k>0.5,])[1], 'influential samples')))"
+"1","[1]"
+"1"," ""Pareto k: 43 influential samples"""
+"1","
+"

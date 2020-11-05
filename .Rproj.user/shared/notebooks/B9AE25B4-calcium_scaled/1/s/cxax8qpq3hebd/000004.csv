@@ -1,0 +1,18 @@
+"0","```r
+
+## drop outliers
+outlier.lims<-2*sd(focal$value) + mean(focal$value)
+print(paste0('Dropping ', dim(focal[focal$value >= outlier.lims,])[1], ' large outliers'))
+```"
+"1","[1] \"Dropping 6 large outliers\"
+"
+"0","```r
+focal<-focal %>% filter(value <= outlier.lims)
+
+# drop 5 fish with values < 0.02
+focal<-focal %>% filter(value > 0.02)
+
+print(paste0('Fitting model to ',dim(focal)[1], ' samples of ', uniques(focal$species), ' species'))
+```"
+"1","[1] \"Fitting model to 282 samples of 134 species\"
+"

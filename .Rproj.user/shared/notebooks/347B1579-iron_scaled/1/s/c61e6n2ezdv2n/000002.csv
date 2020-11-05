@@ -1,0 +1,8 @@
+"0","# sample y from posterior"
+"0","y_post<-sim(nt_m)"
+"0","focal.fit$y_post<-apply(y_post, 2, mean)"
+"0","ggplot(focal.fit, aes(y_post, value, col=family)) + "
+"0","        geom_point() + "
+"0","        geom_abline(intercept=0, slope=1) +"
+"0","        lims(y=c(min(focal$value), max(focal$value)),x=c(min(focal$value), max(focal$value))) +"
+"0","        labs(x = 'Posterior mean', y = 'Observed', subtitle = nut)"

@@ -1,0 +1,3 @@
+"0","plot(precis(nt_m, 2), xlab='estimate, 89 CIs')"
+"2","4 matrix parameters hidden. Use depth=3 to show them.
+"

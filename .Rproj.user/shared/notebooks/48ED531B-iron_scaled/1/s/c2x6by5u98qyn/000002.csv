@@ -1,0 +1,7 @@
+"0","```r
+d<-divergent(nt_m)
+if(d == 0) print('BOOM BOOM NO DIVERGENT CHAINS') else
+print(paste('STOP DIVERGENCE PROBLEM: ', d, ' chains'))
+```"
+"1","[1] \"STOP DIVERGENCE PROBLEM:  47  chains\"
+"

@@ -1,0 +1,51 @@
+"0","```r
+pred<-expand.grid(species = unique(focal$species),
+						  site = levels(focal$site)[2])
+
+	pred$trophic_level <-focal$trophic_level[match(pred$species, focal$species)]
+	pred$Lmax <-focal$Lmax[match(pred$species, focal$species)]
+	pred$K <-focal$K[match(pred$species, focal$species)]
+	pred$tm <-focal$tm[match(pred$species, focal$species)]
+	pred$benthic_pelagic_dummy <-focal$benthic_pelagic_dummy[match(pred$species,focal$species)]
+	pred$family <-focal$family[match(pred$species, focal$species)]
+
+	# replace varying intercept samples with zeros (SITE AND FAMILY)
+	# 1000 samples by 21 sites
+	a_site_zeros <- matrix(0,1000,uniques(focal$site))
+	a_family_zeros <- matrix(0,1000,uniques(focal$family))
+	meds<-link(nt_m, data=pred, n=1000, replace=list(X1=a_site_zeros, X2 = a_family_zeros))
+
+	pred$mu<-apply(meds, 2, median)
+	pred$lower95 <- apply( meds , 2 , HPDI , prob=0.95 )[1,]
+	pred$upper95 <- apply( meds , 2 , HPDI , prob=0.95 )[2,]
+	pred$lower50 <- apply( meds , 2 , HPDI , prob=0.50 )[1,]
+	pred$upper50 <- apply( meds , 2 , HPDI , prob=0.50 )[2,]
+	pred$nutrient<-nut
+	mast<-pred
+
+	## estimate average nutrient concentration irrespective of species
+	base<-expand.grid(
+						  # species = unique(nt_m$species)[2],
+						  site = 'M1', 
+						  family='Acanthuridae',
+						  trophic_level = 0, 
+						  Lmax = 0, 
+						  K = 0, 
+						  tm = 0, 
+						  benthic_pelagic_dummy = 0)
+	# replace varying intercept samples with zeros (SITE AND FAMILY)
+	meds<-link(nt_m, data=base, n=1000, replace=list(X1=a_site_zeros, X2=a_family_zeros))
+
+	base$mu<-apply(meds, 2, median)
+	base$lower95 <- apply( meds , 2 , HPDI , prob=0.95 )[1,]
+	base$upper95 <- apply( meds , 2 , HPDI , prob=0.95 )[2,]
+	base$nutrient<-nut
+	
+	## transform mu
+    mast$mu<-exp(mast$mu)
+    mast$lower95<-exp(mast$lower95); mast$upper95<-exp(mast$upper95)
+    mast$lower50<-exp(mast$lower50); mast$upper50<-exp(mast$upper50)
+    base$mu<-exp(base$mu)
+    base$lower95<-exp(base$lower95); base$upper95<-exp(base$upper95)
+
+```"

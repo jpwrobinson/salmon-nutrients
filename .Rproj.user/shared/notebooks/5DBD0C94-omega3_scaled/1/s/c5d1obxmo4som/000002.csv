@@ -1,0 +1,21 @@
+"0","library(here)"
+"0","library(funk)"
+"0","library(knitr)"
+"0","library(rethinking)"
+"0","library(tidyverse); theme_set(theme_sleek())"
+"0","library(tidybayes)"
+"0",""
+"0","## load all data frames"
+"0","source('scripts/cleaning/master_data_load.R')"
+"2","`summarise()` regrouping output by 'Location', 'Year', 'Species.group' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year', 'Species' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+"
+"2","`summarise()` regrouping output by 'year', 'location', 'quarter', 'month', 'speciesgr', 'DATE', 'dmi', 'benso', 'species' (override with `.groups` argument)
+"
+"0","load(file = 'data/aaron_global_posteriors_update.Rdata')"
+"0","nut='omega3'"

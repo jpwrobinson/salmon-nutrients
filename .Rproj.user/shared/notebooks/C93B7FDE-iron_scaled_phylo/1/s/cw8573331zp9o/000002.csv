@@ -1,0 +1,8 @@
+"0","pacman::p_load(here, funk, knitr, rethinking, tidyverse, tidybayes, skimr)"
+"0","theme_set(theme_sleek())"
+"0","## load all data frames"
+"0","load(file='data/clean/IHH_freshwater_traits.Rdata')"
+"0","load(file = 'data/aaron_global_posteriors.Rdata')"
+"0","nut='Iron'"
+"0",""
+"0","tl<-tl %>% filter(nutrient == 'Iron')"

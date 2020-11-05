@@ -1,0 +1,60 @@
+"0","```r
+# fit model
+```"
+"1","Warning messages:
+1: In readChar(file, size, TRUE) : truncating string with embedded nuls
+2: In readChar(file, size, TRUE) : truncating string with embedded nuls
+3: In readChar(file, size, TRUE) : truncating string with embedded nuls
+"
+"0","```r
+nt_m<-ulam(
+        alist(
+          # logvalue ~ dnorm(mu, sigma),
+          # value ~ dgamma2(mu, scale),
+          value ~ dlnorm(mu, sigma),
+          ##  
+          mu <- a +
+              # continuous    
+                B4_TL*TL +
+                B5_PEL*pelagic +
+                B6_LMX*Lmax +
+                B8_K*K +
+                B9_AM*tm + 
+                B13_RIV*river_iron +
+                B14_SOIL*soil_quality +
+            
+              # hierarchical
+                B_ID[paper_id]*sigma_id +
+                B0_ORD[Order]*sigma_ord +
+                B15_FAM[family]*sigma_fam +
+                B1_HAB[Habitat] +
+                B2_TR[EnvTemp] +
+                B7_BOD[BodyShapeI] +
+          			B10_FOS[form_clean] + 
+                B12_SEA[source]*sigma_source, 	
+          
+          ## priors
+          a ~ dexp(1),
+          B_ID[paper_id] ~ dnorm(0, 1),
+          B0_ORD[Order] ~ dnorm(0, 1),
+          B1_HAB[Habitat] ~ dnorm(0, sigma_hab),
+          B2_TR[EnvTemp] ~ dnorm(0, sigma_temp),
+          B4_TL ~ dnorm(0, 1000),
+          B5_PEL ~ dnorm(0, 1000),
+    		  B6_LMX ~ dnorm(0, 1000),
+    		  B7_BOD[BodyShapeI] ~ dnorm(0, sigma_bod),
+    		  B8_K ~ dnorm(0, 1000),
+    		  B9_AM ~ dnorm(0, 1000),
+    		  B10_FOS[form_clean] ~ dnorm(0, sigma_form),
+    		  B12_SEA[source]~ dnorm(0, 1),
+    		  B13_RIV ~ dnorm(0, 1000),
+    		  B14_SOIL ~ dnorm(0, 1000),
+    		  B15_FAM[family] ~ dnorm(0, 1),
+    		
+          c(sigma_id, sigma_ord, sigma_fam, sigma_hab, sigma_temp, sigma_bod, sigma_form, sigma_source, sigma) ~ dexp(1)
+        ),
+        data=focal.fit, iter=5000, warmup=1500, chains=3, cores = 4, control=list(adapt_delta=0.99),constraints = list(a = 'lower=0'), log_lik = TRUE)
+```"
+"1","Removing one or more character or factor variables:
+species
+"

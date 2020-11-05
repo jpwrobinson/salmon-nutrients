@@ -1,0 +1,8 @@
+"0","```r
+## save model output
+## bind and save as Rdata	
+output<-list(nt_m, post, focal, focal.fit)
+
+save(output, file = paste0('results/',
+	 nut, '_scaled_uninformed', '.Rdata'))
+```"

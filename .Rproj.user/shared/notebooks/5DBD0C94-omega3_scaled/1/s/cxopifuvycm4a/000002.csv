@@ -1,0 +1,9 @@
+"0","```r
+post<-extract.samples(nt_m)
+mu <-post$a
+ggplot(data.frame(x=exp(mu))) + 
+            geom_density(aes(x), fill='grey') + 
+            labs(x='mu', title='Mean omega-3 posterior') +       
+            geom_vline(xintercept=median(exp(mu)), col='red')
+
+```"

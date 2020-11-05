@@ -1,0 +1,10 @@
+"0","```r
+post<-extract.samples(nt_m)
+mu <-post$a
+ggplot(data.frame(x=(mu))) + 
+            geom_density(aes(x), fill='grey') + 
+            labs(x='log(mu)', title=paste(nut, 'posterior')) +       
+            annotate(\"text\",  x=Inf, y = Inf, label = paste0('median ', nut, ' = ', round(median(exp(mu)),2), ' mg/100g'), vjust=2, hjust=2) +
+            geom_vline(xintercept=median((mu)), col='red')
+
+```"

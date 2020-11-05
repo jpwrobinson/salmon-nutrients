@@ -1,0 +1,141 @@
+"0","```r
+# fit model
+
+nt_m<-ulam(
+        alist(
+          # logvalue ~ dnorm(mu, sigma),
+          value ~ dgamma2(mu, scale),
+          # value ~ dlnorm(mu, sigma),
+          ## 
+          log(mu) <- a + 
+              # continuous    
+                B4_TL*TL +
+                B5_PEL*pelagic +
+                B6_LMX*Lmax +
+                B8_K*K +
+                B9_AM*tm + 
+                B13_RIV*river_iron +
+                B14_SOIL*soil_quality +
+            
+              # hierarchical
+                B_ID[paper_id]*sigma_id +
+                B0_ORD[Order]*sigma_ord +
+                B15_FAM[family]*sigma_fam +
+                B1_HAB[Habitat] +
+                B2_TR[EnvTemp] +
+                B7_BOD[BodyShapeI] +
+          			B10_FOS[form_clean] + 
+                B12_SEA[source]*sigma_source, 	
+          
+          ## priors
+          a ~ dnorm(0, 1000),
+          B_ID[paper_id] ~ dnorm(0, 1),
+          B0_ORD[Order] ~ dnorm(0, 1),
+          B1_HAB[Habitat] ~ dnorm(0, sigma_hab),
+          B2_TR[EnvTemp] ~ dnorm(0, sigma_temp),
+          B4_TL ~ dnorm(0, 1000),
+          B5_PEL ~ dnorm(0, 1000),
+    		  B6_LMX ~ dnorm(0, 1000),
+    		  B7_BOD[BodyShapeI] ~ dnorm(0, sigma_bod),
+    		  B8_K ~ dnorm(0, 1000),
+    		  B9_AM ~ dnorm(0, 1000),
+    		  B10_FOS[form_clean] ~ dnorm(0, sigma_form),
+    		  B12_SEA[source]~ dnorm(0, 1),
+    		  B13_RIV ~ dnorm(0, 1000),
+    		  B14_SOIL ~ dnorm(0, 1000),
+    		  B15_FAM[family] ~ dnorm(0, 1),
+    		  
+          c(sigma_id, sigma_ord, sigma_fam, sigma_hab, sigma_temp, sigma_bod, sigma_form, sigma_source, scale) ~ dexp(2)
+        ),
+        data=focal.fit, iter=5000, warmup=1500, chains=3, cores = 4, control=list(adapt_delta=0.99), constraints=list(a=\"lower=0\"), log_lik = TRUE)
+```"
+"1","Removing one or more character or factor variables:
+species
+"
+"1","starting worker pid=14974 on localhost:11640 at 15:23:00.755
+starting worker pid=14988 on localhost:11640 at 15:23:00.923
+starting worker pid=15002 on localhost:11640 at 15:23:01.084
+
+SAMPLING FOR MODEL '32ebacd07c7f6415687b71e5c77ba896' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.000258 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.58 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 5000 [  0%]  (Warmup)
+
+SAMPLING FOR MODEL '32ebacd07c7f6415687b71e5c77ba896' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0.000271 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 2.71 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 5000 [  0%]  (Warmup)
+
+SAMPLING FOR MODEL '32ebacd07c7f6415687b71e5c77ba896' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0.000269 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 2.69 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 5000 [  0%]  (Warmup)
+Chain 3: Iteration:  500 / 5000 [ 10%]  (Warmup)
+Chain 1: Iteration:  500 / 5000 [ 10%]  (Warmup)
+Chain 2: Iteration:  500 / 5000 [ 10%]  (Warmup)
+Chain 1: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+Chain 3: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+Chain 2: Iteration: 1000 / 5000 [ 20%]  (Warmup)
+Chain 3: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+Chain 3: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+Chain 1: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+Chain 1: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+Chain 2: Iteration: 1500 / 5000 [ 30%]  (Warmup)
+Chain 2: Iteration: 1501 / 5000 [ 30%]  (Sampling)
+Chain 3: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+Chain 1: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+Chain 2: Iteration: 2000 / 5000 [ 40%]  (Sampling)
+Chain 3: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+Chain 1: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+Chain 2: Iteration: 2500 / 5000 [ 50%]  (Sampling)
+Chain 3: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+Chain 1: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+Chain 3: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+Chain 2: Iteration: 3000 / 5000 [ 60%]  (Sampling)
+Chain 1: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+Chain 3: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+Chain 2: Iteration: 3500 / 5000 [ 70%]  (Sampling)
+Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+Chain 1: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+Chain 2: Iteration: 4000 / 5000 [ 80%]  (Sampling)
+Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 88.9029 seconds (Warm-up)
+Chain 3:                174.959 seconds (Sampling)
+Chain 3:                263.862 seconds (Total)
+Chain 3: 
+Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
+Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 89.9462 seconds (Warm-up)
+Chain 1:                216.386 seconds (Sampling)
+Chain 1:                306.333 seconds (Total)
+Chain 1: 
+Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 98.9782 seconds (Warm-up)
+Chain 2:                216.794 seconds (Sampling)
+Chain 2:                315.772 seconds (Total)
+Chain 2: 
+"
+"1","There were 25 divergent transitions after warmup. Increasing adapt_delta above 0.99 may help. See
+http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmupThere were 79 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceededExamine the pairs() plot to diagnose sampling problems
+"
+"0","```r
+# load(paste0('results/',	 nut, '_scaled_uninformed', '.Rdata'))
+# nt_m<-output[[1]]
+```"

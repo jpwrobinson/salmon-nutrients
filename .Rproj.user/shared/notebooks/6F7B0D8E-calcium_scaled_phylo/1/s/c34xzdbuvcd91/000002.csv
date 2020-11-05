@@ -1,0 +1,19 @@
+"0","```r
+
+focal<-stir %>% filter(nutrient == nut) %>%
+		select(nutrient, value, fish_id, units, species, family, 
+					mass_kg, Lmax_prop, trophic_level, Lmax, K, tm, Feeding_path, site) %>%
+    mutate(Lmax = log(Lmax), K = log(K), Feeding_path = as.factor(Feeding_path))
+
+## drop outliers
+outlier.lims<-2*sd(focal$value) + mean(focal$value)
+focal<-focal %>% filter(value <= outlier.lims)
+
+## drop any species with fewer than 3 individuals
+# subs<-aggregate(fish_id ~ species, focal, uniques)
+# sp<-unique(subs$species[subs$fish_id > 2])
+# focal<-focal %>% filter(species %in% sp) %>% droplevels()
+print(paste0('Fitting model to ',dim(focal)[1], ' samples of ', uniques(focal$species), ' species'))
+```"
+"1","[1] \"Fitting model to 145 samples of 42 species\"
+"

@@ -1,0 +1,51 @@
+"0","```r
+library(here)
+```"
+"1","here() starts at /Users/robins64/Documents/git_repos/sey-nutrition
+"
+"0","```r
+library(funk)
+```"
+"1","
+Attaching package: ‘funk’
+
+The following object is masked from ‘package:rethinking’:
+
+    se
+"
+"0","```r
+library(knitr)
+library(rethinking)
+library(tidyverse); theme_set(theme_sleek())
+```"
+"1","Registered S3 methods overwritten by 'dbplyr':
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+[30m── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──[39m
+[30m[32m✓[30m [34mtibble [30m 3.0.1     [32m✓[30m [34mdplyr  [30m 1.0.0
+[32m✓[30m [34mtidyr  [30m 1.1.0     [32m✓[30m [34mstringr[30m 1.4.0
+[32m✓[30m [34mreadr  [30m 1.3.1     [32m✓[30m [34mforcats[30m 0.5.0
+[32m✓[30m [34mpurrr  [30m 0.3.4     [39m
+[30m── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31mx[30m [34mtidyr[30m::[32mextract()[30m masks [34mrstan[30m::extract()
+[31mx[30m [34mdplyr[30m::[32mfilter()[30m  masks [34mstats[30m::filter()
+[31mx[30m [34mdplyr[30m::[32mlag()[30m     masks [34mstats[30m::lag()
+[31mx[30m [34mpurrr[30m::[32mmap()[30m     masks [34mrethinking[30m::map()[39m
+"
+"0","```r
+library(tidybayes)
+
+## load all data frames
+source('scripts/cleaning/master_data_load.R')
+```"
+"1","`summarise()` regrouping output by 'Location', 'Year', 'Species.group' (override with `.groups` argument)
+`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+`summarise()` regrouping output by 'Location', 'Year', 'Species' (override with `.groups` argument)
+`summarise()` regrouping output by 'Location', 'Year' (override with `.groups` argument)
+`summarise()` regrouping output by 'year', 'location', 'quarter', 'month', 'speciesgr', 'DATE', 'dmi', 'benso', 'species' (override with `.groups` argument)
+"
+"0","```r
+load(file = 'data/aaron_global_posteriors_update.Rdata')
+nut='Ca'
+```"

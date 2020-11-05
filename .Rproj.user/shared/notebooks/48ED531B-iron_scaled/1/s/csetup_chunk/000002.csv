@@ -1,0 +1,5 @@
+"0","```r
+knitr::opts_knit$set(root.dir = normalizePath(\"..\"))
+```"
+"1","There were 24 warnings (use warnings() to see them)
+"

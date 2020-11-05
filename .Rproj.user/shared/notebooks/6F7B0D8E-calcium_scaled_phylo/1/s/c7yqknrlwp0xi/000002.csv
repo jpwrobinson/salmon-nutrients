@@ -1,0 +1,7 @@
+"0","```r
+# sample y from posterior
+y_post<-sim(nt_m)
+```"
+"1","Error in cov_GPL1(Dmat_sp, etasq, rhosq, 0.01) : 
+  could not find function \"cov_GPL1\"
+"

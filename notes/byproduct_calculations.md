@@ -1,0 +1,12 @@
+- email from karen 13th Oct 2020
+
+
+
+- First of all I wanted to emphasize that we have been looking at the volume of fish oil made from by-products (not fishmeal) as this is the determining factor for the nutrient/omega 3 retention approach, and this is the limiting ingredient in salmon feed
+- Biomar 2018 sustainability report: 42% of fish oil comes from trimmings, [Biomar 2019 sustainability report](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.biomar.com%2Fglobalassets%2F.global%2Fpdf-files%2Freports%2Fbiomar-sustainability-report-2019.pdf&data=02|01|james.robinson%40lancaster.ac.uk|0086c411f1f04a87307008d86f695c5e|9c9bcd11977a4e9ca9a0bc734090164a|0|1|637381846210244953&sdata=amPrBT7rbAcSQBOc3ftRP7ImnOXWk9WuObXPwRa14oc%3D&reserved=0): 29.5% from trimmings. We only had the earlier figure at the time of publishing our report
+- [Cargill](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.cargill.com%2Fdoc%2F1432142322239%2Fcargill-aqua-nutrition-sustainability-report.pdf&data=02|01|james.robinson%40lancaster.ac.uk|0086c411f1f04a87307008d86f695c5e|9c9bcd11977a4e9ca9a0bc734090164a|0|1|637381846210254902&sdata=wyRL6aZFlRnKJ7TCNIWD9O42wXfEp1F85qYT39H1zBU%3D&reserved=0)’s average has also come down slightly to 28% (p.31)
+- The Mowi figure came directly from them; we could ask again, but possibly you might get a better response.
+- Since doing our report I’ve also learned that the EU average (see attached EUMOFA report p. 29) is much higher is because all oil from salmon by-products is used in farming of seabream and other non-salmon species. Not sure if it might be worth approaching EUMOFA for a breakdown of their data?
+- [Nature Food Omega paper](https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.nature.com%2Farticles%2Fs43016-019-0006-0&data=02|01|james.robinson%40lancaster.ac.uk|0086c411f1f04a87307008d86f695c5e|9c9bcd11977a4e9ca9a0bc734090164a|0|1|637381846210254902&sdata=DWS318M7kCPE%2B8KCGy9aanBJES2mZFNvrTNyd4wIQ78%3D&reserved=0) has data on EPA/DHA potential from unutilized by-products. The lead author is with Biomar and she has been helpful, not sure if you have any suggestions for me to ask for any background data to this that will help us?
+
+Any thoughts, please let me know.

@@ -1,0 +1,46 @@
+"0","```r
+
+# focal.scaled$habitat<-focal.scaled$demers_pelag
+focal.fit<-focal.scaled %>% select(value, logvalue, TL, Lmax, K, tm, EnvTemp, BodyShapeI, pelagic, Habitat,soil_quality, river_iron, form_clean, Order, family, source, species, paper_id)
+skim(focal.fit)
+```"
+"1","── Data Summary ────────────────────────
+                           Values   
+Name                       focal.fit
+Number of rows             282      
+Number of columns          18       
+_______________________             
+Column type frequency:              
+  character                1        
+  factor                   8        
+  numeric                  9        
+________________________            
+Group variables            None     
+
+── Variable type: character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate   min   max empty n_unique whitespace
+1 species               0             1     9    28     0      124          0
+
+── Variable type: factor ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate ordered n_unique top_counts                         
+1 EnvTemp               0             1 FALSE          4 tro: 196, tem: 77, sub: 8, pol: 1  
+2 BodyShapeI            0             1 FALSE          3 fus: 173, elo: 89, sho: 20         
+3 Habitat               0             1 FALSE          3 Fre: 184, Bra: 78, Dia: 20         
+4 form_clean            0             1 FALSE          3 who: 155, mus: 123, not: 4         
+5 Order                 0             1 FALSE         12 Cyp: 108, Per: 67, Sil: 42, Sal: 21
+6 family                0             1 FALSE         36 Cyp: 104, Sal: 21, Cha: 16, Bag: 14
+7 source                0             1 FALSE          3 WoS: 108, FAO: 92, Fio: 82         
+8 paper_id              0             1 FALSE         37 Naz: 42, Bog: 31, Laz: 22, Łuc: 20 
+
+── Variable type: numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate      mean    sd      p0    p25     p50    p75  p100 hist 
+1 value                 0             1  1.29e+ 0 1.22   0.0117  0.478  0.9     1.8    6.72 ▇▃▁▁▁
+2 logvalue              0             1 -2.04e- 1 1.07  -4.45   -0.740 -0.105   0.588  1.90 ▁▁▃▇▃
+3 TL                    0             1  6.14e-18 1     -2.02   -0.644  0.0580  0.707  2.07 ▃▃▇▅▂
+4 Lmax                  0             1 -1.75e-16 1     -2.37   -0.841  0.199   0.728  2.39 ▂▆▆▇▁
+5 K                     0             1 -1.21e-17 1.00  -2.29   -0.648 -0.153   0.754  3.38 ▂▇▅▂▁
+6 tm                    0             1  7.88e-17 1     -2.34   -0.713  0.0620  0.656  2.51 ▂▆▇▇▁
+7 pelagic               0             1  1.17e- 1 0.322  0       0      0       0      1    ▇▁▁▁▁
+8 soil_quality          0             1 -2.92e-16 1.00  -1.38   -0.426 -0.426   0.308  2.96 ▃▇▂▁▁
+9 river_iron            0             1  4.83e-17 1     -0.502  -0.502 -0.502  -0.255  2.12 ▇▁▁▁▂
+"
