@@ -65,12 +65,16 @@ fo_trimmings<-FO_salmon_scot_2014 * current_trimmings_percent #10890
 # Fishmeal from trimmings	 (tonnes)
 fm_trimmings<-total_fm_from_wild * current_trimmings_percent # 51047 
 
-
-bar_ui<-data.frame(y = c(trimmings_for_33T, rev(wild_for_33T)),
-					x = c(rep(3,3), rep(4,3)),
-					lab =c(rep('Trimmings*',3), rep('Wild-caught fish*', 3)),
-					stat=rep(c('lower', 'mean', 'upper'), times=2)) %>%
-				pivot_wider(names_from='stat', values_from = 'y')
-
 # https://www.gov.scot/publications/scottish-fish-farm-production-survey-2019/pages/5/
 production<-read.csv('data/scottish_salmon_production_99-20.csv')
+
+
+
+## wild species in fmfo
+wild<-read.csv('data/wildspecies_in_fmfo.csv') %>% pivot_longer(-Species, names_to = 'FOFM', values_to='percent') %>%
+        group_by(Species) %>%
+        summarise(min = min(percent), max = max(percent), mean=mean(percent))
+
+wild$mean_tonnes<-wild$mean * wild_for_33T[2]
+wild$min_tonnes<-wild$mean * wild_for_33T[3]
+wild$max_tonnes<-wild$mean * wild_for_33T[1]

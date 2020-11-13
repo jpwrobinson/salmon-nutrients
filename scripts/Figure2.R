@@ -3,6 +3,20 @@ library(tidyverse)
 library(funk); theme_set(theme_sleek())
 
 
+basesize=11
+th<-theme(
+  strip.text = element_text(colour='black', size=basesize),
+  axis.text.x = element_text(colour='black', size=basesize),
+  axis.text.y = element_text(colour='black', size=basesize),
+  axis.title = element_text(colour='black', size=basesize +1),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  axis.line.y = element_line(colour='grey'),
+  axis.line.x = element_line(colour='grey')) 
+
+
 
 fb<-read.csv('data/feedback_species_nutrient_profiles.csv')
 nut<-read.delim('data/SppNutrients_Oct2020_MarineFish.csv', sep= ';')
@@ -49,17 +63,18 @@ levels(nuts$nutrient)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*
 	"'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Omega-3 (EPA), g'","'Omega-3 (DHA), g'")
 
 nuts$product<-nuts$species
-nuts$product<-recode(nuts$product,  'Atlantic salmon'='Atlantic salmon\n(hot smoked)')
-nuts$product<-recode(nuts$product,  'Herring'='Herring\n(grilled)')
-nuts$product<-recode(nuts$product,  'Sardine'='Sardine\n(canned, brine)')
-nuts$product<-recode(nuts$product,  'Anchovy'='Anchovy\n(canned,??)')
+# nuts$product<-recode(nuts$product,  'Atlantic salmon'='Atlantic salmon\n(hot smoked)')
+# nuts$product<-recode(nuts$product,  'Herring'='Herring\n(grilled)')
+# nuts$product<-recode(nuts$product,  'Sardine'='Sardine\n(canned, brine)')
+# nuts$product<-recode(nuts$product,  'Anchovy'='Anchovy\n(canned,??)')
 
-pdf(file = 'figures/Figure2.pdf', height=5, width=15)
+pdf(file = 'figures/Figure2.pdf', height=2.5, width=15)
 ggplot(nuts, aes(product, value)) +
       geom_bar(stat='identity', aes(fill=salmon), alpha=0.5) +
       facet_wrap(~nutrient, nrow=1, scales='free_x', labeller=label_parsed)+
       coord_flip() +
       guides(fill=FALSE) +
-      labs(x = '', y = 'Micronutrient concentration') +
-      scale_fill_manual(values=c('darkgrey', 'red'))
+      labs(x = '', y = expression(paste('micronutrient concentration, 100 g'^-1))) +
+      scale_fill_manual(values=c('darkgrey', 'red')) +
+      th
 dev.off()
