@@ -100,12 +100,18 @@ props<-wild %>% group_by(Species, Year, Company, wild_caught_FM, wild_caught_FO)
 
 
 species_prop<-props %>% group_by(Species) %>%
-  summarise(mean_proportion = mean(prop_species)* 100,
-            min_proportion = min(prop_species)* 100,
-            max_proportion = max(prop_species)* 100)
+  summarise(mean_proportion = mean(prop_species),
+            min_proportion = min(prop_species),
+            max_proportion = max(prop_species))
+
+wild<-species_prop
+wild$mean_tonnes<-wild$mean_proportion * wild_for_33T[2]
+wild$min_tonnes<-wild$min_proportion * wild_for_33T[2]
+wild$max_tonnes<-wild$max_proportion * wild_for_33T[2]
+
 
 pdf(file='figures/wild_caught_species.pdf', height=7, width=11)
-ggplot(species_prop, aes(fct_reorder(Species, mean_proportion), mean_proportion, ymin = min_proportion, ymax=max_proportion)) +
+ggplot(species_prop, aes(fct_reorder(Species, mean_proportion*100), mean_proportion*100, ymin = min_proportion*100, ymax=max_proportion*100)) +
   geom_pointrange() + coord_flip() + labs(x = '', y = '% of wild-caught')
 dev.off()
 write.csv(species_prop, file = 'data/results/weighted_wildcaught_species_percent.csv')

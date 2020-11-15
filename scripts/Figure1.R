@@ -61,12 +61,13 @@ gprod<-ggplot(data = production, aes(Year, Tonnes)) +
     theme(axis.line.x= element_line(colour='grey'))
 
 
-gwild<-ggplot(wild, aes(fct_reorder(Species, mean_tonnes), mean_tonnes))   +
+drops<-c('Cod', 'Silver smelt', 'Boarfish', 'Hake')
+gwild<-ggplot(wild %>% filter(!Species %in% drops), aes(fct_reorder(Species, mean_tonnes), mean_tonnes))   +
       geom_pointrange(aes(ymin = min_tonnes, ymax=max_tonnes)) +
       coord_flip() + 
       geom_text(y = 165000, aes(x=Species, label=Species)) + 
       th +
-      scale_y_continuous(labels=scales::comma, limits=c(17000, 180000), breaks=c(20000, 50000, 100000, 150000)) +
+      scale_y_continuous(labels=scales::comma, limits=c(0, 180000), breaks=c(20000, 50000, 100000, 150000)) +
       # scale_x_discrete(position='top') +
       labs(x = '', y = 'Catch in fish meal & fish oil, t') +
       theme(axis.line.x= element_line(colour='grey'), 
