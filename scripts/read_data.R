@@ -71,10 +71,41 @@ production<-read.csv('data/scottish_salmon_production_99-20.csv')
 
 
 ## wild species in fmfo
-wild<-read.csv('data/wildspecies_in_fmfo.csv') %>% pivot_longer(-Species, names_to = 'FOFM', values_to='percent') %>%
-        group_by(Species) %>%
-        summarise(min = min(percent), max = max(percent), mean=mean(percent))
+# wild<-read.csv('data/wildspecies_in_fmfo.csv') %>% pivot_longer(-Species, names_to = 'FOFM', values_to='percent') %>%
+#         group_by(Species) %>%
+#         summarise(min = min(percent), max = max(percent), mean=mean(percent))
+# 
+# wild$mean_tonnes<-wild$mean * wild_for_33T[2]
+# wild$min_tonnes<-wild$mean * wild_for_33T[3]
+# wild$max_tonnes<-wild$mean * wild_for_33T[1]
 
-wild$mean_tonnes<-wild$mean * wild_for_33T[2]
-wild$min_tonnes<-wild$mean * wild_for_33T[3]
-wild$max_tonnes<-wild$mean * wild_for_33T[1]
+
+### updated wild species in fmfo
+wild <- read.csv('data/FMFO_species.csv') %>% 
+      filter(Company !='Cargill') %>%
+      mutate(FM_cor = ifelse(is.na(FM_cor), 0, FM_cor),
+             F0_cor = ifelse(is.na(F0_cor), 0, F0_cor)) %>%
+      select(FM_cor, F0_cor, Species, Company, Year, wild_caught_FM, wild_caught_FO) %>%
+      pivot_longer(cols=starts_with('F'), names_to = 'type', values_to = 'value') %>% 
+      mutate(prop = ifelse(type == 'F0_cor', 
+                           wild_caught_FO/(wild_caught_FM + wild_caught_FO), 
+                           wild_caught_FM/(wild_caught_FM + wild_caught_FO)))
+
+props<-wild %>% group_by(Species, Year, Company, wild_caught_FM, wild_caught_FO) %>%
+      summarise(prop_species = weighted.mean(value, weight=prop) / 100)
+
+## check sums 
+# props%>% mutate(tot = wild_caught_FM + wild_caught_FO,
+#              species_catch = prop_species * tot)
+
+
+species_prop<-props %>% group_by(Species) %>%
+  summarise(mean_proportion = mean(prop_species)* 100,
+            min_proportion = min(prop_species)* 100,
+            max_proportion = max(prop_species)* 100)
+
+pdf(file='figures/wild_caught_species.pdf', height=7, width=11)
+ggplot(species_prop, aes(fct_reorder(Species, mean_proportion), mean_proportion, ymin = min_proportion, ymax=max_proportion)) +
+  geom_pointrange() + coord_flip() + labs(x = '', y = '% of wild-caught')
+dev.off()
+write.csv(species_prop, file = 'data/results/weighted_wildcaught_species_percent.csv')

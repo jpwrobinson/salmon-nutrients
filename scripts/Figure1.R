@@ -16,8 +16,8 @@ th<-theme(
 labb<-production$Tonnes[production$Year==2014]
 
 bar<-data.frame(y = c(salmon_scot_2014, FO_salmon_scot_2014,FM_2014+FO_salmon_scot_2014),
-                x = c(1,2.5,1.25),
-                lab = c(paste(scales::comma(labb), 'tonnes in 2014'), 'Fish oil in feed', 'Fish meal'))
+                x = c(1,2.1,1.25),
+                lab = c(paste(scales::comma(labb), 'tonnes in 2014'), 'Fish oil', 'Fish meal'))
 # levels(bar$x)<-unique(bar$x[c(1,2)])
 
 bar_ui<-data.frame(y = c(trimmings_for_33T, rev(wild_for_33T)),
