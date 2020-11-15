@@ -1,7 +1,7 @@
 setwd('salmon-nutrients')
 library(tidyverse); library(cowplot)
 library(funk); theme_set(theme_sleek())
-
+source('scripts/read_data.R')
 
 basesize=11
 th<-theme(
@@ -46,7 +46,7 @@ nut<-nut %>% select(colnames(fb))
 
 ## wild-fish for food, use UK govt values
 plated<-c('Atlantic salmon', 'Herring', 'Sardine', 'Anchovy')
-nonplated<-c('Menhaden', 'Blue whiting', 'Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Atlantic mackerel', 'Anchoveta')
+nonplated<-c('Menhaden', 'Blue whiting', 'Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel', 'Anchoveta')
 
 nuts<-rbind(fb %>% filter(species %in% plated ), 
 	nut %>% filter(species %in% nonplated),
@@ -91,10 +91,7 @@ catch<-data.frame(nutrient = 'Wet weight', yield_In =  wild_for_33T[2], yield_Ou
 catch$nutrient_deficit<-with(catch, yield_Out / yield_In * 100)
 catch$nutrient_deficit_min<-with(catch, yield_Out / yield_min_In * 100)
 catch$nutrient_deficit_max<-with(catch, yield_Out / yield_max_In * 100)
-
-edibles<-c('Herring', 'Sardine', 'Anchovy', 'Anchoveta', 'Blue whiting', 'Atlantic mackerel')
   
-
 mn<-nuts %>% group_by(nutrient, group) %>% 
           summarise(yield = sum(yield, na.rm=TRUE), 
                                                    yield_min = sum(yield_min, na.rm=TRUE), 
@@ -113,6 +110,25 @@ mn$nutrient<-recode(mn$nutrient,  'zinc.mg' = 'Zinc')
 mn$nutrient<-recode(mn$nutrient,  'vitamin.A.mug' = 'Vitamin A')
 # levels(mn$nutrient)<-unique(mn$nutrient)
 
+edibles<-c('Herring', 'Sardine', 'Anchovy', 'Anchoveta', 'Blue whiting', 'Atlantic mackerel', 'Atlantic salmon')
+mn_edibles<-nuts %>% filter(species %in% edibles) %>%
+        group_by(nutrient, group) %>% 
+  summarise(yield = sum(yield, na.rm=TRUE), 
+            yield_min = sum(yield_min, na.rm=TRUE), 
+            yield_max = sum(yield_max, na.rm=TRUE)) %>% 
+  pivot_wider(names_from=group, values_from=c(yield, yield_min, yield_max)) %>%
+  mutate(nutrient_deficit = yield_Out / yield_In * 100,
+         nutrient_deficit_min = yield_Out / yield_min_In * 100,
+         nutrient_deficit_max = yield_Out / yield_max_In * 100)
+
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'calcium.mg' = 'Calcium')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'iron.mg' = 'Iron')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'selenium.mug' = 'Selenium')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'zinc.mg' = 'Zinc')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'vitamin.A.mug' = 'Vitamin A')
+# levels(mn_edibles$nutrient)<-unique(mn_edibles$nutrient)
+
+mn<-rbind(mn %>% mutate(type = 'All species'), mn_edibles %>% mutate(type='Edible fish'))
 
 top<-ggplot(nuts, aes(product, value)) +
       geom_bar(stat='identity', aes(fill=salmon), alpha=0.5) +
@@ -123,8 +139,8 @@ top<-ggplot(nuts, aes(product, value)) +
       scale_fill_manual(values=c('darkgrey', 'red')) +
       th
 
-bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit)) + 
-      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max)) +
+bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit, col=type)) + 
+      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), position=position_dodge(width=0.2)) +
       # geom_text(aes(y = nutrient_deficit_min, label = nutrient), hjust=1.1) +
       coord_flip() +
   scale_y_continuous(limits=c(-10, 100), breaks=seq(0, 100, 25)) +
@@ -132,6 +148,8 @@ bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit)) 
         theme(#axis.text.y =element_blank(), 
               # axis.line.y = element_blank(), 
               axis.ticks = element_blank(),
+              legend.title=element_blank(),
+              legend.position = c(0.8, 0.2),
               plot.margin=unit(c(1,1,1,1), 'cm'))
 
 
