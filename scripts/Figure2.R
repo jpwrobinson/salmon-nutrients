@@ -140,10 +140,10 @@ top<-ggplot(nuts, aes(product, value)) +
       th
 
 bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit, col=type)) + 
-      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), position=position_dodge(width=0.2)) +
+      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), position=position_dodge(width=0.5)) +
       # geom_text(aes(y = nutrient_deficit_min, label = nutrient), hjust=1.1) +
       coord_flip() +
-  scale_y_continuous(limits=c(-10, 100), breaks=seq(0, 100, 25)) +
+  scale_y_continuous(limits=c(-10, 150), breaks=seq(0, 150, 25)) +
   labs(x = '', y = 'wild nutrients retained\nin farmed salmon, %') + th +
         theme(#axis.text.y =element_blank(), 
               # axis.line.y = element_blank(), 
