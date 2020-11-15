@@ -1,5 +1,5 @@
 setwd('salmon-nutrients')
-library(tidyverse)
+library(tidyverse); library(cowplot)
 library(funk); theme_set(theme_sleek())
 
 
@@ -59,7 +59,8 @@ nuts<-nuts %>% filter(nutrient != 'Omega3_mu')
 
 
 nuts$nutrient<-factor(nuts$nutrient, levels = unique(nuts$nutrient))
-levels(nuts$nutrient)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
+nuts$lab<-nuts$nutrient
+levels(nuts$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
 	"'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Omega-3 (EPA), g'","'Omega-3 (DHA), g'")
 
 nuts$product<-nuts$species
@@ -68,13 +69,53 @@ nuts$product<-nuts$species
 # nuts$product<-recode(nuts$product,  'Sardine'='Sardine\n(canned, brine)')
 # nuts$product<-recode(nuts$product,  'Anchovy'='Anchovy\n(canned,??)')
 
-pdf(file = 'figures/Figure2.pdf', height=2.5, width=15)
-ggplot(nuts, aes(product, value)) +
+
+
+## micronutrient in : micronutrient out
+nuts$catch<-NA
+nuts$catch<-wild$mean_tonnes[match(nuts$species, wild$Species)]
+nuts$catch_min<-wild$min_tonnes[match(nuts$species, wild$Species)]
+nuts$catch_max<-wild$max_tonnes[match(nuts$species, wild$Species)]
+nuts$catch[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
+nuts$catch_min[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
+nuts$catch_max[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
+
+nuts$group<-ifelse(nuts$species == 'Atlantic salmon', 'Out', 'In')
+nuts$yield<-nuts$catch * nuts$value
+nuts$yield_min<-nuts$catch_min * nuts$value
+nuts$yield_max<-nuts$catch_max * nuts$value
+
+mn<-nuts %>% group_by(nutrient, group) %>% 
+            summarise(yield = sum(yield, na.rm=TRUE), 
+                                                     yield_min = sum(yield_min, na.rm=TRUE), 
+                                                     yield_max = sum(yield_max, na.rm=TRUE)) %>% 
+        pivot_wider(names_from=group, values_from=c(yield, yield_min, yield_max)) %>%
+        mutate(nutrient_deficit = yield_Out / yield_In * 100,
+               nutrient_deficit_min = yield_Out / yield_min_In * 100,
+               nutrient_deficit_max = yield_Out / yield_max_In * 100)
+levels(mn$nutrient)<-c("Calcium", "Iron", 'Selenium','Zinc', 'Vitamin A', "Omega-3 (EPA)","Omega-3 (DHA)")
+
+
+top<-ggplot(nuts, aes(product, value)) +
       geom_bar(stat='identity', aes(fill=salmon), alpha=0.5) +
-      facet_wrap(~nutrient, nrow=1, scales='free_x', labeller=label_parsed)+
+      facet_wrap(~lab, nrow=1, scales='free_x', labeller=label_parsed)+
       coord_flip() +
       guides(fill=FALSE) +
       labs(x = '', y = expression(paste('micronutrient concentration, 100 g'^-1))) +
       scale_fill_manual(values=c('darkgrey', 'red')) +
       th
+
+bot<-ggplot(mn, aes(nutrient, nutrient_deficit)) + 
+      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max)) +
+      geom_text(aes(y = nutrient_deficit_max, label = nutrient), hjust=1.2) +
+      coord_flip() +
+  scale_y_continuous(limits=c(-20, 400), breaks=seq(0, 400, 100)) +
+  labs(x = '', y = '% nutrients retained') + th +
+        theme(axis.text.y =element_blank(), 
+              axis.line.y = element_blank(), 
+              plot.margin=unit(c(0,2,0,4), 'cm'))
+
+
+pdf(file = 'figures/Figure2.pdf', height=5, width=12)
+plot_grid(top, bot, nrow=2, rel_heights=c(0.8, 1), labels=c('a', 'b'))
 dev.off()

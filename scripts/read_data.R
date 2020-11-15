@@ -82,6 +82,7 @@ production<-read.csv('data/scottish_salmon_production_99-20.csv')
 
 ### updated wild species in fmfo
 wild <- read.csv('data/FMFO_species.csv') %>% 
+      mutate(Species=recode(Species,  'Menhaden '='Menhaden')) %>%
       filter(Company !='Cargill') %>%
       mutate(FM_cor = ifelse(is.na(FM_cor), 0, FM_cor),
              F0_cor = ifelse(is.na(F0_cor), 0, F0_cor)) %>%
@@ -116,3 +117,4 @@ g<-ggplot(species_prop, aes(fct_reorder(Species, mean_proportion*100), mean_prop
 print(g)
 dev.off()
 write.csv(species_prop, file = 'data/results/weighted_wildcaught_species_percent.csv')
+
