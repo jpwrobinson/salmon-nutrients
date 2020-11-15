@@ -106,9 +106,15 @@ species_prop<-props %>% group_by(Species) %>%
             max_proportion = max(prop_species))
 
 wild<-species_prop
+
+# add uncertainty according to proportion by species across years, given median 2014 FMFO levels
 wild$mean_tonnes<-wild$mean_proportion * wild_for_33T[2]
 wild$min_tonnes<-wild$min_proportion * wild_for_33T[2]
 wild$max_tonnes<-wild$max_proportion * wild_for_33T[2]
+
+## now uncertainty according to how much trimmings in 2014 production, assuming mean proportion by species
+wild$min_trimmings<-wild$mean_proportion * wild_for_33T[1]
+wild$max_trimmings<-wild$mean_proportion * wild_for_33T[3]
 
 
 pdf(file='figures/wild_caught_species.pdf', height=7, width=11)
