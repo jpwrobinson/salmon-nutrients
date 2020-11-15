@@ -92,7 +92,7 @@ wild <- read.csv('data/FMFO_species.csv') %>%
                            wild_caught_FM/(wild_caught_FM + wild_caught_FO)))
 
 props<-wild %>% group_by(Species, Year, Company, wild_caught_FM, wild_caught_FO) %>%
-      summarise(prop_species = weighted.mean(value, weight=prop) / 100)
+      summarise(prop_species = weighted.mean(value, w=prop) / 100)
 
 ## check sums 
 # props%>% mutate(tot = wild_caught_FM + wild_caught_FO,
@@ -111,7 +111,8 @@ wild$max_tonnes<-wild$max_proportion * wild_for_33T[2]
 
 
 pdf(file='figures/wild_caught_species.pdf', height=7, width=11)
-ggplot(species_prop, aes(fct_reorder(Species, mean_proportion*100), mean_proportion*100, ymin = min_proportion*100, ymax=max_proportion*100)) +
+g<-ggplot(species_prop, aes(fct_reorder(Species, mean_proportion*100), mean_proportion*100, ymin = min_proportion*100, ymax=max_proportion*100)) +
   geom_pointrange() + coord_flip() + labs(x = '', y = '% of wild-caught')
+print(g)
 dev.off()
 write.csv(species_prop, file = 'data/results/weighted_wildcaught_species_percent.csv')
