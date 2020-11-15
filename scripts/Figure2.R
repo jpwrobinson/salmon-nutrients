@@ -135,7 +135,7 @@ bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit)) 
               plot.margin=unit(c(1,1,1,1), 'cm'))
 
 
-pdf(file = 'figures/Figure2.pdf', height=5, width=11)
+pdf(file = 'figures/Figure2.pdf', height=5, width=13)
 plot_grid(top, bot, nrow=1, rel_widths=c(1, 0.7), labels=c('a', 'b'))
 dev.off()
 
