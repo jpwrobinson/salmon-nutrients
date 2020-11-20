@@ -21,9 +21,9 @@ axis.line.x = element_line(colour='grey'))
 fb<-read.csv('data/feedback_species_nutrient_profiles.csv')
 nut<-read.delim('data/SppNutrients_Oct2020_MarineFish.csv', sep= ';')
 
-colnames(fb)[c(1,9,10)]<-c('product', 'Omega-3 (EPA)', 'Omega-3 (DHA)')
+colnames(fb)[c(1,9,10,11,12)]<-c('product', 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'Vitamin D', 'Vitamin B12')
 fb<-fb %>% 
-select(species, ScientificName, calcium.mg:vitamin.B12) %>%
+select(species, ScientificName, calcium.mg:'Vitamin B12') %>%
 pivot_longer(-c(species, ScientificName), names_to = 'nutrient', values_to = 'value') %>%
 mutate(source = 'Feedback UK')
 
@@ -45,12 +45,12 @@ nut<-nut %>% select(colnames(fb))
 ## combine nutrient profiles depending on purpose,
 
 ## wild-fish for food, use UK govt values
-plated<-c('Atlantic salmon', 'Herring', 'Sardine', 'Anchovy')
-nonplated<-c('Menhaden', 'Blue whiting', 'Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel', 'Anchoveta')
+plated<-c('Atlantic salmon', 'Herring', 'Sardine', 'Anchovy',  'Blue whiting', 'Anchoveta')
+nonplated<-c('Menhaden', 'Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel')
 
 nuts<-rbind(fb %>% filter(species %in% plated ), 
 	nut %>% filter(species %in% nonplated),
-	fb %>% filter(species %in% nonplated & nutrient %in% c( 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'vitamin.D', 'vitamin.B12'))) %>%
+	fb %>% filter(species %in% nonplated & nutrient %in% c( 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'Vitamin D', 'Vitamin B12'))) %>%
 mutate(salmon = ifelse(species == 'Atlantic salmon', TRUE, FALSE))
 
 nuts$species<-factor(nuts$species, levels=rev(unique(nuts$species)[c(1,4,7,10,9,8,2,6,12,3,5,11)]))
@@ -61,7 +61,7 @@ nuts<-nuts %>% filter(nutrient != 'Omega3_mu')
 nuts$nutrient<-factor(nuts$nutrient, levels = unique(nuts$nutrient))
 nuts$lab<-nuts$nutrient
 levels(nuts$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
-"'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Om-3 (EPA), g'","'Om-3 (DHA), g'", "VitaminD", "VitaminB12")
+"'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Om-3 (EPA), g'","'Om-3 (DHA), g'", '"Vitamin D"', '"Vitamin B12"')
 
 nuts$product<-nuts$species
 # nuts$product<-recode(nuts$product,  'Atlantic salmon'='Atlantic salmon\n(hot smoked)')
@@ -110,7 +110,7 @@ mn$nutrient<-recode(mn$nutrient,  'zinc.mg' = 'Zinc')
 mn$nutrient<-recode(mn$nutrient,  'vitamin.A.mug' = 'Vitamin A')
 # levels(mn$nutrient)<-unique(mn$nutrient)
 
-edibles<-c('Herring', 'Sardine', 'Anchovy', 'Anchoveta', 'Blue whiting', 'Atlantic mackerel', 'Atlantic salmon')
+edibles<-c('Herring', 'Sardine', 'Anchovy', 'Blue whiting', 'Mackerel', 'Atlantic salmon')
 mn_edibles<-nuts %>% filter(species %in% edibles) %>%
         group_by(nutrient, group) %>% 
   summarise(yield = sum(yield, na.rm=TRUE), 
@@ -130,21 +130,29 @@ mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'vitamin.A.mug' = 'Vitamin A')
 
 mn<-rbind(mn %>% mutate(type = 'All species'), mn_edibles %>% mutate(type='Edible fish'))
 
-top<-ggplot(nuts, aes(product, value)) +
-      geom_bar(stat='identity', aes(fill=salmon), alpha=0.5) +
+nuts$type<-ifelse(nuts$species%in% edibles, 'Edible', 'Non-edible')
+nuts$type<-ifelse(nuts$species=='Atlantic salmon', 'Atlantic salmon', nuts$type)
+nuts$species<-factor(nuts$species, levels=unique(nuts$species)[rev(c(1,5,4,6,2,9,3,8,7,10))])
+
+top<-ggplot(nuts %>% filter(product != 'Anchoveta'), 
+            aes(species, value, fill=type)) +
+      geom_bar(stat='identity', aes(fill=type), alpha=0.8) +
       facet_wrap(~lab, nrow=2, scales='free_x', labeller=label_parsed)+
       coord_flip() +
       guides(fill=FALSE) +
       labs(x = '', y = expression(paste('micronutrient concentration, 100 g'^-1))) +
-      scale_fill_manual(values=c('darkgrey', 'red')) +
+      scale_fill_manual(values=cols) +
       th
 
-bot<-ggplot(mn, aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit, col=type)) + 
-      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), position=position_dodge(width=0.5)) +
+
+bot<-ggplot(mn %>% filter(type=='Edible fish'), aes(fct_reorder(nutrient, nutrient_deficit), nutrient_deficit)) +
+      geom_hline(yintercept=100, linetype=5, col='grey') +
+      geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), 
+                      fill=cols[2], col=cols[2],pch=21, size=0.8,position=position_dodge(width=0.5)) +
       # geom_text(aes(y = nutrient_deficit_min, label = nutrient), hjust=1.1) +
       coord_flip() +
   scale_y_continuous(limits=c(-10, 150), breaks=seq(0, 150, 25)) +
-  labs(x = '', y = 'wild nutrients retained\nin farmed salmon, %') + th +
+  labs(x = '', y = 'wild, edible nutrients retained\nin farmed salmon, %') + th +
         theme(#axis.text.y =element_blank(), 
               # axis.line.y = element_blank(), 
               axis.ticks = element_blank(),

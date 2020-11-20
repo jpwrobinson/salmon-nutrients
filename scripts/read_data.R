@@ -2,6 +2,10 @@
 
 library(tidyverse); library(funk); theme_set(theme_sleek())
 
+cols<-c('#d95f02', 'grey',  '#1b9e77')
+# named.cols<-c('Atlantic salmon' = '#d95f02', '#1b9e77' = 'Edible', 'grey' = 'Non-edible')
+
+
 nut<-read.csv('data/feedback_species_nutrient_profiles.csv')
 
 
@@ -82,8 +86,10 @@ production<-read.csv('data/scottish_salmon_production_99-20.csv')
 
 ### updated wild species in fmfo
 wild <- read.csv('data/FMFO_species.csv') %>% 
-      mutate(Species=recode(Species,  'Menhaden '='Menhaden'),
-             Species=recode(Species,  'Sardinella'='Sardine')) %>%
+      mutate(Species=recode(Species,  
+                            'Menhaden '='Menhaden', 
+                            'Sardinella'='Sardine', 
+                            'Anchoveta' = 'Anchovy')) %>%
       filter(Company !='Cargill') %>%
       mutate(FM_cor = ifelse(is.na(FM_cor), 0, FM_cor),
              F0_cor = ifelse(is.na(F0_cor), 0, F0_cor)) %>%
