@@ -2,15 +2,15 @@
 "Salmon, hot smoked",Atlantic salmon,Salmo salar,8,0.34,24,0.49,28,0.7914,0.7287,11,4.19
 "Kippers (herring), grilled, flesh only",Herring,Clupea harengus,39,1.5,57,1.1,26,1.0974,1.2819,10.1,11.12
 "Sardines, canned in brine",Sardine,Sardina pilchardus,679,2.7,41,2.2,10,1.1045,0.9244,3.3,10.81
-"Anchovy, meal",Anchoveta,Engraulis ringens,,,,,,,,,
+"Anchovy, meal",Anchoveta,Engraulis ringens,232,4.6,68.1,2.4,12,0.763,1.292,1.7,0.88
 "Anchovy, canned",Anchovy,Engraulis encrasicolus,232,4.6,68.1,2.4,12,0.763,1.292,1.7,0.88
 "Mussels, purchased cooked",Mussels,,40,3.3,66,3.4,117,0.3395,0.1261,0,10.56
 Grilled Vannamei shrimp / prawns,Vannamei shrimp,,59,0.4,41,1.6,0.1,0.0672,0.0624,0.1,1.4
-Capelin,Capelin,Mallotus villosus,,,,,,0.6,0.5,,
+Capelin,Capelin,Mallotus villosus,,,,,,0.6,0.5,0.0,
 Menhaden,Menhaden,Brevoortia tyrannus,,,,,,0.5,0.5,,
-Sprat,Sprat,Sprattus sprattus,,,,,,0.5,0.8,,
+Sprat,Sprat,Sprattus sprattus,,,,,,0.5,0.8,13,7
 Blue whiting,Blue whiting,Micromesistius poutassou,16,0.3,28,0.4,0,0.11,0.14,0,2
 Sand Eel,Sand eel,Ammodytes marinus,,,,,,,,,
 Norway pout,Pout,Trisopterus esmarkii,,,,,,,,,
-Atlantic mackerel,Mackerel,Scomber scombrus,,,,,,,,,
+"Mackerel (grilled, flesh only)",Mackerel,Scomber scombrus,17,1.3,60,0.8,61,0.163,0.251,8.5,9.08
 Krill,Krill,,,,,,,,,,
