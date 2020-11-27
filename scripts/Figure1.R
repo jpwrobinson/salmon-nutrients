@@ -38,8 +38,8 @@ goil<-ggplot() +
   geom_segment(data=bar[2,], aes(1,xend=1, y = 0, yend=y), size=22.8, alpha=1,col=salmon.col) +
   geom_segment(data=bar[4,], aes(3,xend=3, y = 0, yend=y), size=22.8, alpha=0.3,col='#67a9cf') +
   geom_hline(yintercept = bar$y[1], col=salmon.col) +	
-  geom_text(data = bar[1,], aes(x = x, y = y, label = lab), size=basesize-8, vjust=-0.25) +
-  geom_text(data = bar[1,], aes(x = x, y = y), label = 'Salmon production', size=basesize-8, vjust=-0.25) +
+  geom_label(data = bar[1,], aes(x = x, y = y-20000, label = lab), size=basesize-8, fill='grey90', alpha=0.5, label.size=0) +
+  geom_text(data = bar[1,], aes(x = x, y = y), label = 'Salmon production', size=basesize-8, vjust=-0.5) +
   # geom_text(data = bar[3,], aes(x = x, y = y, label = lab), size=basesize-7, vjust=2.5,hjust=0.5) +
   geom_text(data = bar_ui, aes(x = x, y = mean, label = lab), size=basesize-7, hjust=1.1, vjust=-0.7) +
   geom_pointrange(data = bar_ui, aes(x, mean, ymin=lower, ymax=upper)) +
