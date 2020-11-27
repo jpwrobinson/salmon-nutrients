@@ -73,6 +73,9 @@ fm_trimmings<-total_fm_from_wild * current_trimmings_percent # 51047
 production<-read.csv('data/scottish_salmon_production_99-20.csv')
 
 
+## trims - wild
+salmon_theoretical <- 59077
+
 
 ## wild species in fmfo
 # wild<-read.csv('data/wildspecies_in_fmfo.csv') %>% pivot_longer(-Species, names_to = 'FOFM', values_to='percent') %>%

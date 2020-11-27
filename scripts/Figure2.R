@@ -1,4 +1,4 @@
-setwd('salmon-nutrients')
+# setwd('salmon-nutrients')
 library(tidyverse); library(cowplot)
 library(funk); theme_set(theme_sleek())
 source('scripts/read_data.R')
@@ -162,7 +162,7 @@ bot<-ggplot(mn %>% filter(type=='Edible fish'), aes(fct_reorder(nutrient, nutrie
 
 
 pdf(file = 'figures/Figure2.pdf', height=5, width=13)
-plot_grid(top, bot, nrow=1, rel_widths=c(1, 0.7), labels=c('a', 'b'))
+print(plot_grid(top, bot, nrow=1, rel_widths=c(1, 0.7), labels=c('a', 'b')))
 dev.off()
 
 
