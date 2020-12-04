@@ -59,6 +59,8 @@ FM_spare<-total_fm_from_wild - FM_2014  # 99688
 # Salmon production 2014	(tonnes)
 salmon_scot_2014<-179022
 
+## salmon production from fish oil
+salmon_scot_2014_FO<-salmon_scot_2014 - (0.33 * salmon_scot_2014)
 
 # Amount of shrimp that could theoretically be produced relative to each tonne of salmon actually produced in 2014. 	 2.23 
 

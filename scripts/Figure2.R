@@ -76,18 +76,18 @@ nuts$catch<-NA
 nuts$catch<-wild$mean_tonnes[match(nuts$species, wild$Species)]
 nuts$catch_min<-wild$min_trimmings[match(nuts$species, wild$Species)]
 nuts$catch_max<-wild$max_trimmings[match(nuts$species, wild$Species)]
-nuts$catch[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
-nuts$catch_min[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
-nuts$catch_max[nuts$species == 'Atlantic salmon']<-salmon_scot_2014
+nuts$catch[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO
+nuts$catch_min[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO
+nuts$catch_max[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO
 
 nuts$group<-ifelse(nuts$species == 'Atlantic salmon', 'Out', 'In')
 nuts$yield<-nuts$catch * nuts$value
 nuts$yield_min<-nuts$catch_min * nuts$value
 nuts$yield_max<-nuts$catch_max * nuts$value
 
-catch<-data.frame(nutrient = 'Wet weight', yield_In =  wild_for_33T[2], yield_Out = salmon_scot_2014, 
-                    yield_min_In = wild_for_33T[3], yield_min_Out = salmon_scot_2014,
-                yield_max_In = wild_for_33T[1], yield_max_Out = salmon_scot_2014)
+catch<-data.frame(nutrient = 'Wet weight', yield_In =  wild_for_33T[2], yield_Out = salmon_scot_2014_FO, 
+                    yield_min_In = wild_for_33T[3], yield_min_Out = salmon_scot_2014_FO,
+                yield_max_In = wild_for_33T[1], yield_max_Out = salmon_scot_2014_FO)
 catch$nutrient_deficit<-with(catch, yield_Out / yield_In * 100)
 catch$nutrient_deficit_min<-with(catch, yield_Out / yield_min_In * 100)
 catch$nutrient_deficit_max<-with(catch, yield_Out / yield_max_In * 100)
