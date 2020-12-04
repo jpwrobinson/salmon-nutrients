@@ -2,8 +2,9 @@
 
 library(tidyverse); library(funk); theme_set(theme_sleek())
 
-cols<-c('#d95f02', 'grey',  '#1b9e77')
+cols<-c('#d95f02',   '#1b9e77', 'grey')
 # named.cols<-c('Atlantic salmon' = '#d95f02', '#1b9e77' = 'Edible', 'grey' = 'Non-edible')
+edibles<-c('Herring', 'Sardine', 'Anchovy', 'Blue whiting','Capelin','Sprat', 'Mackerel', 'Atlantic salmon', 'Herring', 'Cod')
 
 
 nut<-read.csv('data/feedback_species_nutrient_profiles.csv')
@@ -128,6 +129,7 @@ wild$max_tonnes<-wild$max_proportion * wild_for_33T[2]
 wild$min_trimmings<-wild$mean_proportion * wild_for_33T[1]
 wild$max_trimmings<-wild$mean_proportion * wild_for_33T[3]
 
+wild$edibles<-ifelse(wild$Species %in% edibles, 'edible', 'inedible')
 
 pdf(file='figures/wild_caught_species.pdf', height=7, width=11)
 g<-ggplot(species_prop, aes(fct_reorder(Species, mean_proportion*100), mean_proportion*100, ymin = min_proportion*100, ymax=max_proportion*100)) +

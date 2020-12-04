@@ -2,7 +2,7 @@
 source('scripts/read_data.R')
 
 basesize=11
-salmon.col<-'#e6550d'
+salmon.col<-'#d95f02'
 th<-theme(
       axis.text.x = element_text(colour='black', size=basesize), 
           axis.text.y = element_text(colour='black', size=basesize),
@@ -70,12 +70,14 @@ gprod<-ggplot(data = production, aes(Year, Tonnes)) +
 
 drops<-c('Cod', 'Silver smelt', 'Boarfish', 'Hake')
 gwild<-ggplot(wild %>% filter(!Species %in% drops), aes(fct_reorder(Species, mean_tonnes), mean_tonnes))   +
-      geom_pointrange(aes(ymin = min_tonnes, ymax=max_tonnes)) +
+      geom_pointrange(aes(ymin = min_tonnes, ymax=max_tonnes,col=edibles)) +
       coord_flip() + 
       geom_text(y = 165000, aes(x=Species, label=Species)) + 
       th +
       scale_y_continuous(labels=scales::comma, limits=c(0, 180000), breaks=c(20000, 50000, 100000, 150000)) +
       # scale_x_discrete(position='top') +
+      scale_colour_manual(values=cols[c(2,3)]) +
+      theme(legend.position='none') +
       labs(x = '', y = 'Catch in fish meal & fish oil, t') +
       theme(axis.line.x= element_line(colour='grey'), 
             axis.text.y = element_blank(),

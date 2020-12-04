@@ -110,7 +110,6 @@ mn$nutrient<-recode(mn$nutrient,  'zinc.mg' = 'Zinc')
 mn$nutrient<-recode(mn$nutrient,  'vitamin.A.mug' = 'Vitamin A')
 # levels(mn$nutrient)<-unique(mn$nutrient)
 
-edibles<-c('Herring', 'Sardine', 'Anchovy', 'Blue whiting', 'Mackerel', 'Atlantic salmon')
 mn_edibles<-nuts %>% filter(species %in% edibles) %>%
         group_by(nutrient, group) %>% 
   summarise(yield = sum(yield, na.rm=TRUE), 
@@ -149,7 +148,7 @@ bot<-ggplot(mn %>% filter(type=='Edible fish'), aes(fct_reorder(nutrient, nutrie
       geom_hline(yintercept=100, linetype=5, col='grey') +
       geom_pointrange(aes(ymin = nutrient_deficit_min, ymax = nutrient_deficit_max), 
                       fill=cols[2], col=cols[2],pch=21, size=0.8,position=position_dodge(width=0.5)) +
-      # geom_text(aes(y = nutrient_deficit_min, label = nutrient), hjust=1.1) +
+      # geom_text(aes(y = nutrient_deficit_min, labe  l = nutrient), hjust=1.1) +
       coord_flip() +
   scale_y_continuous(limits=c(-10, 150), breaks=seq(0, 150, 25)) +
   labs(x = '', y = 'wild, edible nutrients retained\nin farmed salmon, %') + th +
