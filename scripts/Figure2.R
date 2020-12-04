@@ -21,16 +21,18 @@ axis.line.x = element_line(colour='grey'))
 fb<-read.csv('data/feedback_species_nutrient_profiles.csv')
 nut<-read.delim('data/SppNutrients_Oct2020_MarineFish.csv', sep= ';')
 
+## remove duplicates
+nut <- nut[!duplicated(nut$Species),]
+
 colnames(fb)[c(1,9,10,11,12)]<-c('product', 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'Vitamin D', 'Vitamin B12')
 fb<-fb %>% 
 select(species, ScientificName, calcium.mg:'Vitamin B12') %>%
 pivot_longer(-c(species, ScientificName), names_to = 'nutrient', values_to = 'value') %>%
 mutate(source = 'Feedback UK')
 
-nut<-nut %>% 
-select(Species, ScientificName_corrected, Calcium_mu, Iron_mu, Selenium_mu, Zinc_mu, Omega3_mu, Vitamin_A_mu) %>%
-pivot_longer(-c(Species, ScientificName_corrected), names_to = 'nutrient', values_to = 'value') %>%
-filter(ScientificName_corrected %in% fb$ScientificName) %>%
+nut<-nut %>% select(ScientificName_corrected, Calcium_mu, Iron_mu, Selenium_mu, Zinc_mu, Omega3_mu, Vitamin_A_mu) %>%
+pivot_longer(-c(ScientificName_corrected), names_to = 'nutrient', values_to = 'value') %>%
+filter(ScientificName_corrected %in% unique(fb$ScientificName)) %>%
 mutate(source = 'Hicks/MacNeil Model')
 
 nut$nutrient<-recode(nut$nutrient,  'Calcium_mu'='calcium.mg')
@@ -39,7 +41,7 @@ nut$nutrient<-recode(nut$nutrient,  'Selenium_mu'='selenium.mug')
 nut$nutrient<-recode(nut$nutrient,  'Zinc_mu'='zinc.mg')
 nut$nutrient<-recode(nut$nutrient,  'Vitamin_A_mu'='vitamin.A.mug')
 nut$species<-fb$species[match(nut$ScientificName_corrected, fb$ScientificName)]
-colnames(nut)[2]<-'ScientificName'
+colnames(nut)[1]<-'ScientificName'
 nut<-nut %>% select(colnames(fb))
 
 ## combine nutrient profiles depending on purpose,
@@ -48,7 +50,8 @@ nut<-nut %>% select(colnames(fb))
 plated<-c('Atlantic salmon', 'Herring', 'Sardine', 'Anchovy',  'Blue whiting', 'Anchoveta')
 nonplated<-c('Menhaden', 'Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel')
 
-nuts<-rbind(fb %>% filter(species %in% plated ), 
+nuts<-rbind(
+  fb %>% filter(species %in% plated ), 
 	nut %>% filter(species %in% nonplated),
 	fb %>% filter(species %in% nonplated & nutrient %in% c( 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'Vitamin D', 'Vitamin B12'))) %>%
 mutate(salmon = ifelse(species == 'Atlantic salmon', TRUE, FALSE))
@@ -131,7 +134,7 @@ mn<-rbind(mn %>% mutate(type = 'All species'), mn_edibles %>% mutate(type='Edibl
 
 nuts$type<-ifelse(nuts$species%in% edibles, 'Edible', 'Non-edible')
 nuts$type<-ifelse(nuts$species=='Atlantic salmon', 'Atlantic salmon', nuts$type)
-nuts$species<-factor(nuts$species, levels=unique(nuts$species)[rev(c(1,5,4,6,2,9,3,8,7,10))])
+nuts$species<-factor(nuts$species, levels=unique(nuts$species)[rev(c(1,5,4,8,6,2,9,7,3,10))])
 
 top<-ggplot(nuts %>% filter(product != 'Anchoveta'), 
             aes(species, value, fill=type)) +
