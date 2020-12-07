@@ -70,10 +70,12 @@ om3_parity[2,2] - sb$combined_conc[sb$nutrient == 'Omega-3 (DHA)'] ## more DHA c
 ## volume = eat all the edible sustainable wild-fish stocks, +trimmings
 
 ## now add trimmings
-sb_wild_trim<-sb %>% select(nutrient, combined_c, combined_y)
+sb_wild_trim<-sb %>% select(nutrient, combined_c, combined_y) %>%
+            mutate(Scenario = 'B (trimmings-only salmon + wild fish)')
 sb_wild_trim$salmon_c<-salmon_theoretical
 sb_wild_trim$salmon_y<-sa$value * salmon_theoretical
-sb_wild_trim$portion<-with(sb_wild_trim, (combined_y + salmon_y) / (combined_c + salmon_c))
+sb_wild_trim$portion<-with(sb_wild_trim, 
+                           (combined_y + salmon_y) / (combined_c + salmon_c))
 
 sb_diet<-nuts %>% filter(
   nutrient == 'calcium.mg',
@@ -85,27 +87,11 @@ sb_diet$portion[sb_diet$species == 'Atlantic salmon']<-salmon_theoretical
 sb_diet$portion[sb_diet$species == 'Anchovy']<-sb_diet$catch[sb_diet$species == 'Anchovy']*0.43
 sb_diet$portion[sb_diet$species == 'Sardine']<-sb_diet$catch[sb_diet$species == 'Sardine']*0.43
 
-sb_diet<-sb_diet %>% group_by(nutrient) %>%
-      mutate(total = sum(portion), prop_portion = portion / total * 100)
+sb_diet<-sb_diet %>% filter(nutrient == 'calcium.mg') %>%
+      mutate(total = sum(portion), prop_portion = portion / total * 100,
+             forage = ifelse(species == 'Atlantic salmon', 'Atlantic salmon', 'Wild fish'))
 
-## Scenario C - trimmings-only + wild-fish
-## estimate = 100g salmon + wild edibles
-## how to get to the wild fish captures?
+## Scenario C - trimmings-only + wild-fish + 1 mussels
+## estimate = 100g salmon + wild edibles +  mussel
+sc<-sb_wild_trim %>% select(nutrient, portion)
 
-## volume = theoretical production from trimmings + wild-caught for OIL
-# bvol<-salmon_theoretical
-
-sc_salmon<-nuts %>% filter(species=='Atlantic salmon') %>%
-  select(species, nutrient, value, catch) %>%
-  mutate(yield = value * salmon_theoretical)
-
-sc_wild<-nuts %>% filter(species %in% edibles) %>%
-  filter(species != 'Atlantic salmon') %>%
-  select(species, nutrient, value, catch, yield) %>%
-  mutate(yield = 0.5 * yield)
-
-sc<-rbind(sc_salmon, sc_wild) %>% group_by(nutrient) %>%
-  summarise(yield = sum(yield)) %>%
-  mutate(Scenario = 'C (trimmings-only salmon + 50% edible wild-caught fish)')
-
-ss<-rbind(sa, sb, sc)
