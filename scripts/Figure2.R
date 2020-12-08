@@ -48,7 +48,7 @@ nut<-nut %>% select(colnames(fb))
 
 ## wild-fish for food, use UK govt values
 plated<-c('Atlantic salmon', 'Herring', 'Sardine', 'Anchovy',  'Blue whiting', 'Anchoveta')
-nonplated<-c('Capelin', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel')
+nonplated<-c('Capelin','Menhaden', 'Sprat', 'Sand Eel', 'Norway Pout', 'Mackerel')
 
 nuts<-rbind(
   fb %>% filter(species %in% plated ), 
@@ -134,7 +134,7 @@ mn<-rbind(mn %>% mutate(type = 'All species'), mn_edibles %>% mutate(type='Edibl
 
 nuts$type<-ifelse(nuts$species%in% edibles, 'Edible', 'Non-edible')
 nuts$type<-ifelse(nuts$species=='Atlantic salmon', 'Atlantic salmon', nuts$type)
-nuts$species<-factor(nuts$species, levels=unique(nuts$species)[rev(c(1,5,4,8,6,2,9,7,3,10))])
+nuts$species<-factor(nuts$species, levels=unique(nuts$species)[rev(c(1,5,4,6,8,2,9,7,3,10))])
 
 top<-ggplot(nuts %>% filter(!product %in% c('Anchoveta', 'Menhaden')), 
             aes(species, value, fill=type)) +

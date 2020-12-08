@@ -29,11 +29,6 @@ sb <- nuts %>% filter(species %in% locals & !is.na(value)) %>%
         group_by(nutrient) %>%
         summarise(toty = sum(yield), totc = sum(catch)) %>%
         mutate(conc = toty / totc)
-        
-sb_forage<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
-  group_by(nutrient) %>%
-  summarise(toty = sum(yield), totc = sum(catch)) %>%
-  mutate(conc = toty / totc)
 
 ## how much needed to reach omega-3 parity?
 epa_missing<-om3_parity[1,3] - sb$toty[sb$nutrient == 'Omega-3 (EPA)'] ## requires 18201 more yield
@@ -41,18 +36,18 @@ dha_missing<-om3_parity[2,3] - sb$toty[sb$nutrient == 'Omega-3 (DHA)']
 ## more EPA needed. DHA already covered.
 
 ## what is epa/dha yield deficit from the total forage fish conc?
-epa_percent<-epa_missing$yield / sb_forage$toty[sb_forage$nutrient == 'Omega-3 (EPA)'] ## ~17% more yield
-#dha_percent<-dha_missing$value / sb_forage$toty[sb_forage$nutrient == 'Omega-3 (DHA)'] 
+epa_percent<-epa_missing$yield / sb$toty[sb$nutrient == 'Omega-3 (EPA)'] ## ~23% more EPA yield needed
+dha_percent<-dha_missing$yield / sb$toty[sb$nutrient == 'Omega-3 (DHA)'] ## DHA met
 
-## what is epa/dha deficit in yield required to reach scenario A concentration?
+## what is EPA deficit in yield required to reach scenario A concentration?
 epa_missing<-om3_parity[1,2] - sb$conc[sb$nutrient == 'Omega-3 (EPA)'] ## need 0.078g more concentration
-epa_yield_need<-epa_missing$value / sb$conc[sb$nutrient == 'Omega-3 (EPA)'] ### requires 11% more concentration
+epa_conc_need<-epa_missing$value / sb$conc[sb$nutrient == 'Omega-3 (EPA)'] ### requires 11% more concentration
 
 ## so now take 11% of anchovy + sardines
 sb_forage_7<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
   group_by(nutrient) %>%
   summarise(toty = sum(yield), totc = sum(catch)) %>%
-  mutate(toty = toty*0.43, totc = totc*0.43) %>%
+  mutate(toty = toty*0.44, totc = totc*0.44) %>%
   mutate(conc = toty / totc)
 
 ## combine forage with locals
@@ -155,4 +150,38 @@ sd_diet <- sd
 ## how much omega-3 rich wild fish?
 om3_parity[1,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (EPA)'] ## equal EPA conc
 om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
+
+
+
+## fish in the SEA
+catch_org<-wild_for_33T
+catch_sb<-sb$totc[1]
+catch_sc<-sb_forage_7$totc[1]
+catch_sd<-sb_forage_7$totc[1]
+
+sea<-data.frame(scenario = c('B', 'C', 'D'), catch = c(catch_sb, catch_sc, catch_sd))
+sea$unfished<-catch_org[2] - sea$catch
+sea$unfished_prop<-(catch_org[2] - sea$catch)/catch_org[2] * 100
+
+## fish in the BELLY
+tonnes_org<-data.frame(scenario = 'A', t = salmon_scot_2014, s= 'Atlantic salmon')
+tonnes_sb<-data.frame(scenario = 'B', t = c(sb_wild_trim$combined_c[1], sb_wild_trim$salmon_c[1]),
+                      s =c('Wild fish', 'Atlantic salmon'))
+tonnes_sc<-data.frame(scenario = 'C', 
+                      t = c(sb_forage_7$totc[1], sb_wild_trim$salmon_c[1], salmon_scot_2014-(sb_forage_7$totc[1]+sb_wild_trim$salmon_c[1])),
+                      s =c('Wild fish', 'Atlantic salmon', 'Mussels'))
+tonnes_sd<-data.frame(scenario = 'D', t = c(sb_forage_7$totc[1], sb_wild_trim$salmon_c[1],  salmon_scot_2014-(sb_forage_7$totc[1]+sb_wild_trim$salmon_c[1])),
+                      s =c('Wild fish', 'Atlantic salmon', 'Carp'))
+
+
+tonnes<-rbind(tonnes_org, tonnes_sb, tonnes_sc, tonnes_sd)
+
+
+# 
+# sea$unfished_lower<-catch_org[3] - sea$catch
+# sea$unfished_lower_prop<-(catch_org[3] - sea$catch)/catch_org[3] * 100
+# 
+# sea$unfished_upper<-catch_org[1] - sea$catch
+# sea$unfished_upper_prop<-(catch_org[1] - sea$catch)/catch_org[1] * 100
+
 

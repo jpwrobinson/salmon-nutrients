@@ -78,9 +78,38 @@ g2<-ggplot(ss_diet, aes(xmin=2,xmax=3, ymin=prop_portion_min, ymax=prop_portion_
       theme_void() + theme(legend.title = element_blank())
                            # plot.margin = unit(c(0.5,0.5,0.5, 0.5), 'cm'))
 
-pdf(file='figures/Figure3.pdf', height=5, width=12)
-plot_grid(g2, g1, nrow=2, labels=c('a', 'b'))
+g3<-ggplot(sea, aes(scenario, unfished_prop)) +
+  geom_segment(aes(x=scenario, xend=scenario, y=0, yend=unfished_prop), col='grey') +
+  geom_point(size=4, alpha=0.8, shape=21, aes(col=scenario, fill=scenario)) +
+  scale_colour_manual(values=cols2[c(2,3,4)]) +
+  scale_fill_manual(values=cols2[c(2,3,4)]) +
+  theme(
+    legend.position = 'none',
+    plot.margin = unit(c(0.5,2,0.5,3), 'cm')
+    # strip.text.x=element_blank()
+  ) +
+  labs(x = '', 
+       # y = expression(paste('concentration, 100 g'^-1)),
+       y = 'unfished biomass, %') 
+
+g4<-ggplot(tonnes, aes(scenario, tonnes)) +
+  geom_bar(aes(x=scenario, y=t, fill=s),stat='identity') +
+  scale_fill_manual(values=cols2[c(1,4,3,2)]) +
+  theme(
+    legend.position = 'none',
+    plot.margin = unit(c(0.5,3,0.5,2), 'cm')
+    # strip.text.x=element_blank()
+  ) +
+  labs(x = '', 
+       # y = expression(paste('concentration, 100 g'^-1)),
+       y = 'edible seafood produced, t') 
+
+panel_c<-plot_grid(g3, g4, align='h')
+
+pdf(file='figures/Figure3.pdf', height=8, width=12)
+plot_grid(g2, g1, panel_c, nrow=3, labels=c('a', 'b', 'c'))
 dev.off()
+
 
 
 
