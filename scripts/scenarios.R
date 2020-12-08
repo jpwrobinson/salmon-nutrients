@@ -92,6 +92,67 @@ sb_diet<-sb_diet %>% filter(nutrient == 'calcium.mg') %>%
              forage = ifelse(species == 'Atlantic salmon', 'Atlantic salmon', 'Wild fish'))
 
 ## Scenario C - trimmings-only + wild-fish + 1 mussels
-## estimate = 100g salmon + wild edibles +  mussel
-sc<-sb_wild_trim %>% select(nutrient, portion)
+## estimate = trimmings salmon  +  mussel
+sc_sam<-nuts %>% 
+  filter(species == 'Atlantic salmon') %>% 
+  mutate(Scenario = 'C (trimmings-only salmon + mussels)') %>%
+  select(nutrient, species, value, yield, Scenario) %>%
+  mutate(portion = value, 
+         prop_portion = sb_diet$prop_portion[sb_diet$species == 'Atlantic salmon'],
+         forage='Atlantic salmon')
+
+mussel2<-mussel %>% filter(species == 'Mussels') %>%
+  mutate(species = 'Mussel', forage='Farmed mussels', 
+         yield = NA, Scenario = sc$Scenario, portion = value, 
+         prop_portion = (100 - sc$prop_portion)/2)
+
+forage<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
+  group_by(nutrient) %>%
+  summarise(value = mean(value)) %>%
+  mutate(species = 'Anchovy/sardine', forage='Wild fish', yield = NA, Scenario = sc$Scenario, 
+         portion = value, prop_portion = (100 - sc_sam$prop_portion) / 2)
+  
+
+## get diet composition
+sc<-rbind(sc_sam,
+          mussel2 %>% select(colnames(sc)),
+          forage %>% select(colnames(sc))
+          )
+
+## get nutrient concentration in diet
+sc_conc <- sc %>% group_by(nutrient, Scenario) %>% 
+      summarise(portion = weighted.mean(value, w = prop_portion))
+
+sc_diet <- sc 
+
+
+## how much omega-3 rich wild fish?
+om3_parity[1,2] - sc_conc$portion[sc_conc$nutrient == 'Omega-3 (EPA)'] ## equal EPA conc
+om3_parity[2,2] - sc_conc$portion[sc_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
+
+
+
+## scenario 4 = carp + wild fish
+carp<-mussel %>% filter(species == 'Carp') %>%
+  mutate(forage='Farmed carp', 
+         yield = NA, Scenario = sc_sam$Scenario, portion = value, 
+         prop_portion = (100 - sc_sam$prop_portion)/2)
+
+sd<-sc_sam 
+
+## get diet composition
+sd<-rbind(sd,
+          carp %>% select(colnames(sd)),
+          forage %>% select(colnames(sd))
+) %>% mutate(Scenario = 'D (trimmings-only salmon + carp')
+
+## get nutrient concentration in diet
+sd_conc <- sd %>% group_by(nutrient, Scenario) %>% 
+  summarise(portion = weighted.mean(value, w = prop_portion))
+
+sd_diet <- sd 
+
+## how much omega-3 rich wild fish?
+om3_parity[1,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (EPA)'] ## equal EPA conc
+om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
 

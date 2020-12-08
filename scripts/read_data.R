@@ -3,14 +3,15 @@
 library(tidyverse); library(funk); theme_set(theme_sleek())
 
 cols<-c('#d95f02',   '#1b9e77', 'grey')
+cols2<-c('#d95f02',   '#1b9e77', 'grey', 'black')
 # named.cols<-c('Atlantic salmon' = '#d95f02', '#1b9e77' = 'Edible', 'grey' = 'Non-edible')
 edibles<-c('Herring', 'Sardine', 'Anchovy', 'Blue whiting','Capelin','Sprat', 'Mackerel', 'Atlantic salmon', 'Herring', 'Cod')
 
 
 nut<-read.csv('data/feedback_species_nutrient_profiles.csv')
 
-## save mussels
-mussel<-nut %>% filter(species == 'Mussels')
+## save mussels + carp
+mussel<-nut %>% filter(species %in% c('Mussels', 'Carp'))
 colnames(mussel)[c(1,9,10,11,12)]<-colnames(mussel)[c(1,9,10,11,12)]<-c('product', 'Omega-3 (EPA)', 'Omega-3 (DHA)', 'Vitamin D', 'Vitamin B12')
 mussel<-mussel %>% select(species, calcium.mg:'Vitamin B12') %>%
   pivot_longer(-c(species), names_to = 'nutrient', values_to = 'value') 
@@ -18,6 +19,7 @@ mussel$nutrient<-factor(mussel$nutrient, levels = unique(mussel$nutrient))
 mussel$lab<-mussel$nutrient
 levels(mussel$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
                     "'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Om-3 (EPA), g'","'Om-3 (DHA), g'", '"Vitamin D"', '"Vitamin B12"')
+
 
 ## from Feedback-salmon-feed-calculations-final.xlxs
 
