@@ -93,7 +93,7 @@ g3<-ggplot(sea, aes(scenario, unfished_prop)) +
        y = 'unfished biomass, %') 
 
 g4<-ggplot(tonnes, aes(scenario, tonnes)) +
-  geom_bar(aes(x=scenario, y=t, fill=s),stat='identity') +
+  geom_bar(aes(x=scenario, y=t, fill=s),col='white', stat='identity') +
   scale_fill_manual(values=cols2[c(1,4,3,2)]) +
   theme(
     legend.position = 'none',
