@@ -158,7 +158,7 @@ bot<-ggplot(mn %>% filter(type=='Edible fish'), aes(fct_reorder(nutrient, nutrie
       # geom_text(aes(y = nutrient_deficit_min, labe  l = nutrient), hjust=1.1) +
       coord_flip() +
   scale_y_continuous(limits=c(-10, 150), breaks=seq(0, 150, 25)) +
-  labs(x = '', y = 'wild, edible nutrients retained\nin farmed salmon, %') + th +
+  labs(x = '', y ='Edible nutrients from wild fish\nretained in farmed salmon (%)') + th +
         theme(#axis.text.y =element_blank(), 
               # axis.line.y = element_blank(), 
               axis.ticks = element_blank(),

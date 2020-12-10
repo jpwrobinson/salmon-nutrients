@@ -78,7 +78,7 @@ gwild<-ggplot(wild %>% filter(!Species %in% drops), aes(fct_reorder(Species, mea
       # scale_x_discrete(position='top') +
       scale_colour_manual(values=cols[c(2,3)]) +
       theme(legend.position='none') +
-      labs(x = '', y = 'Catch in fish meal & fish oil, t') +
+      labs(x = '', y = 'Catch in fishmeal & fish oil, t') +
       theme(axis.line.x= element_line(colour='grey'), 
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank())
