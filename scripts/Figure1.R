@@ -19,9 +19,9 @@ labb<-production$Tonnes[production$Year==2014]
 k = 20000
 
 bar<-data.frame(y = c(salmon_scot_2014, FO_salmon_scot_2014,FM_2014+FO_salmon_scot_2014,FM_spare),
-                y2 = c(salmon_scot_2014, FO_salmon_scot_2014-k,FM_2014+FO_salmon_scot_2014-k,FM_spare-k),
-                x = c(1,0.6,0.6, 3.3),
-                lab = c(paste(scales::comma(labb), 'tonnes in 2014'), 'Fish oil', 'Fish meal', 'Spare fishmeal\nfrom wild-caught'))
+                y2 = c(salmon_scot_2014, FO_salmon_scot_2014-k,FM_2014+FO_salmon_scot_2014-k,FM_spare-k-10000),
+                x = c(1,0.6,0.6, 3.1),
+                lab = c(paste(scales::comma(labb), 'tonnes in 2014'), 'Fish oil', 'Fishmeal', 'Spare fishmeal\nfrom wild-caught fish'))
 # levels(bar$x)<-unique(bar$x[c(1,2)])
 
 bar_ui<-data.frame(y = c(trimmings_for_33T, rev(wild_for_33T)),
@@ -37,9 +37,9 @@ goil<-ggplot() +
   geom_segment(data=bar[3,], aes(1,xend=1, y=FO_salmon_scot_2014, yend=y),size=22.8, alpha=0.5, col='#67a9cf') +
   geom_segment(data=bar[2,], aes(1,xend=1, y = 0, yend=y), size=22.8, alpha=1,col=salmon.col) +
   geom_segment(data=bar[4,], aes(3,xend=3, y = 0, yend=y), size=22.8, alpha=0.3,col='#67a9cf') +
-  geom_hline(yintercept = bar$y[1], col=salmon.col) +	
+  geom_hline(yintercept = bar$y[1], col=salmon.col,size=1) +	
   geom_label(data = bar[1,], aes(x = x, y = y-20000, label = lab), size=basesize-8, fill='grey90', alpha=0.5, label.size=0) +
-  geom_text(data = bar[1,], aes(x = x, y = y), label = 'Salmon production', size=basesize-8, vjust=-0.5) +
+  geom_text(data = bar[1,], aes(x = x, y = y), label = 'Salmon production', size=basesize-7, vjust=-0.5) +
   # geom_text(data = bar[3,], aes(x = x, y = y, label = lab), size=basesize-7, vjust=2.5,hjust=0.5) +
   geom_text(data = bar_ui, aes(x = x, y = mean, label = lab), size=basesize-7, hjust=1.1, vjust=-0.7) +
   geom_pointrange(data = bar_ui, aes(x, mean, ymin=lower, ymax=upper)) +
@@ -55,15 +55,15 @@ goil<-ggplot() +
   # scale_x_reverse(breaks=rev(c(1:4)), expand=c(0.3, 0)) +
   scale_x_continuous(breaks=(c(1:4)),limits=c(0.5,3.6), expand=c(0.1, 0)) +
   guides(fill=FALSE) +
-  labs(y = 'Wet weight, t', x ='')
+  labs(y = 'Wet weight (t)', x ='')
 
 gprod<-ggplot(data = production, aes(Year, Tonnes)) + 
-    geom_segment(x = 0, xend = 2014, y = labb, yend = labb, col=salmon.col, alpha=0.5) +  
+    geom_segment(x = 0, xend = 2014, y = labb, yend = labb, col=salmon.col, alpha=1, size=1) +  
     annotate(geom='text', x = 2011, y = labb, 
              label=paste(scales::comma(labb), 'tonnes in 2014'), 
              col='black', alpha=1, vjust=-1, size=3) +  
     geom_line(size=1) + 
-      labs(x = '', y='Salmon production, t') + th +
+      labs(x = 'Year', y='Salmon production (t)') + th +
   scale_y_continuous(labels=scales::comma) +
     theme(axis.line.x= element_line(colour='grey'))
 
