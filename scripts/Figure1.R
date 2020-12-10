@@ -69,8 +69,10 @@ gprod<-ggplot(data = production, aes(Year, Tonnes)) +
 
 
 drops<-c('Cod', 'Silver smelt', 'Boarfish', 'Hake')
+wild$Species[wild$Species %in% drops]<-'Other'
+wild<-wild %>% group_by(Species, edibles) %>% summarise_at(vars(mean_proportion:max_tonnes), sum)
 gwild<-ggplot(wild %>% filter(!Species %in% drops), aes(fct_reorder(Species, mean_tonnes), mean_tonnes))   +
-      geom_pointrange(aes(ymin = min_tonnes, ymax=max_tonnes,col=edibles)) +
+      geom_pointrange(aes(ymin = min_tonnes, ymax=max_tonnes,col=edibles), position = position_dodge(0.5)) +
       coord_flip() + 
       geom_text(y = 165000, aes(x=Species, label=Species)) + 
       th +
@@ -78,7 +80,7 @@ gwild<-ggplot(wild %>% filter(!Species %in% drops), aes(fct_reorder(Species, mea
       # scale_x_discrete(position='top') +
       scale_colour_manual(values=cols[c(2,3)]) +
       theme(legend.position='none') +
-      labs(x = '', y = 'Catch in fishmeal & fish oil, t') +
+      labs(x = '', y = 'Catch in fishmeal & fish oil (t)') +
       theme(axis.line.x= element_line(colour='grey'), 
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank())
@@ -89,7 +91,10 @@ dev.off()
 
 
 
+## summ stats
 
+# prop edible tonnes
+sum(wild$mean_tonnes[wild$edibles=='edible'])/ sum(wild$mean_tonnes)
 
 
 
