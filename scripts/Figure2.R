@@ -61,10 +61,11 @@ nuts$species<-factor(nuts$species, levels=rev(unique(nuts$species)[c(1,4,7,10,9,
 nuts<-nuts %>% filter(nutrient != 'Omega3_mu')
 
 
-nuts$nutrient<-factor(nuts$nutrient, levels = unique(nuts$nutrient))
+nuts$nutrient<-factor(nuts$nutrient, levels = unique(nuts$nutrient)[c(1:4,9, 7,6,5,8)])
 nuts$lab<-nuts$nutrient
-levels(nuts$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
-"'Zinc, mg'",expression('Vitamin A, '*mu*'g'), "'Om-3 (EPA), g'","'Om-3 (DHA), g'", '"Vitamin D"', '"Vitamin B12"')
+levels(nuts$lab)<-c("'Calcium (mg)'", "'Iron (mg)'", expression('Selenium ('*mu*'g)'), "'Zinc (mg)'",
+expression('Vitamin B12 ('*mu*'g)'),
+"'Om-3 DHA (g)'","'Om-3 EPA (g)'",expression('Vitamin A ('*mu*'g)'), expression('Vitamin D ('*mu*'g)'))
 
 nuts$product<-nuts$species
 # nuts$product<-recode(nuts$product,  'Atlantic salmon'='Atlantic salmon\n(hot smoked)')
@@ -111,6 +112,8 @@ mn$nutrient<-recode(mn$nutrient,  'iron.mg' = 'Iron')
 mn$nutrient<-recode(mn$nutrient,  'selenium.mug' = 'Selenium')
 mn$nutrient<-recode(mn$nutrient,  'zinc.mg' = 'Zinc')
 mn$nutrient<-recode(mn$nutrient,  'vitamin.A.mug' = 'Vitamin A')
+mn$nutrient<-recode(mn$nutrient,  'Omega-3 (EPA)' = 'Om-3 (EPA)')
+mn$nutrient<-recode(mn$nutrient,  'Omega-3 (DHA)' = 'Om-3 (DHA)')
 # levels(mn$nutrient)<-unique(mn$nutrient)
 
 mn_edibles<-nuts %>% filter(species %in% edibles) %>%
@@ -128,6 +131,8 @@ mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'iron.mg' = 'Iron')
 mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'selenium.mug' = 'Selenium')
 mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'zinc.mg' = 'Zinc')
 mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'vitamin.A.mug' = 'Vitamin A')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'Omega-3 (EPA)' = 'Om-3 (EPA)')
+mn_edibles$nutrient<-recode(mn_edibles$nutrient,  'Omega-3 (DHA)' = 'Om-3 (DHA)')
 # levels(mn_edibles$nutrient)<-unique(mn_edibles$nutrient)
 
 mn<-rbind(mn %>% mutate(type = 'All species'), mn_edibles %>% mutate(type='Edible fish'))
@@ -142,7 +147,7 @@ top<-ggplot(nuts %>% filter(!product %in% c('Anchoveta', 'Menhaden')),
       facet_wrap(~lab, nrow=2, scales='free_x', labeller=label_parsed)+
       coord_flip() +
       guides(fill=FALSE) +
-      labs(x = '', y = expression(paste('micronutrient concentration, 100 g'^-1))) +
+      labs(x = '', y = expression(paste('Micronutrient concentration (100 g'^-1, ')'))) +
       scale_fill_manual(values=cols) +
       th
 
@@ -154,7 +159,7 @@ bot<-ggplot(mn %>% filter(type=='Edible fish'), aes(fct_reorder(nutrient, nutrie
       # geom_text(aes(y = nutrient_deficit_min, labe  l = nutrient), hjust=1.1) +
       coord_flip() +
   scale_y_continuous(limits=c(-10, 150), breaks=seq(0, 150, 25)) +
-  labs(x = '', y = 'wild, edible nutrients retained\nin farmed salmon, %') + th +
+  labs(x = '', y ='Edible nutrients from wild fish\nretained in farmed salmon (%)') + th +
         theme(#axis.text.y =element_blank(), 
               # axis.line.y = element_blank(), 
               axis.ticks = element_blank(),

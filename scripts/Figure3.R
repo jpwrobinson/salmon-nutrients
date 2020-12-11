@@ -18,10 +18,10 @@ ss_conc$scenario_lab<-substring(ss_conc$Scenario, 1, 1)
 
 ss_conc$nutrient<-factor(ss_conc$nutrient, levels = unique(ss_conc$nutrient)[c(6,7,1:5,8,9)])
 ss_conc$lab<-ss_conc$nutrient
-unique(ss_conc$nutrient)
-levels(ss_conc$lab)<-c("'Om-3 (EPA), g'","'Om-3 (DHA), g'", 
-                       "'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), 
-                    "'Zinc, mg'",expression('Vitamin A, '*mu*'g'), '"Vitamin D"', '"Vitamin B12"')
+
+levels(ss_conc$lab)<-c("'Om-3 EPA (g)'","'Om-3 DHA (g)'", 
+                       "'Calcium (mg)'", "'Iron (mg)'", expression('Selenium ('*mu*'g)'), 
+                    "'Zinc (mg)'",expression('Vitamin A ('*mu*'g)'), expression('Vitamin D ('*mu*'g)'),expression('Vitamin B12 ('*mu*'g)'))
 
 
 ss_diet<-rbind(
