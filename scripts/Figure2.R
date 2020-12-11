@@ -78,8 +78,9 @@ nuts$product<-nuts$species
 ## micronutrient in : micronutrient out
 nuts$catch<-NA
 nuts$catch<-wild$mean_tonnes[match(nuts$species, wild$Species)]
-nuts$catch_min<-wild$min_trimmings[match(nuts$species, wild$Species)]
-nuts$catch_max<-wild$max_trimmings[match(nuts$species, wild$Species)]
+## add uncertainty by prop wild fish needed (trimmings prop)
+nuts$catch_min<-wild$max_trimmings[match(nuts$species, wild$Species)]
+nuts$catch_max<-wild$min_trimmings[match(nuts$species, wild$Species)]
 nuts$catch[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO
 nuts$catch_min[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO
 nuts$catch_max[nuts$species == 'Atlantic salmon']<-salmon_scot_2014_FO

@@ -19,9 +19,9 @@ ss_conc$scenario_lab<-substring(ss_conc$Scenario, 1, 1)
 ss_conc$nutrient<-factor(ss_conc$nutrient, levels = unique(ss_conc$nutrient)[c(6,7,1:5,8,9)])
 ss_conc$lab<-ss_conc$nutrient
 
-levels(ss_conc$lab)<-c("'Om-3 EPA (g)'","'Om-3 DHA (g)'", 
-                       "'Calcium (mg)'", "'Iron (mg)'", expression('Selenium ('*mu*'g)'), 
-                    "'Zinc (mg)'",expression('Vitamin A ('*mu*'g)'), expression('Vitamin D ('*mu*'g)'),expression('Vitamin B12 ('*mu*'g)'))
+levels(ss_conc$lab)<-c("Om-3 EPA","Om-3 DHA", 
+                       "Calcium", "Iron", 'Selenium', 
+                    "Zinc",'Vitamin A', 'Vitamin D','Vitamin B12')
 
 
 ss_diet<-rbind(
@@ -56,7 +56,7 @@ g1<-ggplot(ss_conc, aes(scenario_lab, relative)) +
   geom_hline(aes(yintercept = 0), linetype=2, col=cols2[1]) +
   scale_colour_manual(values=cols2[c(2,3,4)]) +
   scale_fill_manual(values=cols2[c(2,3,4)]) +
-  facet_wrap(~lab,nrow=1,scales='free_y', labeller=label_parsed) +
+  facet_wrap(~lab,nrow=1,scales='free_y') +
   theme(
     legend.position = 'none'
     # strip.text.x=element_blank()
@@ -78,37 +78,56 @@ g2<-ggplot(ss_diet, aes(xmin=2,xmax=3, ymin=prop_portion_min, ymax=prop_portion_
       theme_void() + theme(legend.title = element_blank())
                            # plot.margin = unit(c(0.5,0.5,0.5, 0.5), 'cm'))
 
-g3<-ggplot(sea, aes(scenario, unfished_prop)) +
-  geom_segment(aes(x=scenario, xend=scenario, y=0, yend=unfished_prop), col='grey') +
-  geom_point(size=4, alpha=0.8, shape=21, aes(col=scenario, fill=scenario)) +
+sea2 <- sea %>% select(scenario, unfished, stat) %>% pivot_wider(names_from = 'stat', values_from = 'unfished')
+g3<-ggplot(sea2, aes(scenario, mean)) +
+  geom_pointrange(size=1, alpha=0.8,
+                  aes(ymin = lower, ymax= upper, col=scenario, fill=scenario)) +
+  # geom_point(size=4, alpha=0.8, 
+  #                 aes(col=scenario, fill=scenario)) +
+  scale_y_continuous(labels=scales::comma) +
   scale_colour_manual(values=cols2[c(2,3,4)]) +
   scale_fill_manual(values=cols2[c(2,3,4)]) +
   theme(
     legend.position = 'none',
-    plot.margin = unit(c(0.5,2,0.5,3), 'cm')
+    plot.margin = unit(c(0.5,0,0.5,3), 'cm')
     # strip.text.x=element_blank()
   ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
        y = 'unfished biomass, %') 
 
-g4<-ggplot(tonnes, aes(scenario, tonnes)) +
-  geom_bar(aes(x=scenario, y=t, fill=s),col='white', stat='identity') +
-  scale_fill_manual(values=cols2[c(1,4,3,2)]) +
+g4<-ggplot(fm, aes(scenario, fishmeal)) +
+  geom_bar(col='white', stat='identity', fill='#67a9cf') +
+  scale_y_continuous(limits=c(0, max(tonnes$t)), labels=scales::comma) +
   theme(
     legend.position = 'none',
-    plot.margin = unit(c(0.5,3,0.5,2), 'cm')
+    plot.margin = unit(c(0.5,1,0.5,1), 'cm')
     # strip.text.x=element_blank()
   ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
-       y = 'edible seafood produced, t') 
+       y = 'fishmeal (t)') 
 
-panel_c<-plot_grid(g3, g4, align='h')
+
+g5<-ggplot(tonnes, aes(scenario, tonnes)) +
+  geom_bar(aes(x=scenario, y=t, fill=s),col='white', stat='identity') +
+  scale_fill_manual(values=cols2[c(1,4,3,2)]) +
+  scale_y_continuous(labels=scales::comma) +
+  theme(
+    legend.position = 'none',
+    plot.margin = unit(c(0.5,3,0.5,0), 'cm')
+    # strip.text.x=element_blank()
+  ) +
+  labs(x = '', 
+       # y = expression(paste('concentration, 100 g'^-1)),
+       y = 'edible seafood (t)') 
+
+panel_c<-plot_grid(g3, g4, g5, nrow=1, align='h')
 
 pdf(file='figures/Figure3.pdf', height=8, width=12)
 plot_grid(g2, g1, panel_c, nrow=3, labels=c('a', 'b', 'c'))
 dev.off()
+
 
 
 
