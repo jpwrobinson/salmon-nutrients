@@ -98,20 +98,20 @@ sc_sam<-nuts %>%
 
 mussel2<-mussel %>% filter(species == 'Mussels') %>%
   mutate(species = 'Mussel', forage='Farmed mussels', 
-         yield = NA, Scenario = sc$Scenario, portion = value, 
-         prop_portion = (100 - sc$prop_portion)/2)
+         yield = NA, Scenario = sc_sam$Scenario, portion = value, 
+         prop_portion = (100 - sc_sam$prop_portion)/2)
 
 forage<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
   group_by(nutrient) %>%
   summarise(value = mean(value)) %>%
-  mutate(species = 'Anchovy/sardine', forage='Wild fish', yield = NA, Scenario = sc$Scenario, 
+  mutate(species = 'Anchovy/sardine', forage='Wild fish', yield = NA, Scenario = sc_sam$Scenario, 
          portion = value, prop_portion = (100 - sc_sam$prop_portion) / 2)
   
 
 ## get diet composition
 sc<-rbind(sc_sam,
-          mussel2 %>% select(colnames(sc)),
-          forage %>% select(colnames(sc))
+          mussel2 %>% select(colnames(sc_sam)),
+          forage %>% select(colnames(sc_sam))
           )
 
 ## get nutrient concentration in diet
