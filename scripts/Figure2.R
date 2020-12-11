@@ -1,4 +1,4 @@
-setwd('salmon-nutrients')
+# setwd('salmon-nutrients')
 library(tidyverse); library(cowplot)
 library(funk); theme_set(theme_sleek())
 source('scripts/read_data.R')
@@ -63,9 +63,9 @@ nuts<-nuts %>% filter(nutrient != 'Omega3_mu')
 
 nuts$nutrient<-factor(nuts$nutrient, levels = unique(nuts$nutrient)[c(1:4,9, 7,6,5,8)])
 nuts$lab<-nuts$nutrient
-levels(nuts$lab)<-c("'Calcium, mg'", "'Iron, mg'", expression('Selenium, '*mu*'g'), "'Zinc, mg'",
-expression('Vitamin B12, '*mu*'g'),
-"'Om-3 (DHA), g'","'Om-3 (EPA), g'",expression('Vitamin A, '*mu*'g'), expression('Vitamin D, '*mu*'g'))
+levels(nuts$lab)<-c("'Calcium (mg)'", "'Iron (mg)'", expression('Selenium ('*mu*'g)'), "'Zinc (mg)'",
+expression('Vitamin B12 ('*mu*'g)'),
+"'Om-3 DHA (g)'","'Om-3 EPA (g)'",expression('Vitamin A ('*mu*'g)'), expression('Vitamin D ('*mu*'g)'))
 
 nuts$product<-nuts$species
 # nuts$product<-recode(nuts$product,  'Atlantic salmon'='Atlantic salmon\n(hot smoked)')
