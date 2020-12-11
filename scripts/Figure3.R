@@ -28,10 +28,10 @@ ss_diet<-rbind(
   sa %>% filter(nutrient == 'calcium.mg') %>%
     mutate(species = 'Atlantic salmon', 
                 forage = 'Atlantic salmon', 
-                Scenario = 'A (business-as-usual)') %>%
+                Scenario = 'A (Business-as-usual)') %>%
     select(species, prop_portion, forage, Scenario),
   sb_diet %>% filter(nutrient == 'calcium.mg') %>%
-    mutate(Scenario = 'B (trimmings-only salmon + wild fish)') %>%
+    mutate(Scenario = 'B (Trimmings-only salmon & wild fish)') %>%
     select(species, prop_portion, forage, Scenario),
   sc_diet %>% filter(nutrient == 'calcium.mg') %>%
     select(species, prop_portion, forage, Scenario),
@@ -50,12 +50,17 @@ ss_diet$prop_portion_min[c(2,3,5)]<-0
 ss_diet$prop_portion_min[c(8)]<-ss_diet$prop_portion_max[c(4)]
 ss_diet$prop_portion_min[c(9)]<-ss_diet$prop_portion_max[c(6)]
 
+ss_diet$tit<-str_split_fixed(ss_diet$Scenario, '\\ ', 2)[,1]
+ss_diet$subtit<-str_split_fixed(ss_diet$Scenario, '\\ ', 2)[,2]
+ss_diet$subtit<-str_replace_all(ss_diet$subtit, c('[()]'), '')
+
 g1<-ggplot(ss_conc, aes(scenario_lab, relative)) + 
   geom_segment(aes(x=scenario_lab, xend=scenario_lab, y=0, yend=relative), col='grey') +
   geom_point(size=4, alpha=0.8, shape=21, aes(col=scenario_lab, fill=scenario_lab)) +
   geom_hline(aes(yintercept = 0), linetype=2, col=cols2[1]) +
   scale_colour_manual(values=cols2[c(2,3,4)]) +
   scale_fill_manual(values=cols2[c(2,3,4)]) +
+  scale_y_continuous(expand=c(0.1,0.1)) +
   facet_wrap(~lab,nrow=1,scales='free_y') +
   theme(
     legend.position = 'none'
@@ -63,19 +68,22 @@ g1<-ggplot(ss_conc, aes(scenario_lab, relative)) +
     ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
-       y = '% change from scenario A') 
+       y = 'micronutrient conc.\n relative to scenario A (%)') 
   
 g2<-ggplot(ss_diet, aes(xmin=2,xmax=3, ymin=prop_portion_min, ymax=prop_portion_max)) +
       geom_rect(aes(fill=forage), col='white') + 
       xlim(0.5, 3.5) +
       facet_wrap(~Scenario, nrow =1) +
+      geom_text(x = Inf, y = 0.5, aes(label = tit), fontface = 'bold',size=4, vjust=-1) +
+      geom_text(x = Inf, y = 0.5, aes(label = subtit), size=3) +
       coord_polar(theta='y', start=0) +
       scale_fill_manual(values=cols2[c(1,4,3, 2)]) +
       geom_text(data = ss_diet %>% filter(forage == 'Atlantic salmon'),
                 aes(x=2.5, y = lab.ypos, label = paste0(round(prop_portion,0), 'g')),size=3.5, color = "grey90") +
       geom_text(data = ss_diet %>% filter(forage != 'Atlantic salmon'),
             aes(x=2.5, y = lab.ypos, label = paste0(round(prop_portion,0), 'g')),size=3.5, color = "grey90") +
-      theme_void() + theme(legend.title = element_blank())
+      theme_void() + theme(legend.title = element_blank(),
+                           strip.text.x =element_blank())
                            # plot.margin = unit(c(0.5,0.5,0.5, 0.5), 'cm'))
 
 sea2 <- sea %>% select(scenario, unfished, stat) %>% pivot_wider(names_from = 'stat', values_from = 'unfished')
@@ -94,7 +102,7 @@ g3<-ggplot(sea2, aes(scenario, mean)) +
   ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
-       y = 'unfished biomass, %') 
+       y = 'spare wild-fish biomass (t)') 
 
 g4<-ggplot(fm, aes(scenario, fishmeal)) +
   geom_bar(col='white', stat='identity', fill='#67a9cf') +
@@ -125,7 +133,7 @@ g5<-ggplot(tonnes, aes(scenario, tonnes)) +
 panel_c<-plot_grid(g3, g4, g5, nrow=1, align='h')
 
 pdf(file='figures/Figure3.pdf', height=8, width=12)
-plot_grid(g2, g1, panel_c, nrow=3, labels=c('a', 'b', 'c'))
+plot_grid(g2, g1, panel_c, nrow=3, labels=c('a', 'b', 'c'), rel_heights=c(1,0.8, 1))
 dev.off()
 
 

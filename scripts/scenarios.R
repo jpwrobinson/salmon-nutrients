@@ -90,7 +90,7 @@ sb_diet<-sb_diet %>% filter(nutrient == 'calcium.mg') %>%
 ## estimate = trimmings salmon  +  mussel
 sc_sam<-nuts %>% 
   filter(species == 'Atlantic salmon') %>% 
-  mutate(Scenario = 'C (trimmings-only salmon + mussels)') %>%
+  mutate(Scenario = 'C (Trimmings-only salmon, wild fish & mussels)') %>%
   select(nutrient, species, value, yield, Scenario) %>%
   mutate(portion = value, 
          prop_portion = sb_diet$prop_portion[sb_diet$species == 'Atlantic salmon'],
@@ -139,7 +139,7 @@ sd<-sc_sam
 sd<-rbind(sd,
           carp %>% select(colnames(sd)),
           forage %>% select(colnames(sd))
-) %>% mutate(Scenario = 'D (trimmings-only salmon + carp')
+) %>% mutate(Scenario = 'D (Trimmings-only salmon, wild fish & carp')
 
 ## get nutrient concentration in diet
 sd_conc <- sd %>% group_by(nutrient, Scenario) %>% 
