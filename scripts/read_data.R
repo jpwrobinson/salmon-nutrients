@@ -119,6 +119,8 @@ wild <- read.csv('data/FMFO_species.csv') %>%
 props<-wild %>% group_by(Species, Year, Company, wild_caught_FM, wild_caught_FO) %>%
       summarise(prop_species = weighted.mean(value, w=prop) / 100)
 
+
+
 ## check sums 
 # props%>% mutate(tot = wild_caught_FM + wild_caught_FO,
 #              species_catch = prop_species * tot)

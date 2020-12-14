@@ -8,7 +8,7 @@ source('scripts/Figure2.R')
 ## estimate = 100g of salmon
 sa<-nuts %>% 
       filter(species == 'Atlantic salmon') %>% 
-      mutate(Scenario = 'A (business-as-usual)') %>%
+      mutate(Scenario = 'I (business-as-usual)') %>%
       select(nutrient, value, yield, Scenario) %>%
       mutate(portion = value, prop_portion = 140)
 
@@ -66,9 +66,9 @@ om3_parity[2,2] - sb$combined_conc[sb$nutrient == 'Omega-3 (DHA)'] ## more DHA c
 
 ## now add trimmings
 sb_wild_trim<-sb %>% select(nutrient, combined_c, combined_y) %>%
-            mutate(Scenario = 'B (trimmings-only salmon + wild fish)')
+            mutate(Scenario = 'II (trimmings-only salmon + wild fish)')
 sb_wild_trim$salmon_c<-salmon_theoretical
-sb_wild_trim$salmon_y<-sa$value * salmon_theoretical
+sb_wild_trim$salmon_y<-sa$value[match(sb_wild_trim$nutrient, sa$nutrient)] * salmon_theoretical
 sb_wild_trim$portion<-with(sb_wild_trim, 
                            (combined_y + salmon_y) / (combined_c + salmon_c))
 
@@ -90,7 +90,7 @@ sb_diet<-sb_diet %>% filter(nutrient == 'calcium.mg') %>%
 ## estimate = trimmings salmon  +  mussel
 sc_sam<-nuts %>% 
   filter(species == 'Atlantic salmon') %>% 
-  mutate(Scenario = 'C (Trimmings-only salmon, wild fish & mussels)') %>%
+  mutate(Scenario = 'III (Trimmings-only salmon, wild fish & mussels)') %>%
   select(nutrient, species, value, yield, Scenario) %>%
   mutate(portion = value, 
          prop_portion = sb_diet$prop_portion[sb_diet$species == 'Atlantic salmon'],
@@ -126,7 +126,6 @@ om3_parity[1,2] - sc_conc$portion[sc_conc$nutrient == 'Omega-3 (EPA)'] ## equal 
 om3_parity[2,2] - sc_conc$portion[sc_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
 
 
-
 ## scenario 4 = carp + wild fish
 carp<-mussel %>% filter(species == 'Carp') %>%
   mutate(forage='Farmed carp', 
@@ -139,7 +138,7 @@ sd<-sc_sam
 sd<-rbind(sd,
           carp %>% select(colnames(sd)),
           forage %>% select(colnames(sd))
-) %>% mutate(Scenario = 'D (Trimmings-only salmon, wild fish & carp')
+) %>% mutate(Scenario = 'IV (Trimmings-only salmon, wild fish & carp')
 
 ## get nutrient concentration in diet
 sd_conc <- sd %>% group_by(nutrient, Scenario) %>% 
@@ -153,15 +152,43 @@ om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more D
 
 
 
+## scenario 5 = carp + wild fish + mussels
+mix<-mussel %>%
+  mutate(
+        forage=ifelse(species == 'Carp', 'Farmed carp', 'Farmed mussels'),
+         yield = NA, Scenario = unique(sc_sam$Scenario), portion = value,
+         prop_portion = unique((140 - sc_sam$prop_portion)/3)
+         )
+
+se<-sc_sam 
+
+## get diet composition
+se<-rbind(se,
+          mix %>% select(colnames(se)),
+          forage %>% select(colnames(se)) %>% mutate(prop_portion = unique(mix$prop_portion))
+) %>% mutate(Scenario = 'E (Trimmings-only salmon, wild fish, mussels & carp')
+
+## get nutrient concentration in diet
+se_conc <- se %>% group_by(nutrient, Scenario) %>% 
+  summarise(portion = weighted.mean(value, w = prop_portion))
+
+se_diet <- se 
+
+## how much omega-3 rich wild fish?
+om3_parity[1,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (EPA)'] ## equal EPA conc
+om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
+
+
 ## fish in the SEA
 wild_limits<-c(wild_for_33T[1]/wild_for_33T[2], 1, wild_for_33T[3]/wild_for_33T[2])
-
+## for c and d, estimate wild fish needed to make up seafood production of A
+wild_cd<-(salmon_scot_2014 - sb_wild_trim$salmon_c[1]) / 2
 
 ## repeat steps above to get catch limits per scenario
 yl_b<-nuts %>% filter(species %in% locals & !is.na(value)) %>%
   group_by(nutrient) %>%
   summarise(tot_min = sum(catch_min), tot_max = sum(catch_max))  %>%
-  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'B')
+  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'II')
 yl_b2<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
   group_by(nutrient) %>%
   summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
@@ -172,18 +199,18 @@ yl_b$tot_max<-yl_b$tot_max + yl_b2$tot_max
 yl_c<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
   group_by(nutrient) %>%
   summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
-  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'C')
+  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'III')
 
-yl_d<-yl_c %>% mutate(scenario = 'D')
+yl_d<-yl_c %>% mutate(scenario = 'IV')
 
 catch_limits<-rbind(yl_b, yl_c, yl_d)
   
 catch_org<-wild_for_33T
 catch_sb<-sb$totc[1]
-catch_sc<-sb_forage_7$totc[1]
-catch_sd<-sb_forage_7$totc[1]
+catch_sc<-wild_cd
+catch_sd<-wild_cd
 
-sea<-data.frame(scenario = c('B', 'C', 'D'), catch = c(catch_sb, catch_sc, catch_sd))
+sea<-data.frame(scenario = c('II', 'III', 'IV'), catch = c(catch_sb, catch_sc, catch_sd))
 sea$unfished<-catch_org[2] - sea$catch
 sea$wild<-catch_org[2]
 sea$stat<-'mean'
@@ -205,13 +232,14 @@ sea$unfished_prop<- with(sea, unfished / wild * 100)
 
 
 ## fish in the BELLY
-tonnes_org<-data.frame(scenario = 'A', t = salmon_scot_2014, s= 'Atlantic salmon')
-tonnes_sb<-data.frame(scenario = 'B', t = c(sb_wild_trim$combined_c[1], sb_wild_trim$salmon_c[1]),
+tonnes_org<-data.frame(scenario = 'I', t = salmon_scot_2014, s= 'Atlantic salmon')
+tonnes_sb<-data.frame(scenario = 'II', t = c(sb_wild_trim$combined_c[1], sb_wild_trim$salmon_c[1]),
                       s =c('Wild fish', 'Atlantic salmon'))
-tonnes_sc<-data.frame(scenario = 'C', 
-                      t = c(sb_forage_7$totc[1], sb_wild_trim$salmon_c[1], salmon_scot_2014-(sb_forage_7$totc[1]+sb_wild_trim$salmon_c[1])),
+
+tonnes_sc<-data.frame(scenario = 'III', 
+                      t = c(wild_cd, sb_wild_trim$salmon_c[1], wild_cd),
                       s =c('Wild fish', 'Atlantic salmon', 'Mussels'))
-tonnes_sd<-data.frame(scenario = 'D', t = c(sb_forage_7$totc[1], sb_wild_trim$salmon_c[1],  salmon_scot_2014-(sb_forage_7$totc[1]+sb_wild_trim$salmon_c[1])),
+tonnes_sd<-data.frame(scenario = 'IV', t = c(wild_cd, sb_wild_trim$salmon_c[1],  wild_cd),
                       s =c('Wild fish', 'Atlantic salmon', 'Carp'))
 tonnes<-rbind(tonnes_org, tonnes_sb, tonnes_sc, tonnes_sd)
 
