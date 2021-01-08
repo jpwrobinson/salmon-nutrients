@@ -1,0 +1,60 @@
+
+source('scripts/read_sankey_data.R')
+library(ggalluvial)
+
+## create a dataframe with 10 nodes
+nodes = data.frame(node = c("Wild-caught fish", "Trimmings", 
+                              'Fish meal & fish oil reduction',
+                              'Fish oil', 'Fish meal',
+                              "Salmonids_oil","Salmonids_meal",
+                            "Eels_oil", "Eels_meal", 
+                            "Marine fish_oil", "Marine fish_meal",
+                            "Tilapia_oil", "Tilapia_meal", 
+                              "Cyprinids_meal", 
+                            "Other freshwater fish_oil","Other freshwater fish_meal",
+                            "Crustaceans_oil","Crustaceans_meal", 
+                              "Direct human consumption_oil",
+                              'Pig_meal', 'Poultry_meal', 
+                              'Other_oil','Other_meal',
+                              "Salmonids", "Eels", "Marine fish", "Tilapia", 
+                              "Other freshwater fish", "Cyprinids", "Crustaceans",
+                              'Pig', 'Poultry'),
+                   value = c(wild_caught_in_FMFO, trimmings_FMFO, trimmings_FMFO,
+                             fo_prod, fm_prod,
+                             fm_sp$vol[fm_sp$species == 'Salmonids'],
+                             fo_sp$vol[fo_sp$species == 'Salmonids'],
+                             fm_sp$vol[fm_sp$species == 'Marine fish'],
+                             fo_sp$vol[fo_sp$species == 'Marine fish'],
+                             fm_sp$vol[fm_sp$species == 'Eels'],
+                             fo_sp$vol[fo_sp$species == 'Eels'],
+                             fm_sp$vol[fm_sp$species == 'Tilapia'],
+                             fo_sp$vol[fo_sp$species == 'Tilapia'],
+                             fm_sp$vol[fm_sp$species == 'Cyprinids'],
+                             fm_sp$vol[fm_sp$species == 'Other freshwater fish'],
+                             fo_sp$vol[fo_sp$species == 'Other freshwater fish'],
+                             fm_sp$vol[fm_sp$species == 'Crustaceans'],
+                             fo_sp$vol[fo_sp$species == 'Crustaceans'],
+                             fo_sp$vol[fo_sp$species == 'Direct human consumption'],
+                             fm_sp$vol[fm_sp$species == 'Other'],
+                             fo_sp$vol[fo_sp$species == 'Other'],
+                             fm_sp$vol[fm_sp$species == 'Pig'],
+                             fm_sp$vol[fm_sp$species == 'Poultry'], 
+                             prod$tonnes[prod$species == 'Salmonids'], 
+                             prod$tonnes[prod$species == 'Eels'], 
+                             prod$tonnes[prod$species == 'Marine fish'], 
+                             prod$tonnes[prod$species == 'Tilapia'], 
+                             prod$tonnes[prod$species == 'Other freshwater fish'], 
+                             prod$tonnes[prod$species == 'Cyprinids'], 
+                             prod$tonnes[prod$species == 'Crustaceans'], 
+                             prod$tonnes[prod$species == 'Pig'], 
+                             prod$tonnes[prod$species == 'Poultry']),
+                   stage = c(rep('wild', 2), 'reduction', rep('FMFO', 2),
+                             rep('feed', 18),
+                             rep('food', 9)),
+                   type = c('wild', 'wild', 'wild', 'oil', 'meal',
+                            rep(c('meal', 'oil'), times = 4), 'meal', 'meal', 'oil', 'meal', 'oil',  'oil',  'meal',  'oil', 'meal', 'meal',rep('food', times = 9)))
+
+ggplot(nodes, aes(x = stage, stratum=node, y = value, alluvium = node, group=node, fill=node )) + 
+  # geom_alluvium(aes(fill = type ))  +
+  geom_stratum() +
+  geom_flow(stat='alluvium')
