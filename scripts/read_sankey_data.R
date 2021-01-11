@@ -11,19 +11,6 @@ trimmings_FMFO <- total_fish_in_FMFO - wild_caught_in_FMFO
 fm_prod = 4445
 fo_prod = 878
 
-# # new estimates by James
-# fm_prop = fm_prod / (fm_prod + fo_prod)
-# fo_prop = fo_prod / (fm_prod + fo_prod)
-# 
-# fo_from_trimmings<-0.4 * fo_prop
-# fm_from_trimmings<-0.22 * fm_prop
-# fo_from_wild<-fo_prop - fo_from_trimmings
-# fm_from_wild<-fm_prop - fm_from_trimmings
-# 
-
-
-
-
 ## FMFO usage by aquaculture
 fo_sp<-data.frame(
   species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish", 'Crustaceans', 'Direct human consumption', 'Other'),
@@ -45,3 +32,40 @@ prod<-data.frame(
 )
 
 tot_seafood <- sum(prod$tonnes[c(1:7)])
+
+
+
+## Panel B = trimmings only salmon
+
+## total volumes in FMFO (2016)
+wild_caught_in_FMFO2 <- 10061
+spare_wild<-3753
+wild_eaten<-1185
+
+## mean global production in 2010-16
+fm_prod2 = 2866
+fo_prod2 = 641
+
+## FMFO usage by aquaculture
+fo_sp2<-data.frame(
+  species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish", 
+              'Crustaceans', 'Direct human consumption', 'Other'),
+  prop = c(0.24658, 0.18493, 0.0308, 0.0616, 0.0719, 0.0616, 0.24658, 0.09589)
+)
+
+fm_sp2<-data.frame(
+  species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish", 
+              'Crustaceans', 'Cyprinids','Pig', 'Poultry', 'Other'),
+  prop = c(0.0492, 0.16, 0.064, 0.096, 0.139, 0.199, 0.096, 0.07, 0.077, 0.0465)
+)
+
+fo_sp2$vol <- fo_sp2$prop * fo_prod2
+fm_sp2$vol <- fm_sp2$prop * fm_prod2
+
+## Aquaculture production in 2018 (unless stated)
+# prod2<-data.frame(
+#   species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish", 'Crustaceans', 'Cyprinids','Pig', 'Poultry'),
+#   tonnes = c(3079, 2610, 304, 4675, 3398, 6326, 7709, 112940, 94567)
+# )
+
+# tot_seafood2<- sum(prod2$tonnes[c(1:7)])
