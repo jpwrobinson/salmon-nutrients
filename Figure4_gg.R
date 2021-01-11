@@ -91,5 +91,10 @@ with(n2,
 dev.off()
 
 
-ggplot(nodes, aes(area = value, fill=node)) + geom_treemap()
+ggplot(nodes %>% filter(! node %in% c('Pig', 'Poultry','Fish meal & fish oil reduction')), aes(area = value, fill=node)) + 
+  geom_treemap(layout = "fixed") +
+  geom_treemap_text(layout = "fixed", aes(label=node), colour = "white", place = "centre",
+                    grow = TRUE) +
+  theme(legend.position = 'none')
+  # facet_wrap(~stage)
 
