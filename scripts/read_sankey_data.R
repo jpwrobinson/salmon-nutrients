@@ -52,6 +52,8 @@ wild_caught_in_FMFO2 <- 10061
 spare_wild<-3753
 wild_eaten<-1185
 
+wild_caught_in_FMFO2 + wild_eaten
+
 ## mean global production in 2010-16
 fm_prod2 = 2866
 fo_prod2 = 641
