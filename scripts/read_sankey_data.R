@@ -25,11 +25,21 @@ fm_sp<-data.frame(
 fo_sp$vol <- fo_sp$prop * fo_prod
 fm_sp$vol <- fm_sp$prop * fm_prod
 
+fmfo<-merge(fo_sp, fm_sp, by = 'species', all.x=TRUE, all.y=TRUE)
+fmfo <- fmfo %>% select(species, vol.x, vol.y)
+fmfo$vol.x[is.na(fmfo$vol.x)]<-0
+fmfo$vol.y[is.na(fmfo$vol.y)]<-0
+fmfo$tot<-fmfo$vol.x + fmfo$vol.y
+
+
 ## Aquaculture production in 2018 (unless stated)
 prod<-data.frame(
-  species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish", 'Crustaceans', 'Cyprinids','Pig', 'Poultry'),
-  tonnes = c(3079, 2610, 304, 4675, 3398, 6326, 7709, 112940, 94567)
+  species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish",
+              'Crustaceans', 'Cyprinids','Pig', 'Poultry'),
+  tonnes = c(3079, 2610, 304, 4675, 3398, 6326, 7709, 112940, 94567),
+  edible =c(0.82, 0.49, 0.5, 0.45, 0.63, 0.55, 0.54, 1,1)
 )
+prod$edible_volume<-prod$tonnes * prod$edible
 
 tot_seafood <- sum(prod$tonnes[c(1:7)])
 
@@ -61,6 +71,15 @@ fm_sp2<-data.frame(
 
 fo_sp2$vol <- fo_sp2$prop * fo_prod2
 fm_sp2$vol <- fm_sp2$prop * fm_prod2
+
+
+fmfo2<-merge(fo_sp2, fm_sp2, by = 'species', all.x=TRUE, all.y=TRUE)
+fmfo2 <- fmfo2 %>% select(species, vol.x, vol.y)
+fmfo2$vol.x[is.na(fmfo2$vol.x)]<-0
+fmfo2$vol.y[is.na(fmfo2$vol.y)]<-0
+fmfo2$tot<-fmfo2$vol.x + fmfo2$vol.y
+
+
 
 ## Aquaculture production in 2018 (unless stated)
 # prod2<-data.frame(

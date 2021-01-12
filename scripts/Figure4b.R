@@ -1,5 +1,5 @@
 
-source('salmon-nutrients/scripts/read_sankey_data.R')
+source('scripts/read_sankey_data.R')
 library(alluvial)
 library(tidyverse)
 salmon.col<-'#d95f02'
@@ -21,26 +21,26 @@ nodes = data.frame(node = c("Wild-caught fish", "Trimmings", 'Spare wild', 'Wild
                             "Salmonids", "Eels", "Marine fish", "Tilapia", 
                             "Other freshwater fish", "Cyprinids", "Crustaceans",
                             'Pig', 'Poultry'),
-                   value = c(wild_caught_in_FMFO, trimmings_FMFO, spare_wild, wild_eaten,
+                   value = c(wild_caught_in_FMFO2, trimmings_FMFO, spare_wild, wild_eaten,
                              fo_prod, fm_prod,
-                             fo_sp$vol[fo_sp$species == 'Salmonids'],
-                             fm_sp$vol[fm_sp$species == 'Salmonids'],
-                             fo_sp$vol[fo_sp$species == 'Marine fish'],
-                             fm_sp$vol[fm_sp$species == 'Marine fish'],
-                             fo_sp$vol[fo_sp$species == 'Eels'],
-                             fm_sp$vol[fm_sp$species == 'Eels'],
-                             fo_sp$vol[fo_sp$species == 'Tilapia'],
-                             fm_sp$vol[fm_sp$species == 'Tilapia'],
-                             fm_sp$vol[fm_sp$species == 'Cyprinids'],
-                             fo_sp$vol[fo_sp$species == 'Other freshwater fish'],
-                             fm_sp$vol[fm_sp$species == 'Other freshwater fish'],
-                             fo_sp$vol[fo_sp$species == 'Crustaceans'],
-                             fm_sp$vol[fm_sp$species == 'Crustaceans'],
-                             fo_sp$vol[fo_sp$species == 'Direct human consumption'],
-                             fo_sp$vol[fo_sp$species == 'Other'],
-                             fm_sp$vol[fm_sp$species == 'Other'],
-                             fm_sp$vol[fm_sp$species == 'Pig'],
-                             fm_sp$vol[fm_sp$species == 'Poultry'], 
+                             fo_sp2$vol[fo_sp2$species == 'Salmonids'],
+                             fm_sp2$vol[fm_sp2$species == 'Salmonids'],
+                             fo_sp2$vol[fo_sp2$species == 'Marine fish'],
+                             fm_sp2$vol[fm_sp2$species == 'Marine fish'],
+                             fo_sp2$vol[fo_sp2$species == 'Eels'],
+                             fm_sp2$vol[fm_sp2$species == 'Eels'],
+                             fo_sp2$vol[fo_sp2$species == 'Tilapia'],
+                             fm_sp2$vol[fm_sp2$species == 'Tilapia'],
+                             fm_sp2$vol[fm_sp2$species == 'Cyprinids'],
+                             fo_sp2$vol[fo_sp2$species == 'Other freshwater fish'],
+                             fm_sp2$vol[fm_sp2$species == 'Other freshwater fish'],
+                             fo_sp2$vol[fo_sp2$species == 'Crustaceans'],
+                             fm_sp2$vol[fm_sp2$species == 'Crustaceans'],
+                             fo_sp2$vol[fo_sp2$species == 'Direct human consumption'],
+                             fo_sp2$vol[fo_sp2$species == 'Other'],
+                             fm_sp2$vol[fm_sp2$species == 'Other'],
+                             fm_sp2$vol[fm_sp2$species == 'Pig'],
+                             fm_sp2$vol[fm_sp2$species == 'Poultry'], 
                              prod$tonnes[prod$species == 'Salmonids'], 
                              prod$tonnes[prod$species == 'Eels'], 
                              prod$tonnes[prod$species == 'Marine fish'], 
@@ -56,7 +56,7 @@ nodes = data.frame(node = c("Wild-caught fish", "Trimmings", 'Spare wild', 'Wild
                    type = c('wild', 'wild', 'wild','wild', 'Fish oil', 'Fishmeal',
                             rep(c('Fish oil', 'Fishmeal'), times = 4), 'Fishmeal', 'Fish oil', 'Fishmeal', 'Fish oil', 'Fishmeal',  'Fish oil','Fish oil',  'Fishmeal', 
                             'Fishmeal', 'Fishmeal',rep('food', times = 9)),
-                   allu = c('wild_fish', 'wild_trim', 'wild_fish', 'wild_fish', 'wild_fish', 'wild_fish', 'wild_fish', 'Salmonids', 'Salmonids', 'Eels', 'Eels', 'Marine fish', 'Marine fish', 
+                   allu = c('wild_fish', 'wild_trim',  'wild_fish', 'wild_fish', 'wild_fish', 'wild_fish', 'Salmonids', 'Salmonids', 'Eels', 'Eels', 'Marine fish', 'Marine fish', 
                             'Tilapia', 'Tilapia', 'Cyprinids', 'Other freshwater fish','Other freshwater fish', rep('Crustaceans',2), 'Direct human consumption',
                             'Other', 'Other','Pig', 'Poultry',  'Salmonids', 'Eels',"Marine fish", "Tilapia", 
                             "Other freshwater fish", "Cyprinids", "Crustaceans",'Pig', 'Poultry'))
@@ -67,7 +67,7 @@ n<-nodes %>% filter(stage%in% c('feed')) %>%
          allu = factor(allu, levels=rev(c('Salmonids', 'Eels', 'Tilapia', 'Marine fish', 'Direct human consumption',
                                           'Other', 'Other freshwater fish', 'Crustaceans', 'Cyprinids', 'Pig', 'Poultry'))))
 
-pdf(file='salmon-nutrients/figures/ill/figure4b_for_illustrator_FMFO.pdf', width=3, height=4)
+pdf(file='figures/ill/figure4b_for_illustrator_FMFO.pdf', width=3, height=4)
 
 ## plot FMFO allocations
 with(n %>% filter(stage %in% c('feed')), 
@@ -76,7 +76,7 @@ with(n %>% filter(stage %in% c('feed')),
               layer = type == "Fishmeal"))
 dev.off()
 
-pdf(file='salmon-nutrients/figures/ill/figure4b_for_illustrator_FMFO_labels.pdf', width=3, height=4)
+pdf(file='figures/ill/figure4b_for_illustrator_FMFO_labels.pdf', width=3, height=4)
 with(n %>% filter(stage %in% c('feed')), 
      alluvial(x = type, y = allu, freq=value,
               col=ifelse(type == 'Fish oil', salmon.col,'#67a9cf'),
@@ -84,12 +84,13 @@ with(n %>% filter(stage %in% c('feed')),
               axes=FALSE))
 dev.off()
 
-pdf(file='salmon-nutrients/figures/ill/figure4b_for_illustrator_wild.pdf', width=3, height=4)
+pdf(file='figures/ill/figure4b_for_illustrator_wild.pdf', width=3, height=4)
 ## plot wild allocations
 n2<-nodes[1:2,]
 with(n2, 
      alluvial(x = type, y = allu, freq=value, ann=FALSE, cw=0.1))
 dev.off()
+
 
 
 
