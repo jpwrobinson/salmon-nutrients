@@ -43,7 +43,7 @@ dha_percent<-dha_missing$yield / sb$toty[sb$nutrient == 'Omega-3 (DHA)'] ## DHA 
 epa_missing<-om3_parity[1,2] - sb$conc[sb$nutrient == 'Omega-3 (EPA)'] ## need 0.078g more concentration
 epa_conc_need<-epa_missing$value / sb$conc[sb$nutrient == 'Omega-3 (EPA)'] ### requires 11% more concentration
 
-## so now take 11% of anchovy + sardines
+## so now take 44% of anchovy + sardines
 sb_forage_7<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
   group_by(nutrient) %>%
   summarise(toty = sum(yield), totc = sum(catch)) %>%
@@ -151,28 +151,28 @@ om3_parity[1,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (EPA)'] ## equal 
 om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more DHA conc
 
 
-
-## scenario 5 = carp + wild fish + mussels
-mix<-mussel %>%
-  mutate(
-        forage=ifelse(species == 'Carp', 'Farmed carp', 'Farmed mussels'),
-         yield = NA, Scenario = unique(sc_sam$Scenario), portion = value,
-         prop_portion = unique((140 - sc_sam$prop_portion)/3)
-         )
-
-se<-sc_sam 
-
-## get diet composition
-se<-rbind(se,
-          mix %>% select(colnames(se)),
-          forage %>% select(colnames(se)) %>% mutate(prop_portion = unique(mix$prop_portion))
-) %>% mutate(Scenario = 'E (Trimmings-only salmon, wild fish, mussels & carp')
-
-## get nutrient concentration in diet
-se_conc <- se %>% group_by(nutrient, Scenario) %>% 
-  summarise(portion = weighted.mean(value, w = prop_portion))
-
-se_diet <- se 
+# 
+# ## scenario 5 = carp + wild fish + mussels
+# mix<-mussel %>%
+#   mutate(
+#         forage=ifelse(species == 'Carp', 'Farmed carp', 'Farmed mussels'),
+#          yield = NA, Scenario = unique(sc_sam$Scenario), portion = value,
+#          prop_portion = unique((140 - sc_sam$prop_portion)/3)
+#          )
+# 
+# se<-sc_sam 
+# 
+# ## get diet composition
+# se<-rbind(se,
+#           mix %>% select(colnames(se)),
+#           forage %>% select(colnames(se)) %>% mutate(prop_portion = unique(mix$prop_portion))
+# ) %>% mutate(Scenario = 'E (Trimmings-only salmon, wild fish, mussels & carp')
+# 
+# ## get nutrient concentration in diet
+# se_conc <- se %>% group_by(nutrient, Scenario) %>% 
+#   summarise(portion = weighted.mean(value, w = prop_portion))
+# 
+# se_diet <- se 
 
 ## how much omega-3 rich wild fish?
 om3_parity[1,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (EPA)'] ## equal EPA conc
@@ -181,32 +181,38 @@ om3_parity[2,2] - sd_conc$portion[sd_conc$nutrient == 'Omega-3 (DHA)'] ## more D
 
 ## fish in the SEA
 wild_limits<-c(wild_for_33T[1]/wild_for_33T[2], 1, wild_for_33T[3]/wild_for_33T[2])
-## for c and d, estimate wild fish needed to make up seafood production of A
-wild_cd<-(salmon_scot_2014 - sb_wild_trim$salmon_c[1]) / 2
+## for c and d, estimate wild fish (corr. by edible yield) and aquaculture needed to make up seafood production of A
+wild_cd<-(salmon_scot_2014 - sb_wild_trim$salmon_c[1]) / 2 / 0.62
+carp_muss_cd<-(salmon_scot_2014 - sb_wild_trim$salmon_c[1]) / 2 
+
+## is wild fish eaten in C and D more than available? (eating only anchovy and sardine)
+## no
+sum(wild$mean_tonnes[wild$Species %in% c('Anchovy', 'Sardine')]) - wild_cd
+
 
 ## repeat steps above to get catch limits per scenario
-yl_b<-nuts %>% filter(species %in% locals & !is.na(value)) %>%
-  group_by(nutrient) %>%
-  summarise(tot_min = sum(catch_min), tot_max = sum(catch_max))  %>%
-  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'II')
-yl_b2<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
-  group_by(nutrient) %>%
-  summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
-  filter(nutrient == 'calcium.mg')
-yl_b$tot_min<-yl_b$tot_min + yl_b2$tot_min
-yl_b$tot_max<-yl_b$tot_max + yl_b2$tot_max
-  
-yl_c<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
-  group_by(nutrient) %>%
-  summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
-  filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'III')
-
-yl_d<-yl_c %>% mutate(scenario = 'IV')
-
-catch_limits<-rbind(yl_b, yl_c, yl_d)
+# yl_b<-nuts %>% filter(species %in% locals & !is.na(value)) %>%
+#   group_by(nutrient) %>%
+#   summarise(tot_min = sum(catch_min), tot_max = sum(catch_max))  %>%
+#   filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'II')
+# yl_b2<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
+#   group_by(nutrient) %>%
+#   summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
+#   filter(nutrient == 'calcium.mg')
+# yl_b$tot_min<-yl_b$tot_min + yl_b2$tot_min
+# yl_b$tot_max<-yl_b$tot_max + yl_b2$tot_max
+#   
+# yl_c<-nuts %>% filter(species %in% c('Anchovy', "Sardine")) %>%
+#   group_by(nutrient) %>%
+#   summarise(tot_min = sum(catch_min)*0.44, tot_max = sum(catch_max)*0.44) %>%
+#   filter(nutrient == 'calcium.mg') %>% mutate(scenario = 'III')
+# 
+# yl_d<-yl_c %>% mutate(scenario = 'IV')
+# 
+# catch_limits<-rbind(yl_b, yl_c, yl_d)
   
 catch_org<-wild_for_33T
-catch_sb<-sb$totc[1]
+catch_sb<-sb$combined_c[1]
 catch_sc<-wild_cd
 catch_sd<-wild_cd
 
@@ -237,14 +243,23 @@ tonnes_sb<-data.frame(scenario = 'II', t = c(sb_wild_trim$combined_c[1], sb_wild
                       s =c('Wild fish', 'Atlantic salmon'))
 
 tonnes_sc<-data.frame(scenario = 'III', 
-                      t = c(wild_cd, sb_wild_trim$salmon_c[1], wild_cd),
+                      t = c(wild_cd, sb_wild_trim$salmon_c[1], carp_muss_cd),
                       s =c('Wild fish', 'Atlantic salmon', 'Mussels'))
-tonnes_sd<-data.frame(scenario = 'IV', t = c(wild_cd, sb_wild_trim$salmon_c[1],  wild_cd),
+tonnes_sd<-data.frame(scenario = 'IV', t = c(wild_cd, sb_wild_trim$salmon_c[1],  carp_muss_cd),
                       s =c('Wild fish', 'Atlantic salmon', 'Carp'))
 tonnes<-rbind(tonnes_org, tonnes_sb, tonnes_sc, tonnes_sd)
 
+## add edible portions
+tonnes$t[tonnes$s == 'Wild fish']<- tonnes$t[tonnes$s == 'Wild fish'] * 0.62
 
-## spare fishmeal
+tonnes %>% group_by(scenario) %>% summarise(sum(t))
+
+## back-calculate total carp/mussels using edible portion (carp_muss_cd is seafood produced)
+tot_mussel<-carp_muss_cd / 0.4
+tot_carp<-carp_muss_cd / 0.54
+
+
+##fishmeal required
 fm<-data.frame(scenario = unique(tonnes$scenario),
               fishmeal = c(total_fm_from_wild, fm_trimmings[2], fm_trimmings[2], fm_trimmings[2]))
   

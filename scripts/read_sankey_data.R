@@ -37,7 +37,7 @@ prod<-data.frame(
   species = c('Salmonids', 'Marine fish', 'Eels', 'Tilapia', "Other freshwater fish",
               'Crustaceans', 'Cyprinids','Pig', 'Poultry'),
   tonnes = c(3079, 2610, 304, 4675, 3398, 6326, 7709, 112940, 94567),
-  edible =c(0.82, 0.49, 0.5, 0.45, 0.63, 0.55, 0.54, 1,1)
+  edible =c(0.864, 0.49, 0.5, 0.45, 0.63, 0.496, 0.54, 1,1)
 )
 prod$edible_volume<-prod$tonnes * prod$edible
 
