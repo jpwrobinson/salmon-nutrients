@@ -104,14 +104,14 @@ g3<-ggplot(sea2, aes(scenario, mean)) +
   ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
-       y = 'Spare wild-caught\nfish biomass (t)') 
+       y = 'Spare wild-caught fish (t)') 
 
 g4<-ggplot(fm, aes(scenario, fishmeal)) +
   geom_bar(col='white', stat='identity', fill='#67a9cf') +
   scale_y_continuous(limits=c(0, max(tonnes$t)), labels=scales::comma) +
   theme(
     legend.position = 'none',
-    plot.margin = unit(c(0.5,1,0.5,1), 'cm')
+    plot.margin = unit(c(0.5,1.5,0.5,1.5), 'cm')
     # strip.text.x=element_blank()
   ) +
   labs(x = '', 
