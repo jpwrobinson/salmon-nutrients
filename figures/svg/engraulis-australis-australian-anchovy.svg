@@ -1,0 +1,146 @@
+
+        <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" x="0px" y="0px" width="502" height="137" viewBox="0 0 502 137" xml:space="preserve">
+            <title>Engraulis australis (Australian Anchovy)</title>
+            <desc xmlns:ian_image_library="https://ian.umces.edu/media-library/">
+                <ian_image_library:title>Engraulis australis (Australian Anchovy)</ian_image_library:title>
+                <ian_image_library:descr>Illustration of Engraulis australis (Australian Anchovy)</ian_image_library:descr>
+                <ian_image_library:scene>
+                    <ian_image_library:contains>fish, Animalia, Chordata, Actinopterygii, Clupeiformes, Engraulidae, Engraulis australis, Australian Anchovy</ian_image_library:contains>
+                    <ian_image_library:when>2011-01-18</ian_image_library:when>
+                </ian_image_library:scene>
+            </desc>
+            <metadata id="metadata-iil-0c441e4d5a599d84e52920d5deb03b92">
+                <rdf:RDF>
+                <cc:Work
+                rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <cc:license
+                rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/" />
+                <dc:title>Engraulis australis (Australian Anchovy)</dc:title>
+                <dc:date>2011-01-18</dc:date>
+                <dc:creator>
+                    <cc:Agent>
+                        <dc:title>Dieter Tracey
+Department of Water Western Australia</dc:title>
+                    </cc:Agent>
+                </dc:creator>
+                <dc:rights>
+                <cc:Agent>
+                    <dc:title>Dieter Tracey
+Department of Water Western Australia</dc:title>
+                </cc:Agent>
+                </dc:rights>
+                <dc:publisher>
+                <cc:Agent>
+                    <dc:title>Integration and Application Network</dc:title>
+                </cc:Agent>
+                </dc:publisher>
+                <dc:identifier>https://ian.umces.edu/media-library/engraulis-australis-australian-anchovy/</dc:identifier>
+                <dc:source>https://ian.umces.edu/media-library/engraulis-australis-australian-anchovy/</dc:source>
+                <dc:language>en-US</dc:language>
+                <dc:subject>
+                <rdf:Bag>
+                    <rdf:li>fish, Animalia, Chordata, Actinopterygii, Clupeiformes, Engraulidae, Engraulis australis, Australian Anchovy</rdf:li>
+                </rdf:Bag>
+                </dc:subject>
+                <dc:coverage></dc:coverage>
+                <dc:description>Illustration of Engraulis australis (Australian Anchovy)</dc:description>
+                <dc:contributor>
+                <cc:Agent>
+                    <dc:title></dc:title>
+                </cc:Agent>
+                </dc:contributor>
+            </cc:Work>
+            <cc:License
+                rdf:about="http://creativecommons.org/licenses/by-sa/3.0/">
+                <cc:permits
+                rdf:resource="http://creativecommons.org/ns#Reproduction" />
+                <cc:permits
+                rdf:resource="http://creativecommons.org/ns#Distribution" />
+                <cc:requires
+                rdf:resource="http://creativecommons.org/ns#Notice" />
+                <cc:requires
+                rdf:resource="http://creativecommons.org/ns#Attribution" />
+                <cc:permits
+                rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+                <cc:requires
+                rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+            </cc:License>
+            </rdf:RDF>
+            </metadata>
+            
+<defs>
+</defs>
+<path fill="#CECED6" stroke="#231F20" stroke-width="0.75" d="M8.353,63.056c-5.865,2.05-11.01,2.949-5.865,7.171
+	c8.673,7.121,18.764,15.382,42.221,23.579c23.456,8.2,34.01,6.153,42.219,4.101c8.209-2.05-30.493-13.327-30.493-13.327
+	L8.353,63.056z"/>
+<path fill="#BBC2C8" stroke="#231F20" stroke-width="0.75" d="M205.208,103.789c-3.467-3.082,19.643,19.644,20.798,20.801
+	c1.83,1.826,0.004,3.852-1.923,3.081c-1.928-0.771-25.038-13.48-29.274-23.882"/>
+<path fill="#BBC2C8" stroke="#231F20" stroke-width="0.75" d="M285.328,101.863c8.091,3.851,35.824,18.879,36.979,18.879
+	c1.155,0,1.929-3.085,3.854-4.241s6.936-5.396,15.794-8.092c8.858-2.695,26.58-2.308,26.191-3.464
+	c-0.385-1.156-1.539-1.926-5.008-3.854c-3.466-1.924-6.933-4.24-10.015-6.548"/>
+<path fill="#BBC2C8" stroke="#231F20" stroke-width="0.75" d="M210.702,43.673c0,0,44.307-43.08,47.525-43.202
+	c3.218-0.125-0.023-0.875,1.742,5.145c2.803,11.752,15.65,41.309,27.808,46.781C296.183,56.563,210.702,43.673,210.702,43.673z"/>
+<linearGradient id="ian_symbols_7440d1d974b44ed415f2ea986b535af0" gradientUnits="userSpaceOnUse" x1="219.3247" y1="109.8394" x2="218.0448" y2="36.5117">
+	<stop  offset="0.0056" style="stop-color:#7B7A74"/>
+	<stop  offset="0.0536" style="stop-color:#7F7F79"/>
+	<stop  offset="0.1206" style="stop-color:#8A8C8A"/>
+	<stop  offset="0.1476" style="stop-color:#909394"/>
+	<stop  offset="0.2022" style="stop-color:#9D9FA5"/>
+	<stop  offset="0.3202" style="stop-color:#AEB1BD"/>
+	<stop  offset="0.3271" style="stop-color:#B0B3BE"/>
+	<stop  offset="0.3905" style="stop-color:#C0C2CB"/>
+	<stop  offset="0.4564" style="stop-color:#CACBD3"/>
+	<stop  offset="0.5281" style="stop-color:#CECED6"/>
+	<stop  offset="0.5661" style="stop-color:#C5C6CC"/>
+	<stop  offset="0.628" style="stop-color:#AFB0B4"/>
+	<stop  offset="0.7022" style="stop-color:#909394"/>
+	<stop  offset="0.7809" style="stop-color:#888884"/>
+	<stop  offset="0.9101" style="stop-color:#AFAFB1"/>
+	<stop  offset="1" style="stop-color:#CECED6"/>
+</linearGradient>
+<path fill="url(#ian_symbols_7440d1d974b44ed415f2ea986b535af0)" stroke="#231F20" stroke-width="0.75" d="M423.521,54.909c-5.243,0.806-10.426,1.221-15.422,1.034
+	c-35.962-1.308-157.525-16.789-228.742-18.203C70.53,35.59,0.133,56.13,0.512,62.197c0.28,4.499,23.717,41.123,147.819,48.881
+	c26.796-0.71,45.2-7.073,62.051-4.94c47.908,6.065,172.996-16.032,219.64-19.199c4.552-5.186,6.774-10.657,6.63-14.494
+	C436.421,66.143,430.897,60.301,423.521,54.909z"/>
+<path fill="#BBC2C8" stroke="#231F20" stroke-width="0.75" d="M445.895,87.103c17.629,9.87,57.533,18.049,54.294,13.463
+	c-11.392-16.138-26.58-19.938-36.076-29.429c-6.319-6.321,36.968-33.356,31.328-37.978c-4.847-3.967-39.445,16.754-71.92,21.75
+	c7.377,5.392,12.9,11.234,13.131,17.536c0.145,3.837-2.078,9.309-6.63,14.494C437.614,86.422,443.133,86.409,445.895,87.103z"/>
+<linearGradient id="ian_symbols_e9d27073103df714698522557e931673" gradientUnits="userSpaceOnUse" x1="123.1196" y1="102.6333" x2="123.1196" y2="135.6255">
+	<stop  offset="0.0687" style="stop-color:#8B8D8B"/>
+	<stop  offset="0.2392" style="stop-color:#82837E"/>
+	<stop  offset="0.7809" style="stop-color:#888884"/>
+</linearGradient>
+<path fill="url(#ian_symbols_e9d27073103df714698522557e931673)" stroke="#231F20" stroke-width="0.75" d="M106.979,102.633c1.156,6.933,13.484,31.974,14.641,32.746
+	c1.156,0.765,2.696-0.393,4.237-1.543c1.539-1.156,11.941-8.862,11.941-10.017c0-1.156,2.696-3.47,0.77-5.393
+	c-1.361-1.36-10.4-8.479-12.711-11.172"/>
+<radialGradient id="ian_symbols_432067d4d75ebfa4c1bac2860052dfa0" cx="61.3257" cy="73.4126" r="35.2373" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#CECED6"/>
+	<stop  offset="1" style="stop-color:#B1B2B4"/>
+</radialGradient>
+<path fill="url(#ian_symbols_432067d4d75ebfa4c1bac2860052dfa0)" d="M30.667,82.458c-2.104,5.969,28.688,14.659,34.05,16.065c8.99,2.359,20.785,3.775,30.088,1.563
+	c3.217-0.767,8.944-1.719,10.423-5.405c1.464-3.644-0.727-10.715-2.839-13.684c-2.297-3.23-7.283-6.354-9.58-9.598
+	c-3.031-4.275-0.276-5.798,1.412-10.054c1.556-3.916,2.964-6.364-2.637-7.81c-3.72-0.962-14.244-0.293-17.766,0.46
+	c-7.934,1.7-19.433,3.3-24.759,8.307C44.189,66.883,32.771,76.493,30.667,82.458z"/>
+<path fill-rule="evenodd" clip-rule="evenodd" fill="#483B2F" d="M71.609,49.913c8.235-0.71,19.922-2.728,28.536-3.127
+	c37.747-1.757,74.436-5.094,112.44-3.701c32.169,1.178,64.23,4.238,96.243,7.498c28.684,2.925,57.751,8.969,86.604,8.969
+	c0.644,0,1.285,0,1.928,0c-0.154,2.707,5.604,2.193,1.927,3.855c-50.86,0.319-101.715,0.237-152.574-0.346
+	c-31.47-0.358-62.961,0.447-94.418-0.879c-15.738-0.667-31.403-1.957-47.029-3.954c-11.447-1.462-40.514-6.483-41.37-6.387
+	C62.508,50.11,69.3,50.174,71.609,49.913z"/>
+<linearGradient id="ian_symbols_d28b321c2a47d4445d095711408e7939" gradientUnits="userSpaceOnUse" x1="-7981.4985" y1="-8098.8008" x2="-7977.3916" y2="-8098.8008" gradientTransform="matrix(5.5695 0.6126 -0.6126 5.5695 39514.3555 50060.918)">
+	<stop  offset="0" style="stop-color:#DCE8F5"/>
+	<stop  offset="0.0949" style="stop-color:#D5E6F4"/>
+	<stop  offset="0.2272" style="stop-color:#C3DFF0"/>
+	<stop  offset="0.264" style="stop-color:#BDDDEF"/>
+	<stop  offset="0.4088" style="stop-color:#AECBDC"/>
+	<stop  offset="0.6142" style="stop-color:#9FBAC9"/>
+	<stop  offset="0.7584" style="stop-color:#99B4C3"/>
+	<stop  offset="1" style="stop-color:#FFFFFF"/>
+</linearGradient>
+<path fill="url(#ian_symbols_d28b321c2a47d4445d095711408e7939)" stroke="#231F20" stroke-width="0.75" d="M45.596,67.701c-0.633,5.735-6.265,9.833-12.578,9.139
+	c-6.316-0.699-10.927-5.917-10.295-11.655c0.631-5.743,6.265-9.84,12.582-9.146C41.62,56.736,46.225,61.955,45.596,67.701z"/>
+<path fill="#231F20" stroke="#231F20" stroke-width="0.75" d="M39.718,66.629c-0.342,3.114-3.332,5.337-6.686,4.97
+	c-3.354-0.369-5.789-3.193-5.447-6.302c0.342-3.113,3.331-5.336,6.687-4.969C37.626,60.697,40.061,63.516,39.718,66.629z"/>
+</svg>
