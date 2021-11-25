@@ -104,7 +104,7 @@ g3<-ggplot(sea2, aes(scenario, mean)) +
   ) +
   labs(x = '', 
        # y = expression(paste('concentration, 100 g'^-1)),
-       y = 'Spare wild-caught fish (t)') 
+       y = 'Unused wild-caught fish (t)\n(relative to scenario I)') 
 
 g4<-ggplot(fm, aes(scenario, fishmeal)) +
   geom_bar(col='white', stat='identity', fill='#67a9cf') +
@@ -134,7 +134,7 @@ g5<-ggplot(tonnes, aes(scenario, tonnes)) +
 
 panel_c<-plot_grid(g3, g4, g5, nrow=1, align='h')
 
-pdf(file='figures/Figure3.pdf', height=8, width=12)
+pdf(file='figures/Figure4.pdf', height=8, width=12)
 plot_grid(g2, g1, panel_c, nrow=3, labels=c('a', 'b', 'c'), rel_heights=c(1,0.8, 1))
 dev.off()
 
